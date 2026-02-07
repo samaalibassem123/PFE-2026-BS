@@ -1,0 +1,45 @@
+from fastapi import APIRouter, HTTPException, Response, Request
+
+from app.core.auth import create_access_token
+from app.core.dependcies import DBsession
+from app.modules.auth.schemas.AuthSchema import UserLoginRequest, UserLoginRespone
+from app.modules.auth.services.AuthService import AuthService
+
+auth_router = APIRouter(prefix='/auth', tags=['Auth'])
+
+
+
+@auth_router.post('/login', response_model=UserLoginRespone)
+async def login(request:Request,response:Response,user:UserLoginRequest, db:DBsession):
+
+    '''
+    step 1 : Auth the user
+    the authuser fnc will handle any problem like the user does not exist or the password is incorrect
+    '''
+
+    user = await AuthService.authUser(db,user)
+
+    '''
+    step 2 : create the  token
+    set the token httponly
+    '''
+    token = create_access_token({"email":user.email, "role":user.role})
+    response.set_cookie(
+        key='access_token',
+        value=token,
+        httponly=True,
+        samesite='strict',
+        secure=True
+    )
+
+    return user
+
+
+
+@auth_router.post('/logout')
+async def logout(response:Response):
+    try:
+        response.delete_cookie('access_token')
+        return True
+    except Exception as e:
+        raise  HTTPException(status_code=400, detail=str(e))

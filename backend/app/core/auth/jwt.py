@@ -1,12 +1,13 @@
+from fastapi import HTTPException
 from jose import jwt, JWTError
 from datetime import  datetime, timedelta, timezone
 
 from app.core.config import settings
-from app.modules.user.schemas.User import UserSchema
 
 
-def create_access_token(data:UserSchema):
-    to_encode = data.model_dump()
+
+def create_access_token(data:dict):
+    to_encode = data.copy()
     time_now = datetime.now(timezone.utc)
     expire = time_now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode['exp'] = expire
@@ -18,4 +19,4 @@ def verify_token(token:str):
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHMS)
         return payload
     except JWTError:
-        return  None
+        raise HTTPException(status_code=400, detail='Unothorized token')
