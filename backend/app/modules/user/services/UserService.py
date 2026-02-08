@@ -23,3 +23,7 @@ class UserService:
     async def fetch_by_email(db:AsyncSession, user_email:str):
         db_user = await db.execute(select(User).where(User.email == user_email))
         return db_user.scalars().first()
+
+    async def fetch_all_users(db:AsyncSession):
+        users = await db.execute(select(User))
+        return users.scalars().all()

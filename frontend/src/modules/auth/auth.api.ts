@@ -2,7 +2,7 @@ import api from "@/shared/api/backend";
 import type { UserData } from "@/shared/types";
 
 export async function LoginApifn(Data: UserData) {
-  const { data } = await api.post<UserData | null>("/api/v1/user/login", Data);
+  const { data } = await api.post<UserData | null>("/auth/login", Data);
 
   if (!data) {
     return null;
@@ -11,6 +11,18 @@ export async function LoginApifn(Data: UserData) {
 }
 
 export async function LogoutApifn() {
-  const res = await api.post("/api/v1/logout");
-  return res;
+  const { data } = await api.post("/auth/logout");
+  return data;
+}
+
+/**
+ * this functions get the current user from the server if he doesn't exist it's means
+ * that he is not logged in
+ */
+export async function AuthMeApifn() {
+  const { data } = await api.get("/auth/me");
+  if (!data) {
+    return null;
+  }
+  return data;
 }

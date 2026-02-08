@@ -10,9 +10,11 @@ class UserSchema(BaseModel):
     password:str
 
 class UserCreateSchema(BaseModel):
+    username:str
     email:str
     password:str
     role:str
+
 
 class UserResponseSchema(BaseModel):
     id:UUID

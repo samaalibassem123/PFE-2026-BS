@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { useLoginMutation } from "../../hooks";
+import { useLoginMutation } from "../hooks";
 import { useForm } from "@tanstack/react-form";
 
 import z from "zod";
@@ -26,14 +26,12 @@ const userSchema = z.object({
 
 export default function LoginForm() {
   const login = useLoginMutation();
-
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
       login.mutate(value);
     },
     validators: {
@@ -52,6 +50,12 @@ export default function LoginForm() {
       <FieldSet>
         <FieldLegend>Login</FieldLegend>
         <FieldDescription>Login to your space.</FieldDescription>
+        {login.error && (
+          <FieldError className="bg-destructive/20 p-2 text-center">
+            Email or password incorrect
+          </FieldError>
+        )}
+
         <FieldGroup>
           <form.Field name="email">
             {(field) => (

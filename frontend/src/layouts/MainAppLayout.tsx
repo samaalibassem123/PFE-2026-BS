@@ -12,60 +12,48 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import LogoutButton from "@/modules/auth/components/LogoutButton";
 import type { AvailableRoles } from "@/utils/Roles";
 
-import {  LayoutDashboard, Settings, User } from "lucide-react"
+import { LayoutDashboard, Settings, User } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
+const IconStyle: string = "mr-2 h-4 w-4";
 
-
-
-const IconStyle:string = "mr-2 h-4 w-4"
-
-
-
-
-interface NavigationItem  {
-    link:string;
-    icon:React.ReactNode
-    label:string
-    RoleView:AvailableRoles[]
+interface NavigationItem {
+  link: string;
+  icon: React.ReactNode;
+  label: string;
+  RoleView: AvailableRoles[];
 }
 
-const Navigations:  NavigationItem[]= [
-    {
-        link:"/dashboard",
-        icon:<LayoutDashboard className={IconStyle} />,
-        label:"Dashboard",
-        RoleView:['ADMIN' ,'RH' , 'EMPLOYER']
-    },
-    {
-        link:"/dashboard/profile",
-        icon:<User className={IconStyle} />,
-        label:"Profile",
-        RoleView:['ADMIN' , 'RH' , 'EMPLOYER']
-    },
-    {
-        link:"/dashboard/settings",
-        icon:<Settings className={IconStyle} />,
-        label:"Settings",
-        RoleView:['ADMIN']
-    },
+const Navigations: NavigationItem[] = [
+  {
+    link: "/user/dashboard",
+    icon: <LayoutDashboard className={IconStyle} />,
+    label: "Dashboard",
+    RoleView: ["ADMIN", "RH", "EMPLOYER"],
+  },
+  {
+    link: "/user/profile",
+    icon: <User className={IconStyle} />,
+    label: "Profile",
+    RoleView: ["ADMIN", "RH", "EMPLOYER"],
+  },
+  {
+    link: "/user/settings",
+    icon: <Settings className={IconStyle} />,
+    label: "Settings",
+    RoleView: ["ADMIN"],
+  },
+];
 
-]
-
-
-const Role = 'ADMIN'
+const Role = "ADMIN";
 
 export default function MainAppLayout() {
-
-    const {pathname} = useLocation()
-    const location = pathname.split('/')[2] ?? "Dashboard"
-    
-
-
-
+  const { pathname } = useLocation();
+  const location = pathname.split("/")[2] ?? "Dashboard";
 
   return (
     <SidebarProvider>
@@ -82,20 +70,19 @@ export default function MainAppLayout() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {/**Navigations */}
-                {Navigations.map((item)=>(
-                    item.RoleView.includes(Role) &&
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild >
-                    <Link to={item.link}>
-                    {item.icon}
-                    {item.label}
-                    </Link>
-                  
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                ))}
-                
- 
+                {Navigations.map(
+                  (item) =>
+                    item.RoleView.includes(Role) && (
+                      <SidebarMenuItem key={item.label}>
+                        <SidebarMenuButton asChild>
+                          <Link to={item.link}>
+                            {item.icon}
+                            {item.label}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ),
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -103,9 +90,8 @@ export default function MainAppLayout() {
 
         {/* Footer */}
         <SidebarFooter>
-          <p className="text-xs text-muted-foreground px-2">
-            © 2026
-          </p>
+          <LogoutButton />
+          <p className="text-xs text-muted-foreground px-2">© 2026</p>
         </SidebarFooter>
       </Sidebar>
 
@@ -117,9 +103,9 @@ export default function MainAppLayout() {
         </header>
 
         <main className="p-4">
-          <Outlet/>
+          <Outlet />
         </main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }
