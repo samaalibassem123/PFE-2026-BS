@@ -6,7 +6,8 @@ import ProtectedRoutes from "./guards/ProtectedRoutes";
 import PageNotfound from "@/shared/pages/PageNotfound";
 import PublicRoutesGuard from "./guards/PublicRoutesGuard";
 import { DashboardPage } from "./modules/dashboard";
-import { Toaster } from "@/components/ui/sonner";
+
+import { Toaster } from "./components/ui/sonner";
 
 export function App() {
   return (
@@ -35,7 +36,8 @@ export function App() {
           </Route>
         </Route>
       </Routes>
-      <Toaster />
+
+      <Toaster richColors />
     </ThemeProvider>
   );
 }

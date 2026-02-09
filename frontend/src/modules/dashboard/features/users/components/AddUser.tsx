@@ -71,8 +71,10 @@ export default function AddUser() {
       mutate(
         { role: Role, ...data },
         {
-          onSuccess: (data) =>
-            toast.success("user Created succesfuly", { position: "top-right" }),
+          onSuccess: () =>
+            toast.success("user Created succesfuly", {
+              position: "top-center",
+            }),
         },
       );
     },
