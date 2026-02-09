@@ -6,3 +6,11 @@ export interface UserCreateSchma {
   role: AvailableRoles;
   password: string;
 }
+
+export interface UserData {
+  id?: string;
+  username: string;
+  email: string;
+  role: AvailableRoles;
+  created_at: string;
+}

@@ -18,6 +18,9 @@ class UserCreateSchema(BaseModel):
 
 class UserResponseSchema(BaseModel):
     id:UUID
+    username:str | None
     email:str
     role:str
     created_at:datetime.datetime
+
+

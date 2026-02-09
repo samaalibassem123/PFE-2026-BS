@@ -3,14 +3,22 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from app.core.auth.security import get_current_user, require_role
 from app.modules.user.schemas.User import UserCreateSchema, UserResponseSchema
-from app.core import DBsession
+from app.core import DB_dependecy
 from app.modules.user.services.UserService import UserService
 
-user_router = APIRouter(prefix="/v1/user", tags=["User"], dependencies=[Depends(get_current_user)])
 
 
-@user_router.post('/', dependencies=[Depends(require_role(['ADMIN']))])
-async def create_user(user:UserCreateSchema, db:DBsession ):
+
+'''
+    this route can only be used by 
+    a user by the role of "ADMIN"
+'''
+
+user_router = APIRouter(prefix="/v1/user", tags=["User"], dependencies=[ Depends(get_current_user), Depends(require_role(['ADMIN'])) ])
+
+
+@user_router.post('/')
+async def create_user(user:UserCreateSchema, db:DB_dependecy ):
     try:
         user = await UserService.create_user(db, user)
         return user
@@ -21,7 +29,7 @@ async def create_user(user:UserCreateSchema, db:DBsession ):
 
 
 @user_router.get("/{email}", response_model=UserResponseSchema)
-async def get_user(email:str, db:DBsession):
+async def get_user(email:str, db:DB_dependecy):
     try:
         user = await UserService.fetch_by_email(db,email)
         return user
@@ -30,9 +38,18 @@ async def get_user(email:str, db:DBsession):
 
 
 @user_router.get('/', response_model=list[UserResponseSchema])
-async def get_users(db:DBsession):
+async def get_users(db:DB_dependecy, current_user=Depends(get_current_user)):
     try:
-        users = await UserService.fetch_all_users(db)
+        users = await UserService.fetch_all_users(db, current_user)
         return users
     except:
         raise HTTPException(status_code=400, detail='Server Error')
+
+
+@user_router.delete('/{user_id}')
+async def delete_user(user_id:str, db:DB_dependecy):
+    try:
+        user = await UserService.delete_user_by_id(db, user_id)
+        return user
+    except:
+        raise HTTPException(status_code=400, detail="Server Error")

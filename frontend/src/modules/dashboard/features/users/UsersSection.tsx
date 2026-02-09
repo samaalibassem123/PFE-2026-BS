@@ -1,9 +1,21 @@
+import { DataTable } from "@/components/ui/data-table";
 import AddUser from "./components/AddUser";
+import { columns } from "./components/Columns";
+
+import { useGetUsers } from "./hooks/user";
+import type { UserData } from "./type";
 
 export default function UsersSection() {
+  const { data, isLoading } = useGetUsers();
+
   return (
-    <div>
+    <div className=" space-y-2">
       <AddUser />
+      {isLoading ? (
+        "Loading table data..."
+      ) : (
+        <DataTable columns={columns} data={data as UserData[]} />
+      )}
     </div>
   );
 }

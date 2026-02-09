@@ -1,1 +1,1 @@
-from .dependcies import DBsession
+from .dependcies import DB_dependecy

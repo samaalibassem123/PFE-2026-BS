@@ -1,4 +1,4 @@
-from dns.e164 import query
+from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,6 +24,20 @@ class UserService:
         db_user = await db.execute(select(User).where(User.email == user_email))
         return db_user.scalars().first()
 
-    async def fetch_all_users(db:AsyncSession):
-        users = await db.execute(select(User))
+    async def fetch_user_by_id(db:AsyncSession, user_id:str):
+        user  = await db.execute(select(User).where(User.id == user_id))
+        return user.scalars().first()
+
+    async def fetch_all_users(db:AsyncSession, user):
+        print(user)
+        users = await db.execute(select(User).where(User.email != user['email']))
         return users.scalars().all()
+
+    async def delete_user_by_id(db:AsyncSession, user_id):
+        user = await db.get(User, user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail='user not found')
+
+        await db.delete(user)
+        await db.commit()
+        return True

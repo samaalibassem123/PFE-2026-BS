@@ -9,6 +9,6 @@ from app.core.database import get_db
 
 
 
-DBsession = Annotated[AsyncSession, Depends(get_db)]
+DB_dependecy = Annotated[AsyncSession, Depends(get_db)]
 
 

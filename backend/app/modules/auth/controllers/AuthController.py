@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Response, Request, Depends
 
 from app.core.auth import create_access_token
 from app.core.auth.security import get_current_user
-from app.core.dependcies import DBsession
+from app.core.dependcies import DB_dependecy
 from app.modules.auth.schemas.AuthSchema import UserLoginRequest, UserLoginRespone
 from app.modules.auth.services.AuthService import AuthService
 
@@ -12,7 +12,7 @@ auth_router = APIRouter(prefix='/auth', tags=['Auth'])
 
 
 @auth_router.post('/login', response_model=UserLoginRespone)
-async def login(request:Request,response:Response,user:UserLoginRequest, db:DBsession):
+async def login(request:Request,response:Response,user:UserLoginRequest, db:DB_dependecy):
 
     '''
     step 1 : Auth the user
