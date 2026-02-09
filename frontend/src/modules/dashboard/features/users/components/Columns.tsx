@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteUser from "./DeleteUser";
+import EditUser from "./EditUser";
 
 export const columns: ColumnDef<UserData>[] = [
   {
@@ -79,7 +80,9 @@ export const columns: ColumnDef<UserData>[] = [
             <DropdownMenuItem asChild>
               <DeleteUser user_id={row.original.id as string} />
             </DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <EditUser user={row.original} />
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
