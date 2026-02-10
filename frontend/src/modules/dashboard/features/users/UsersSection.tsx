@@ -10,8 +10,11 @@ export default function UsersSection() {
   const { data, isLoading } = useGetUsers();
 
   return (
-    <div className=" space-y-2">
-      <AddUser />
+    <div className=" space-y-5">
+      <div className=" w-full flex items-center justify-end">
+        <AddUser />
+      </div>
+
       {isLoading ? (
         <UsersTableSkeleton />
       ) : (

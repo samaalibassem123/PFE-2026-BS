@@ -1,1 +1,1 @@
-export type AvailableRoles = 'ADMIN' | 'RH' | 'EMPLOYER'
+export type AvailableRoles = "ADMIN" | "RH" | "PROJECT MANAGER";
