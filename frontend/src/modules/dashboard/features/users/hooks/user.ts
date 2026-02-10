@@ -9,6 +9,8 @@ import {
 } from "../api/users.api";
 import type { UserData, userUpdateArgs } from "../type";
 
+import { getErrorMessage } from "@/shared/api/backend";
+
 export const useCreateUser = () => {
   const client = useQueryClient();
   return useMutation({
@@ -50,6 +52,9 @@ export const useUpdateUser = () => {
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["users"] });
       toast.success("user updated succesfully");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error));
     },
   });
 };

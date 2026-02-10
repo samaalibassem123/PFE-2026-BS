@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -24,3 +25,7 @@ class UserResponseSchema(BaseModel):
     created_at:datetime.datetime
 
 
+class UserUpdateData(BaseModel):
+    username:Optional[str]
+    email:Optional[str]
+    role:Optional[str]

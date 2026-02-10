@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth.security import hash_password
 from app.core.database.models import User
-from app.modules.user.schemas.User import UserCreateSchema
+from app.modules.user.schemas.User import UserCreateSchema, UserUpdateData
 
 
 class UserService:
@@ -29,7 +29,6 @@ class UserService:
         return user.scalars().first()
 
     async def fetch_all_users(db:AsyncSession, user):
-        print(user)
         users = await db.execute(select(User).where(User.email != user['email']))
         return users.scalars().all()
 
@@ -41,3 +40,30 @@ class UserService:
         await db.delete(user)
         await db.commit()
         return True
+
+    async def update_user_by_ida(db:AsyncSession, user_id:str, new_user_data:UserUpdateData):
+        # step 1 : fetch the new user email if it is used before
+        fetch_mail = await UserService.fetch_by_email(db,new_user_data.email)
+
+        if fetch_mail is not None:
+            if str(fetch_mail.id) != str(user_id):
+                raise HTTPException(status_code=400, detail="Email is used before")
+
+        # step 2 : get the user that should be updated
+        fetch_user = await UserService.fetch_user_by_id(db,user_id)
+        if  fetch_user is None:
+            raise  HTTPException(status_code=400, detail="User doesn't exit")
+
+        # step 3 : Update the user
+        fetch_user.email = new_user_data.email
+        fetch_user.username = new_user_data.username
+        fetch_user.role = new_user_data.role
+
+        await db.commit()
+        await db.refresh(fetch_user)
+
+        return fetch_user
+
+
+
+

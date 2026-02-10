@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 
 from app.core.auth.security import get_current_user, require_role
-from app.modules.user.schemas.User import UserCreateSchema, UserResponseSchema
+from app.modules.user.schemas.User import UserCreateSchema, UserResponseSchema, UserUpdateData
 from app.core import DB_dependecy
 from app.modules.user.services.UserService import UserService
 
@@ -53,3 +53,8 @@ async def delete_user(user_id:str, db:DB_dependecy):
         return user
     except:
         raise HTTPException(status_code=400, detail="Server Error")
+
+@user_router.put('/{user_id}')
+async def update_user(user_id:str, new_user_data:UserUpdateData , db:DB_dependecy):
+    user = await UserService.update_user_by_ida(db, user_id, new_user_data)
+    return user

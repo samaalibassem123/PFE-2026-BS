@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<UserData>[] = [
   {
@@ -63,6 +64,14 @@ export const columns: ColumnDef<UserData>[] = [
         Role {column.getIsSorted() === "asc" ? <ArrowUp /> : <ArrowDown />}
       </Button>
     ),
+    cell: ({ row }) =>
+      row.original.role === "ADMIN" ? (
+        <Badge variant={"destructive"}>ADMIN</Badge>
+      ) : row.original.role === "RH" ? (
+        <Badge variant={"secondary"}>RH</Badge>
+      ) : (
+        <Badge variant={"outline"}>Project Manager</Badge>
+      ),
   },
   {
     accessorKey: "actions",

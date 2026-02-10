@@ -4,6 +4,7 @@ import { columns } from "./components/Columns";
 
 import { useGetUsers } from "./hooks/user";
 import type { UserData } from "./type";
+import { UsersTableSkeleton } from "./components/UsersTableSkeleton";
 
 export default function UsersSection() {
   const { data, isLoading } = useGetUsers();
@@ -12,7 +13,7 @@ export default function UsersSection() {
     <div className=" space-y-2">
       <AddUser />
       {isLoading ? (
-        "Loading table data..."
+        <UsersTableSkeleton />
       ) : (
         <DataTable columns={columns} data={data as UserData[]} />
       )}

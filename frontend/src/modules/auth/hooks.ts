@@ -11,6 +11,7 @@ export const useLoginMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/user/dashboard", { replace: true });
+
       console.log("user is logged in");
     },
   });
@@ -23,7 +24,7 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationFn: LogoutApifn,
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["user"] });
+      queryClient.clear();
       navigate("/login", { replace: true });
       console.log("user is logout");
     },
