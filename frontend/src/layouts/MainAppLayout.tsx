@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import LogoutButton from "@/modules/auth/components/LogoutButton";
+import { useAuth } from "@/modules/auth/hooks";
 import type { AvailableRoles } from "@/utils/Roles";
 
 import { LayoutDashboard, Settings, User } from "lucide-react";
@@ -33,13 +35,13 @@ const Navigations: NavigationItem[] = [
     link: "/user/dashboard",
     icon: <LayoutDashboard className={IconStyle} />,
     label: "Dashboard",
-    RoleView: ["ADMIN", "RH", "EMPLOYER"],
+    RoleView: ["ADMIN", "RH", "PROJECT MANAGER"],
   },
   {
     link: "/user/profile",
     icon: <User className={IconStyle} />,
     label: "Profile",
-    RoleView: ["ADMIN", "RH", "EMPLOYER"],
+    RoleView: ["ADMIN", "RH", "PROJECT MANAGER"],
   },
   {
     link: "/user/settings",
@@ -49,9 +51,8 @@ const Navigations: NavigationItem[] = [
   },
 ];
 
-const Role = "ADMIN";
-
 export default function MainAppLayout() {
+  const { data } = useAuth();
   const { pathname } = useLocation();
   const location = pathname.split("/")[2] ?? "Dashboard";
 
@@ -72,7 +73,7 @@ export default function MainAppLayout() {
                 {/**Navigations */}
                 {Navigations.map(
                   (item) =>
-                    item.RoleView.includes(Role) && (
+                    item.RoleView.includes(data.role) && (
                       <SidebarMenuItem key={item.label}>
                         <SidebarMenuButton asChild>
                           <Link to={item.link}>
@@ -97,9 +98,12 @@ export default function MainAppLayout() {
 
       {/* Main content */}
       <SidebarInset>
-        <header className="flex h-16 items-center gap-2 px-4 border-b">
+        <header className="flex h-16 items-center gap-2 px-4 border-b sticky top-0 backdrop-blur-2xl">
           <SidebarTrigger />
           <h1 className="text-lg font-semibold capitalize">{location}</h1>
+          <Badge className="text-xs" variant={"secondary"}>
+            {data.role}
+          </Badge>
         </header>
 
         <main className="p-4">

@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import UsersSection from "./features/users/UsersSection";
 import UsersCardSection from "./features/users-card-infos/UsersCardSection";
+import RoleGuardComponents from "@/guards/RoleGuardComponents";
 
 export default function DashboardPage() {
   return (
@@ -8,15 +9,20 @@ export default function DashboardPage() {
       {/**
        * CARD INFO SECTION
        */}
-      <div className="text-foreground/50">Card informations</div>
-      <Separator />
-      <UsersCardSection />
+      <RoleGuardComponents AllowedRoles={["ADMIN"]}>
+        <div className="text-foreground/50">Card informations</div>
+        <Separator />
+        <UsersCardSection />
+      </RoleGuardComponents>
+
       {/**
        * Users table Section
        */}
-      <div className="text-foreground/50">Users Table</div>
-      <Separator />
-      <UsersSection />
+      <RoleGuardComponents AllowedRoles={["ADMIN"]}>
+        <div className="text-foreground/50">Users Table</div>
+        <Separator />
+        <UsersSection />
+      </RoleGuardComponents>
     </div>
   );
 }

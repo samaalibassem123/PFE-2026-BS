@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 
 from app.core.auth.security import get_current_user, require_role
-from app.modules.user.schemas.User import UserCreateSchema, UserResponseSchema, UserUpdateData
+from app.modules.user.schemas.User import UserCreateSchema, UserResponseSchema, UserUpdateData, UsersNumberSchema
 from app.core import DB_dependecy
 from app.modules.user.services.UserService import UserService
 
@@ -27,7 +27,7 @@ async def create_user(user:UserCreateSchema, db:DB_dependecy ):
 
 
 
-@user_router.get('/numbers')
+@user_router.get('/numbers', response_model=UsersNumberSchema)
 async def get_users_numbers(db:DB_dependecy):
      users_numbers = await  UserService.get_users_numbers(db)
      return users_numbers
