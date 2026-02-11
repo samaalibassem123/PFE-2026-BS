@@ -27,6 +27,11 @@ async def create_user(user:UserCreateSchema, db:DB_dependecy ):
 
 
 
+@user_router.get('/numbers')
+async def get_users_numbers(db:DB_dependecy):
+     users_numbers = await  UserService.get_users_numbers(db)
+     return users_numbers
+
 
 @user_router.get("/{email}", response_model=UserResponseSchema)
 async def get_user(email:str, db:DB_dependecy):

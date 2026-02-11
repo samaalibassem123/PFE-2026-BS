@@ -17,6 +17,7 @@ export const useCreateUser = () => {
     mutationFn: create_user_api,
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["users"] });
+      client.invalidateQueries({ queryKey: ["users-numbers"] });
     },
   });
 };
@@ -35,6 +36,7 @@ export const useDeleteUser = () => {
     mutationFn: delete_user_api,
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["users"] });
+      client.invalidateQueries({ queryKey: ["users-numbers"] });
       toast.success("User deleted Succefully");
     },
     onError: () =>
@@ -51,6 +53,7 @@ export const useUpdateUser = () => {
       update_user_api(user_id, new_user_data),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["users"] });
+      client.invalidateQueries({ queryKey: ["users-numbers"] });
       toast.success("user updated succesfully");
     },
     onError: (error) => {

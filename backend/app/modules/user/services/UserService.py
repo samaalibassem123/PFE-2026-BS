@@ -1,10 +1,12 @@
+from collections import defaultdict
+
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth.security import hash_password
 from app.core.database.models import User
-from app.modules.user.schemas.User import UserCreateSchema, UserUpdateData
+from app.modules.user.schemas.User import UserCreateSchema, UserUpdateData, UsersNumberSchema
 
 
 class UserService:
@@ -63,6 +65,28 @@ class UserService:
         await db.refresh(fetch_user)
 
         return fetch_user
+
+    '''
+    user number by role
+    '''
+    async def get_users_numbers(db:AsyncSession)->UsersNumberSchema:
+        users = await db.execute(select(User))
+
+
+        data = defaultdict(int)
+        users_table =users.scalars().all()
+        for user in users_table :
+            user_dict = user.__dict__
+            print(user_dict['role'])
+            data[str(user_dict['role'])] += 1
+
+        res = {}
+        res['total_users'] = len(users_table)
+        res['total_admins'] = data['ADMIN']
+        res['total_rh'] = data['RH']
+        res['total_projectM'] = data['PROJECT MANAGER']
+
+        return res
 
 
 

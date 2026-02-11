@@ -29,3 +29,10 @@ class UserUpdateData(BaseModel):
     username:Optional[str]
     email:Optional[str]
     role:Optional[str]
+
+
+class UsersNumberSchema(BaseModel):
+    total_users: int
+    total_admins: int
+    total_rh: int
+    total_projectM: int

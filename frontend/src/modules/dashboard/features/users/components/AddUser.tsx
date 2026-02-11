@@ -71,10 +71,12 @@ export default function AddUser() {
       mutate(
         { role: Role, ...data },
         {
-          onSuccess: () =>
+          onSuccess: () => {
             toast.success("user Created succesfuly", {
               position: "top-center",
-            }),
+            });
+            form.reset();
+          },
         },
       );
     },

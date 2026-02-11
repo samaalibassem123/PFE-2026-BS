@@ -12,7 +12,7 @@ export default function UsersCardSection() {
     if (isError) {
       toast.error(getErrorMessage(error), { position: "top-center" });
     }
-  }, [isError]);
+  }, [isError, error]);
 
   return (
     <div className="flex gap-3 w-full justify-between">
