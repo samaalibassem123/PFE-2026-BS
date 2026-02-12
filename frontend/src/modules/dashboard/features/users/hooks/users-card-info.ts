@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { users_numbers_info_api } from "../api/users-card-info.api";
+import { users_numbers_info_api } from "../../users/api/users-card-info.api";
 
 export const useGetUsersNumbers = () => {
   return useQuery({

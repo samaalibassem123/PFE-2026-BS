@@ -25,3 +25,9 @@ export type userUpdateArgs = {
   user_id: string;
   new_user_data: UserUpdateData;
 };
+export interface UsersNumbers {
+  total_users: number;
+  total_admins: number;
+  total_rh: number;
+  total_projectM: number;
+}

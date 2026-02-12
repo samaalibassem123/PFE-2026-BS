@@ -1,5 +1,5 @@
 import api from "@/shared/api/backend";
-import type { UsersNumbers } from "../types";
+import type { UsersNumbers } from "../type";
 
 export const users_numbers_info_api = async () => {
   const { data } = await api.get<UsersNumbers>("/api/v1/user/numbers");
