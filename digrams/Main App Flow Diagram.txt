@@ -1,0 +1,14 @@
+flowchart TD
+    BiotimeDB[Biotime DB / Postgress]
+    EasyPDB[EasyProject DB / Postgress]
+    ETL{ETL with SQLAlchemy / Python}
+    APP_DB[Main App DB / Postgress]
+    Backend[Backend / FastApi]
+    Front[Frontend / React]
+
+    BiotimeDB --> ETL
+    EasyPDB --> ETL
+
+    ETL --> | Load Data Into a Central DB| APP_DB
+    APP_DB--> |SQLAlchemy / Alembic| Backend
+    Backend --> |API Endpoints| Front
