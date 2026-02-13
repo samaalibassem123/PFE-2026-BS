@@ -9,6 +9,12 @@ flowchart TD
     BiotimeDB --> ETL
     EasyPDB --> ETL
 
-    ETL --> | Load Data Into a Central DB| APP_DB
+    ETL --> |Load data| APP_DB
+    ETL <--> |sync for realtime data| APP_DB
+
+    APP_DB ---> | get  data | ETL
     APP_DB--> |SQLAlchemy / Alembic| Backend
-    Backend --> |API Endpoints| Front
+    Backend <--> |API Endpoints| Front
+
+
+https://kroki.io/mermaid/svg/eNptkFFqwzAMht9zCl2g7AJl4JAWChl4W99CGaqjNu4SO9iCEpbdvY6TlARqsCX0fxa_dKntXVXoGI5ZAuGk2rJuKEuLKYMshTeQ1vPVkfenSO3QdzIwMTp7I8WvuWP-Fy7cNVfw_ZmLWlXUdAPYcWXNf6SElD-h2QdqA6JtX3ZKUf2SKYspBmCPnkWrR3nvrOEivqP6Raj4lKxngs3mffC0nOFZmw3HQp9bLKFExn6y95S3UfedUXCxDhxhHfe0ghdzhX7DB7gSQ4RCPnsYiaivtiNqas5a9fPYyxVMBoQ8wM6UrdWGfT8uIHkALAGJrw
