@@ -1,0 +1,53 @@
+erDiagram
+    
+    enum_ROLE {
+        string ADMIN
+        string RH
+        string PROJECT_MANAGER
+    }
+    USER {
+        UUID id PK
+        string username
+        string email
+        text password
+        ROLE role 
+
+    }
+    
+    EMPLOYE{
+        int emp_id PK
+        string emp_full_name
+        string emp_email
+        string hire_date
+        int dep_id FK
+    }
+    
+    DEPARTMENT {
+        int dep_id PK
+        string sep_name
+    }
+
+    LEAVE {
+        int leave_id PK
+        int emp_id FK
+        int raison_id FK
+        string leave_type
+        timestamptz apply_time
+        timestamptz start_date
+        timestamptz end_date
+    }
+    LEAVE_RAISON {
+        int id
+        string name
+    }
+
+ 
+    enum_ROLE ||--|{ USER : extend
+
+    DEPARTMENT ||--|{ EMPLOYE : work_at 
+
+    LEAVE ||--|{ EMPLOYE : Belong_to
+    LEAVE ||--|{ LEAVE_RAISON : has
+
+
+
