@@ -1,3 +1,5 @@
+https://kroki.io/mermaid/svg/eNqFVNGSojAQfOcr5gf2B_aNXbJ33gpaiFt1T6kUjJoTAhWC3q767xciSgisx0Msu5tOTzIDyoCzrWSFB_oxC4qmoPFiTuBk_rdPrSQXW_CDcBa5YPzTRZbx4hd5TWjoR_4PEhv6Ytb1isSW7Xo9C4BnsHx3LZoapWAFujgWjOd3UOFfBRWr62MpsztqsssyR_Csrc1CwuV88Zv0CbhQ2rOikyFaYtPkOZ1OUtFhmo7YcYk0YwoHm2RoNnl7dyMFZOnHSUiiBE5Tb4xj1Zq4J7pca5wT_4M4BjmyAzoWVr1vQ1QyXpfCIRQvsFasqNQXsKrKP2mLTNL6V6ph3TaNIuvJS5-Zxv5stYic6JN19zXfzs5PEhIFfvRKHr5v50h3mO4pFw_IslH_Oa-2EGDqWi4MxEfEvYY_7cvp5uFhxgOT6Y5JGLTaDeQZCsU3HOU4NqQSdYqMlhM1QVNlLmndQEjCFxKvHgb7vmMqWf7BVI3b2nM_JOfz09P5dJ3-Z9BDq7vBu2nv3dupuhnVwhfMS7GlqhyLBr3zDDtWe-40jez0R2JPmQJ7Z6uDRnpjOjinTnK7z6tkQtB78NbCSP4BGLJsAw
+
 erDiagram
     
     enum_ROLE {
@@ -31,23 +33,56 @@ erDiagram
         int leave_id PK
         int emp_id FK
         int raison_id FK
-        string leave_type
         timestamptz apply_time
         timestamptz start_date
         timestamptz end_date
     }
     LEAVE_RAISON {
-        int id
+        int id PK
         string name
+    }   
+    ATTENDANCE {
+        int id PK
+        timestamptz check_in
+        timestamptz check_out
+        int emp_id FK
+        date att_date 
+        int week_day
     }
+
+    PROJECT {
+        int id PK
+        varchar name
+        varchar identifier
+        timestamp created_on
+        timestamp updated_on
+        
+    }
+    MEMBERS {
+        int id PK
+        int emp_id FK
+        int project_id FK
+    }
+    
 
  
     enum_ROLE ||--|{ USER : extend
 
-    DEPARTMENT ||--|{ EMPLOYE : work_at 
+    
 
     LEAVE ||--|{ EMPLOYE : Belong_to
     LEAVE ||--|{ LEAVE_RAISON : has
 
+    DEPARTMENT ||--|{ EMPLOYE : work_at 
+
+    
+
+    ATTENDANCE ||--|{ EMPLOYE : has
 
 
+    MEMBERS ||--|{ PROJECT : has
+    MEMBERS ||--|{ EMPLOYE : is
+
+
+
+    
