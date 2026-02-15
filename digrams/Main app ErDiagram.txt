@@ -1,4 +1,4 @@
-https://kroki.io/mermaid/svg/eNqFVNGSojAQfOcr5gf2B_aNXbJ33gpaiFt1T6kUjJoTAhWC3q767xciSgisx0Msu5tOTzIDyoCzrWSFB_oxC4qmoPFiTuBk_rdPrSQXW_CDcBa5YPzTRZbx4hd5TWjoR_4PEhv6Ytb1isSW7Xo9C4BnsHx3LZoapWAFujgWjOd3UOFfBRWr62MpsztqsssyR_Csrc1CwuV88Zv0CbhQ2rOikyFaYtPkOZ1OUtFhmo7YcYk0YwoHm2RoNnl7dyMFZOnHSUiiBE5Tb4xj1Zq4J7pca5wT_4M4BjmyAzoWVr1vQ1QyXpfCIRQvsFasqNQXsKrKP2mLTNL6V6ph3TaNIuvJS5-Zxv5stYic6JN19zXfzs5PEhIFfvRKHr5v50h3mO4pFw_IslH_Oa-2EGDqWi4MxEfEvYY_7cvp5uFhxgOT6Y5JGLTaDeQZCsU3HOU4NqQSdYqMlhM1QVNlLmndQEjCFxKvHgb7vmMqWf7BVI3b2nM_JOfz09P5dJ3-Z9BDq7vBu2nv3dupuhnVwhfMS7GlqhyLBr3zDDtWe-40jez0R2JPmQJ7Z6uDRnpjOjinTnK7z6tkQtB78NbCSP4BGLJsAw
+https://kroki.io/mermaid/svg/eNqFVMtyozAQvPsr5gfyA76RoGSdGOzCeKv2pFLBxFYMgpJEHmv73yMwGCGIo4MoulszPWIGlD5nO8nyGZjVbCiqnEarJYFj814vpSUXO_D8YBG6YPTHRdbR6pk8xDTwQu-JRA19bvbthkRW2O124QNPYf3ihqgUSsFydHHMGc-uoMZPDSVT6qOQ6RVtvMsiQ5hZqZuNBOvl6h_pHXChTcySTpqoidcqy-i0k5IO3bTEnkukKdM4SJJik-TxxbXkk7UXxQEJYzhOnRjbUoa4OjpfalwS7y9xAmTI3tEJYdX7OEQl46oQDqF5jkqzvNT_gZVl9kVrZJI2T6mHdds0irQnz71nGnmLzSp0rE_W3dfc3Z0XxyT0vfCB3Dxv-0j2mBwoFzfIotK_3FddCDB9KRcG4g_Eg4G_7I_TzsNNj-9MJnsmYdBqHchTFJq_cpRj25BINC5SWkzUBFWZuqT1BQIS3JNoc9PYzx1TyuINEz1u65n7Izmd7u5Ox8v0z8EMremGWau157ITWjMxBzPbB8p0J-08t9LubuewZ2pK0IWeA1edvevAjDT3mBViR3UxFg3atU_nNuIoZC1sVy39BvefbKs
 
 erDiagram
     
@@ -70,19 +70,25 @@ erDiagram
 
     
 
-    LEAVE ||--|{ EMPLOYE : Belong_to
-    LEAVE ||--|{ LEAVE_RAISON : has
 
-    DEPARTMENT ||--|{ EMPLOYE : work_at 
-
-    
-
-    ATTENDANCE ||--|{ EMPLOYE : has
+    EMPLOYE ||--|{ DEPARTMENT : work_at 
 
 
     MEMBERS ||--|{ PROJECT : has
     MEMBERS ||--|{ EMPLOYE : is
+    
+
+    LEAVE ||--|{ EMPLOYE : Belong_to
+    LEAVE ||--|{ LEAVE_RAISON : has
+    
+    ATTENDANCE ||--|{ EMPLOYE : has
 
 
+
+
+
+
+
+    
 
     
