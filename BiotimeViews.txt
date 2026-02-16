@@ -1,0 +1,72 @@
+-- create employee view
+
+DROP VIEW IF EXISTS biotime_employee_view;
+CREATE VIEW biotime_employee_view AS
+SELECT 
+	emp.id AS ep_emp_id,
+	emp.first_name AS emp_fullname,
+	emp.emp_code ,
+	emp.email,
+	emp.department_id,
+	emp.hire_date
+FROM personnel_employee AS emp;
+    
+-- create att_leave view
+DROP VIEW IF EXISTS biotime_att_leave_view;
+CREATE VIEW biotime_att_leave_view AS
+SELECT 
+
+    atl.start_time,
+    atl.end_time,
+    atl.apply_time, 
+    atl.leave_day,
+    atl.apply_reason,
+    atl.pay_code_id,
+    
+    atp.name,
+    
+    w.employee_id AS emp_id,
+    w.approver_instance,
+    w.approval_time,
+    emp.email,
+    emp.first_name
+    
+FROM att_leave AS atl
+INNER JOIN att_paycode AS atp 
+    ON atl.pay_code_id = atp.id
+INNER JOIN workflow_workflowinstance AS w 
+    ON atl.workflowinstance_ptr_id = w.id
+INNER JOIN personnel_employee AS emp 
+    ON w.employee_id = emp.id;
+
+    
+-- check in chekout view
+drop view if exists check_in_out_view;
+create view check_in_out_view AS
+select 
+	att.id,
+	att.clock_in,
+	att.clock_out,
+	att.att_date,
+	att.weekday,
+	att.emp_id,
+
+	
+	pe.email,
+	pe.first_name,
+	pe.department_id
+	
+from att_payloadtimecard as att
+	inner join personnel_employee as pe on pe.id = att.emp_id
+	inner join personnel_department as pd on pd.id = pe.department_id 
+order by att.att_date desc
+
+	
+    
+
+
+-- SHOW ALL TYPES OF LEAVING 
+SELECT name, COUNT(*) AS total
+FROM biotime_att_leave_view
+GROUP BY name
+ORDER BY total DESC;
