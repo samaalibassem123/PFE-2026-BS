@@ -1,4 +1,4 @@
-https://kroki.io/mermaid/svg/eNqFVMtyozAQvPsr5gfyA76RoGSdGOzCeKv2pFLBxFYMgpJEHmv73yMwGCGIo4MoulszPWIGlD5nO8nyGZjVbCiqnEarJYFj814vpSUXO_D8YBG6YPTHRdbR6pk8xDTwQu-JRA19bvbthkRW2O124QNPYf3ihqgUSsFydHHMGc-uoMZPDSVT6qOQ6RVtvMsiQ5hZqZuNBOvl6h_pHXChTcySTpqoidcqy-i0k5IO3bTEnkukKdM4SJJik-TxxbXkk7UXxQEJYzhOnRjbUoa4OjpfalwS7y9xAmTI3tEJYdX7OEQl46oQDqF5jkqzvNT_gZVl9kVrZJI2T6mHdds0irQnz71nGnmLzSp0rE_W3dfc3Z0XxyT0vfCB3Dxv-0j2mBwoFzfIotK_3FddCDB9KRcG4g_Eg4G_7I_TzsNNj-9MJnsmYdBqHchTFJq_cpRj25BINC5SWkzUBFWZuqT1BQIS3JNoc9PYzx1TyuINEz1u65n7Izmd7u5Ox8v0z8EMremGWau157ITWjMxBzPbB8p0J-08t9LubuewZ2pK0IWeA1edvevAjDT3mBViR3UxFg3atU_nNuIoZC1sVy39BvefbKs
+https://kroki.io/mermaid/svg/eNqdVEtyozAQ3fsUfYFcwDsSlD_YRfAiK5UKOrbGIFRCJOOxc_cIDEYIlWdqWMjl10_drz9qVCFnW8XKBZivO1A0JU1WrwSO3f_2q7XiYgtBGD3FLpg8usg6WT2Tu5RGQRw8kKQzf3fn5o0kltvN5ikEnsP6xXXR1KgEK9HFsWS8uIAaf2uQrK6_KpVf0E67qgqEhROa9spGBVwYB6r6hZmmRsj9y8TSqjjDYHnqDhKtX1fvZOoJS0m96bSGj6YoqD8nSad59YYdV0hzpnESJEdpSbUkhWQdJGlE4hSOvhtzWbUxXBR9n6sVpCmJwyC-I46XqQfNS6w1K6X-A9kOsz3l4oqxarSvUla92zyBad0lDBPyF-LewAdbZt_Jqxo_mcp2TMGk6APIcxSaf3BUc9mQKTQqclp5coJG5q7RakVEoluSvF0V5q-AfxbtmStlUR0QqSkTipyJDCl-mjT-M1h318Ht1jEpiwNtEa_Z_Co9nU_bbBSOxnMWgWnv3wX3wzkO5pC_6byzoU6nm5vT8bxWlmC2gQm66Ln2Mx2I1hNZglkae1PKgTo0rqcOA7aEHat9hMH1Eng9yLvapNm9WywqsaW6-reLY_VGTe6TncVoiYvZAux41aVwZoPyrTAj3UvxUcd62Owf9BWySg
 
 erDiagram
     
@@ -15,6 +15,10 @@ erDiagram
         ROLE role 
 
     }
+    USER_PROJECT{
+        int project_id FK
+        int user_id FK 
+    }
     
     EMPLOYE{
         int emp_id PK
@@ -29,18 +33,6 @@ erDiagram
         string sep_name
     }
 
-    LEAVE {
-        int leave_id PK
-        int emp_id FK
-        int raison_id FK
-        timestamptz apply_time
-        timestamptz start_date
-        timestamptz end_date
-    }
-    LEAVE_RAISON {
-        int id PK
-        string name
-    }   
     ATTENDANCE {
         int id PK
         timestamptz check_in
@@ -64,6 +56,19 @@ erDiagram
         int project_id FK
     }
     
+    Employee_attendance_event {
+        int id PK
+        int emp_id FK
+        int event_id FK
+        timestamptz apply_time
+        timestamptz start_date
+        timestamptz end_date
+    }
+    Att_event {
+        int id PK
+        string name
+    }   
+    
 
  
     enum_ROLE ||--|{ USER : extend
@@ -78,17 +83,11 @@ erDiagram
     MEMBERS ||--|{ EMPLOYE : is
     
 
-    LEAVE ||--|{ EMPLOYE : Belong_to
-    LEAVE ||--|{ LEAVE_RAISON : has
+    Employee_attendance_event ||--|{ EMPLOYE : Belong_to
+    Employee_attendance_event ||--|{ Att_event : has
     
     ATTENDANCE ||--|{ EMPLOYE : has
 
 
-
-
-
-
-
-    
-
-    
+    USER_PROJECT ||--o{ USER : assigned_to
+    USER_PROJECT ||--o{ PROJECT : assigned_to

@@ -16,6 +16,7 @@ erDiagram
         float leave_day
         varchar apply_reason
         varchar name
+        int pay_code_id
         int emp_id FK
         varchar approver_instance
         datetime approval_time
@@ -63,5 +64,5 @@ erDiagram
     CHECK_IN_OUT_VIEW ||--|| BIOTIME_EMPLOYEE_VIEW : emp_id
 
     EASY_ATTENDANCE_FULL_VIEW ||--|| EASY_EMPLOYEE_VIEW : ep_emp_id
-  
-https://kroki.io/mermaid/svg/eNq1lF1vgjAUhu_9Fb3ZpX_AO4Y1MhGIootXzQnU2YyvlEJixv77yoc4bJluyXpFeNrTt2_fU8rnDN44xBMkx9MTmioDPVuub62xBjWLOkzw2rPdA8Zkb-FX9NGwerBEIJoRGmeEhchb9aAEHpyAo5ociyhKIKZaGKShDgCLBpuENAMuYpoIuVFPQhAUnRinpP5qfn9OBsIN3yc2NvaK8nqBYDFFuZCFSf2pMpqEIwSyLDoP2TFKQaCIQlnLOSuHapdwCnmaKHDgT-Nqa-lipavD05JywhKpPQn06uQUiIYC9e5e_h4ZzwXpdXQ-mktsrojlEHfn6y5_eOu9gCBKg3cpcIykhRheIghxvcP7Hjx0hPHsdIfTtwQ2tgfkbdwXbPpjfVHP-bemuBytU9nsJXOMnbnhmJgsdrb9m6uQiRM0JCBUVmThKAPOmYyQClo7C36b_FNa8FxNa1uGFHmd2EzhfTVlxtDGxZ9tvNSCQLCSifNYW13w9xb4ISYbbBu-5TrbpeVt772fN89QVU2nVTXyus663I_032Nr7ySnK6KJ8ezquawx-QKUpL1k
+
+https://kroki.io/mermaid/svg/eNq1lN9uwiAUxu99Cm689AW86xRjZ20brS5ekZMWJ1n_hdImZu7dB7VWK3S6JeOK8IPDOR_fgfIpg3cOyQDJMRyikTbQi-0F9hIbUH2owQQvfcfbYUy2Nn5DnzVTg6UC0ZzQJCcsQv6iBRXw8AAcKbIv4ziFhBphmEUmACzuXBLRHLhIaCrkRS2JQFB0YJwSNauXvwadxK0gIA62tlrm6oBgCUWFkIGJmuqMplEPgTyPj122jzMQKKZQqXSOWlHnI5xCkaUa7OijCs7hWGtzW26t9lnq2cIUn2cV5YSlsqY0NGctt0DcTdys-mV1z3ghSJtfo-9kjicLYrvE2wQmU3Td0CYQxln4IRPsI1kpuo8LQlzf9rEGT5XQ76mmOHOrYGu9Q_7Ke8WToK9f1J5_a5ZLaU2W9V3S39idWu4Ek9nGcX7zFNKJgkYEhM7KPOplwDmTFtLBWc6S33fEISt5obv1HIaUhXJsrvE2mrajK-PszzJeYkEoWMXEsa-tLvi2BX6wyQo7VmB77npu--tH_-rd93Q6jUanU8-vO25839N_z5194JwmiMHG46vm35dGw_U
