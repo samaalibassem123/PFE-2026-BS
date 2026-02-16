@@ -1,0 +1,67 @@
+erDiagram
+    %% ------------------ BIOTIME ------------------
+    BIOTIME_EMPLOYEE_VIEW {
+        int ep_emp_id PK
+        varchar emp_fullname
+        varchar emp_code
+        varchar email
+        int department_id
+        date hire_date
+    }
+
+    BIOTIME_ATT_LEAVE_VIEW {
+        datetime start_time
+        datetime end_time
+        datetime apply_time
+        float leave_day
+        varchar apply_reason
+        varchar name
+        int emp_id FK
+        varchar approver_instance
+        datetime approval_time
+        varchar email
+        varchar first_name
+    }
+
+    CHECK_IN_OUT_VIEW {
+        int id PK
+        datetime clock_in
+        datetime clock_out
+        date att_date
+        int emp_id FK
+        varchar email
+        varchar first_name
+        int department_id
+    }
+
+    %% ------------------ EASY PROJECT ------------------
+    EASY_EMPLOYEE_VIEW {
+        int ep_emp_id PK
+        varchar emp_fullname
+        varchar email
+    }
+
+    EASY_ATTENDANCE_FULL_VIEW {
+        int id PK
+        datetime created_at
+        datetime updated_at
+        datetime arrival
+        datetime departure
+        float hours
+        varchar arrival_user_ip
+        varchar departure_user_ip
+        int ep_emp_id FK
+        varchar emp_fullname
+        varchar email
+        int activity_id FK
+        varchar activity_name
+    }
+
+
+    %% ------------------ RELATIONSHIPS ------------------
+    BIOTIME_ATT_LEAVE_VIEW ||--|| BIOTIME_EMPLOYEE_VIEW : emp_id
+    CHECK_IN_OUT_VIEW ||--|| BIOTIME_EMPLOYEE_VIEW : emp_id
+
+    EASY_ATTENDANCE_FULL_VIEW ||--|| EASY_EMPLOYEE_VIEW : ep_emp_id
+  
+https://kroki.io/mermaid/svg/eNq1lF1vgjAUhu_9Fb3ZpX_AO4Y1MhGIootXzQnU2YyvlEJixv77yoc4bJluyXpFeNrTt2_fU8rnDN44xBMkx9MTmioDPVuub62xBjWLOkzw2rPdA8Zkb-FX9NGwerBEIJoRGmeEhchb9aAEHpyAo5ociyhKIKZaGKShDgCLBpuENAMuYpoIuVFPQhAUnRinpP5qfn9OBsIN3yc2NvaK8nqBYDFFuZCFSf2pMpqEIwSyLDoP2TFKQaCIQlnLOSuHapdwCnmaKHDgT-Nqa-lipavD05JywhKpPQn06uQUiIYC9e5e_h4ZzwXpdXQ-mktsrojlEHfn6y5_eOu9gCBKg3cpcIykhRheIghxvcP7Hjx0hPHsdIfTtwQ2tgfkbdwXbPpjfVHP-bemuBytU9nsJXOMnbnhmJgsdrb9m6uQiRM0JCBUVmThKAPOmYyQClo7C36b_FNa8FxNa1uGFHmd2EzhfTVlxtDGxZ9tvNSCQLCSifNYW13w9xb4ISYbbBu-5TrbpeVt772fN89QVU2nVTXyus663I_032Nr7ySnK6KJ8ezquawx-QKUpL1k
