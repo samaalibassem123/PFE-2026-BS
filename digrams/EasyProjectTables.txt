@@ -1,0 +1,65 @@
+https://kroki.io/mermaid/svg/eNqdU0FygzAMvOcVHu75QM-dXnrpDzwqFkUdjBlZZCaT9O-1A6ZODElbTmZXWq1kGfmZ4IPB7nYqfKNH9up0OcePelFk1NvrghyA6xZYNcReerBYMB1kxNekixao02AMo_d4v0JEog8d4Jey8CySqw_sPrGW3xlf9UwGe6GGkBdKyKIXsIOqGUHQaNevkONgcnJ2ZNG-P5rkRp8RnhvKmDRH8Ed9Kd4iyr_0o10VvLPoeLzGsTfXaBrQgEzOFFZAJKRAX6OGWuhAQvjHa1iXuy8SLcYpKGCmA3QlYXAIHY6Mvxn3RivHrQ2ciupJbSj4pXYR0XQORLVu5LS_V-t7Pu_37rQsz5OqWvDpt8pf6Bx5-6ymjKoMzCQpKSrXTJErujdrNjv5QaqNnPwCQxJj7dgk6w_35o6SHAcMhlW6mmr3DV67ZEc
+
+
+erDiagram
+
+    users {
+        int id PK
+        varchar firstname
+        varchar lastname
+    }
+
+    email_addresses {
+        int id PK
+        int user_id FK
+        varchar address
+    }
+
+    projects {
+        int id PK
+        varchar name
+        varchar identifier
+        timestamp created_on
+        timestamp updated_on
+    }
+
+    members {
+        int id PK
+        int user_id FK
+        int project_id FK
+    }
+
+    easy_timesheets {
+        int id PK
+        int user_id FK
+        date start_date
+        date end_date
+        varchar period
+    }
+
+    easy_attendance_activities {
+        int id PK
+        varchar name
+    }
+
+    easy_attendances {
+        int id PK
+        datetime arrival
+        datetime departure
+        int user_id FK
+        int easy_attendance_activity_id FK
+        varchar arrival_user_ip
+        varchar departure_user_ip
+        float hours
+    }
+    projects ||--o{ members : "has members"
+
+    users ||--o{ email_addresses : "has"
+    users ||--o{ members : "is member of"
+    
+    users ||--o{ easy_timesheets : "has timesheets"
+    users ||--o{ easy_attendances : "records"
+
+    
+
+    easy_attendance_activities ||--o{ easy_attendances : "type of activity"

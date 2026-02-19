@@ -1,0 +1,93 @@
+https://kroki.io/mermaid/svg/eNqdVEtyozAQ3fsUfYFcwDsSlD_YRfAiK5UKOrbGIFRCJOOxc_cIDEYIlWdqWMjl10_drz9qVCFnW8XKBZivO1A0JU1WrwSO3f_2q7XiYgtBGD3FLpg8usg6WT2Tu5RGQRw8kKQzf3fn5o0kltvN5ikEnsP6xXXR1KgEK9HFsWS8uIAaf2uQrK6_KpVf0E67qgqEhROa9spGBVwYB6r6hZmmRsj9y8TSqjjDYHnqDhKtX1fvZOoJS0m96bSGj6YoqD8nSad59YYdV0hzpnESJEdpSbUkhWQdJGlE4hSOvhtzWbUxXBR9n6sVpCmJwyC-I46XqQfNS6w1K6X-A9kOsz3l4oqxarSvUla92zyBad0lDBPyF-LewAdbZt_Jqxo_mcp2TMGk6APIcxSaf3BUc9mQKTQqclp5coJG5q7RakVEoluSvF0V5q-AfxbtmStlUR0QqSkTipyJDCl-mjT-M1h318Ht1jEpiwNtEa_Z_Co9nU_bbBSOxnMWgWnv3wX3wzkO5pC_6byzoU6nm5vT8bxWlmC2gQm66Ln2Mx2I1hNZglkae1PKgTo0rqcOA7aEHat9hMH1Eng9yLvapNm9WywqsaW6-reLY_VGTe6TncVoiYvZAux41aVwZoPyrTAj3UvxUcd62Owf9BWySg
+
+erDiagram
+    
+    enum_ROLE {
+        string ADMIN
+        string RH
+        string PROJECT_MANAGER
+    }
+    USER {
+        UUID id PK
+        string username
+        string email
+        text password
+        ROLE role 
+
+    }
+    USER_PROJECT{
+        int project_id FK
+        int user_id FK 
+    }
+    
+    EMPLOYE{
+        int emp_id PK
+        string emp_full_name
+        string emp_email
+        string hire_date
+        int dep_id FK
+    }
+    
+    DEPARTMENT {
+        int dep_id PK
+        string sep_name
+    }
+
+    ATTENDANCE {
+        int id PK
+        timestamptz check_in
+        timestamptz check_out
+        int emp_id FK
+        date att_date 
+        int week_day
+    }
+
+    PROJECT {
+        int id PK
+        varchar name
+        varchar identifier
+        timestamp created_on
+        timestamp updated_on
+        
+    }
+    MEMBERS {
+        int id PK
+        int emp_id FK
+        int project_id FK
+    }
+    
+    Employee_attendance_event {
+        int id PK
+        int emp_id FK
+        int event_id FK
+        timestamptz apply_time
+        timestamptz start_date
+        timestamptz end_date
+    }
+    Att_event {
+        int id PK
+        string name
+    }   
+    
+
+ 
+    enum_ROLE ||--|{ USER : extend
+
+    
+
+
+    EMPLOYE ||--|{ DEPARTMENT : work_at 
+
+
+    MEMBERS ||--|{ PROJECT : has
+    MEMBERS ||--|{ EMPLOYE : is
+    
+
+    Employee_attendance_event ||--|{ EMPLOYE : Belong_to
+    Employee_attendance_event ||--|{ Att_event : has
+    
+    ATTENDANCE ||--|{ EMPLOYE : has
+
+
+    USER_PROJECT ||--o{ USER : assigned_to
+    USER_PROJECT ||--o{ PROJECT : assigned_to

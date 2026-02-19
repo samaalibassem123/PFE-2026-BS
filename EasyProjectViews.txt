@@ -1,0 +1,48 @@
+-- employee view
+DROP VIEW IF EXISTS  easy_employee_view;
+CREATE VIEW easy_employee_view AS
+SELECT 
+	u.id AS ep_emp_id,
+	CONCAT(u.firstname, ' ', u.lastname) AS emp_fullname,
+	e.address as email
+FROM users AS u
+INNER JOIN email_addresses AS e
+ON e.user_id = u.id;
+    
+-- attendance view
+DROP VIEW IF EXISTS easy_attendance_full_view;
+CREATE VIEW easy_attendance_full_view AS
+SELECT 
+    ea.id,
+    ea.created_at,
+    ea.updated_at,
+    ea.arrival,
+    ea.departure,
+    ea.hours,
+    ea.arrival_user_ip,
+    ea.departure_user_ip,
+    
+
+    emp.ep_emp_id,
+    emp.emp_fullname,
+    emp.email,
+
+    act.id AS activity_id,
+    act.name AS activity_name
+
+FROM easy_attendances AS ea
+
+INNER JOIN easy_employee_view AS emp 
+    ON ea.user_id = emp.ep_emp_id
+
+INNER JOIN easy_attendance_activities AS act 
+    ON ea.easy_attendance_activity_id = act.id;
+
+
+-- SHOW ALL TYPES OF ATTENDANCE ON EASY PROJECT
+select activity_name , count(*) as total 
+from easy_attendance_full_view
+group by activity_name 
+order by total DESC
+
+

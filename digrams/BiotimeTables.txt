@@ -1,0 +1,60 @@
+https://kroki.io/mermaid/svg/eNqNU0tywjAM3XMKD-tyga473bDpDTyaWBQPju0qCjQlvXvlQCBxEoo3cfSsp6cf0puFT4JytVJyIlIVvEenDUYgLtGzOndQOlb-rFEf25vlCFTsgZQ8Z-2hxA75zdmwjC40iE9xYQnWzVijLoLBCbCzVA1iDyEHOWKAUe0toU63kZh7xlp0vW-HmQCzjtC4AIZtiQWQGaRS1-IwzqWLk7wmYU6IB7E2N2MirBjKyD-qcKE4aOsfgKHmEV-qy0TvKdBh58JJ9xfrhcUXjxvA-M0KYqRwRNK9Sx6ta-QgZC7zQgBOJ-OkiE3q4VNjkE9TcncIx9w7T1FHJt1RvixJlC_xXV8OozfLoKTnmjEs0YFVp23c2Ws95T0hyCqMdMs8dQM97d7sFrbtZhPOczv1qtZ7qNaLO3f1nJvhi2uCJOdUvH9ZlidLuAi_ailUr2X5bSJr20FLxflyMciy_T3DYGQGWWQu3ETR_QfmU3qz
+
+
+erDiagram
+
+    personnel_department {
+        int id PK
+        varchar dept_name
+    }
+
+    personnel_employee {
+        int id PK
+        varchar email
+        varchar emp_code
+        varchar first_name
+        varchar last_name
+        date hire_date
+        int department_id FK
+    }
+
+    att_payloadtimecard {
+        uuid id PK
+        date att_date
+        int week_day
+        timestamptz clock_in
+        timestamptz clock_out
+        int emp_id FK
+    }
+
+    workflow_workflowinstance {
+        int id PK
+        text approver_instance
+        int employee_id FK
+        timestamptz approval_time
+    }
+
+    att_pycode {
+        int id PK
+        varchar name
+    }
+
+    att_leave {
+        int workflowinstance_ptr_id PK, FK
+        timestamptz start_time
+        timestamptz end_time
+        timestamptz apply_time
+        float leave_day
+        text apply_reason
+        int pay_code_id FK
+    }
+
+    personnel_department ||--o{ personnel_employee : "has"
+
+    personnel_employee ||--o{ att_payloadtimecard : "has attendance"
+
+    personnel_employee ||--o{ workflow_workflowinstance : "requests"
+
+    workflow_workflowinstance ||--|| att_leave : "leave details"
+
+    att_pycode ||--o{ att_leave : "leave type"

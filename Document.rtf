@@ -1,0 +1,107 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica-BoldOblique;}
+{\colortbl;\red255\green255\blue255;\red251\green0\blue7;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c12195\c0;\cssrgb\c100000\c100000\c100000\c0;}
+\paperw11900\paperh16840\vieww12000\viewh15840\viewkind0
+\deftab720
+\pard\pardeftab720\sl276\slmult1\sa200\partightenfactor0
+
+\f0\b\fs44 \cf0 BioTime Required Tables for Employees, Leave,\
+and Check-in/Check-out\
+
+\f1\i \
+
+\f0\i0 Employees
+\f1\i \
+
+\fs32 personnel_employee: \
+	id : int | (serial 4)\
+	\ul email: varchar(50)\ulnone \
+	emp_code : varchar(20) \
+	first_name : varchar(25)\
+	last_name : varchar(25)\
+	hire_date: date\
+	department_id: int(4)\
+\
+personnel_department :\
+	id : (serial 4)\
+	dept_name : varchar(100)\
+what can u do on the web app\
+ - a table show all the employees\
+-  cards or bar charts that show employes by their appartment \
+\
+\pard\pardeftab720\sa200\partightenfactor0
+\cf0 \
+\
+\
+\pard\pardeftab720\sl276\slmult1\sa200\partightenfactor0
+\cf0 \
+\
+\
+\pard\pardeftab720\sl276\slmult1\sa200\partightenfactor0
+
+\f0\i0\fs40 \cf0 Check in - Check out\
+
+\fs24 sometimes the employe doesn't checkin or the oposite maybe because there is another person opened the door for him so if \
+the clock_in column is null we fill it with the att_date + 8 am (assuming that the user came at 8am)\
+else if \
+the clock_out is null we will fill it with the att_date + 5 pm (assuming that the user quit at 5pm)\
+\pard\pardeftab720\sl276\slmult1\sa200\partightenfactor0
+
+\f1\i\fs32 \cf0 \cb2 att_payloadtimecard :\
+	id :  uiid \
+	att_date : date\
+	week_day : int(4)   0 - 6 ==  Monday (0) --> Friday (4)\
+	clock_in : timestamptz\
+	clock_out : timestamptz\
+	emp_id : int(4)\
+\
+\cb3 att_payloadparing\
+	id iiid\
+	att_date : date\
+	weekday:int\cb1 \
+\
+what can u do on the web app\
+-  a table to see all the employee attendance (for each employe check i he have a mission order so u don't mark him as appcent)\
+- a chart show the percentage of attendance commpared by the existing emp by (days , month )\
+exmple : \
+\pard\pardeftab720\sa200\partightenfactor0
+\cf0 \
+- cards show the number of the present employees / the totlal number fo existing employees on the department\
+\
+\
+\pard\pardeftab720\sl276\slmult1\sa200\partightenfactor0
+\cf0 \
+\
+
+\f0\i0\fs44 Cong\'e9e or remote work or mission order\
+
+\f1\i\fs32 att_leave:\
+	workflowinstance_ptr_id : int(4)\
+	start_time : timestamptz\
+	end_time : timestamptz\
+	apply_time : timestamptz\
+	leave_day : float 8\
+	apply_reason :  text\
+	pay_code_id : int 4\
+\
+att_pycode: \
+	id :  serial 4\
+	name : varchar(50) type of leave (cong\'e9 annuel ect... ) or raison of leave or abcent\
+	\
+workflow_workflowinstance : \
+	id : serial 4\
+	approver_instance : text\
+	employee_id int : 4 \
+	approval_time : timestampz\
+	\
+\
+\
+	\
+	\
+\
+\
+	\
+	
+\fs44 \
+}

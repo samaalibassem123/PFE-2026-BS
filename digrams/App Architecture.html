@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="mermaid">
+architecture-beta
+
+%% =========================
+%% External Databases
+%% =========================
+group external(cloud)[External Systems]
+
+service biotime(database)[Biotime DB] in external
+service easyproject(database)[EasyProject DB] in external
+
+%% =========================
+%% ETL Layer
+%% =========================
+group integration(server)[Data Integration Layer]
+
+service etl(server)[ETL Service<br/>Python / SQLAlchemy] in integration
+
+%% =========================
+%% Application Layer
+%% =========================
+group app(cloud)[Application Layer]
+
+service maindb(database)[Main App DB<br/>PostgreSQL] in app
+service backend(server)[Backend API<br/>FastAPI] in app
+
+%% =========================
+%% Presentation Layer
+%% =========================
+group frontend(cloud)[Presentation Layer]
+
+service react(server)[Frontend<br/>React] in frontend
+
+%% =========================
+%% Connections
+%% =========================
+
+biotime:R -- L:etl
+easyproject:R -- L:etl
+
+etl:R -- L:maindb
+maindb:R -- L:backend
+
+backend:R -- L:react
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true
+  });
+</script>
+
+</body>
+</html>
