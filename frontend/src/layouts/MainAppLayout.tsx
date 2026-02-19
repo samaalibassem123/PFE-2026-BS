@@ -18,7 +18,15 @@ import LogoutButton from "@/modules/auth/components/LogoutButton";
 import { useAuth } from "@/modules/auth/hooks";
 import type { AvailableRoles } from "@/utils/Roles";
 
-import { LayoutDashboard, Settings, User } from "lucide-react";
+import {
+  Clock,
+  DoorOpen,
+  Folder,
+  LayoutDashboard,
+  Settings,
+  User,
+  Users,
+} from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 const IconStyle: string = "mr-2 h-4 w-4";
@@ -35,7 +43,43 @@ const Navigations: NavigationItem[] = [
     link: "/user/dashboard",
     icon: <LayoutDashboard className={IconStyle} />,
     label: "Dashboard",
-    RoleView: ["ADMIN", "RH", "PROJECT MANAGER"],
+    RoleView: ["ADMIN"],
+  },
+  {
+    link: "/user/checkinout",
+    icon: <Clock className={IconStyle} />,
+    label: "Check in-out",
+    RoleView: ["RH"],
+  },
+  {
+    link: "/user/projects",
+    icon: <Folder className={IconStyle} />,
+    label: "Projects",
+    RoleView: ["PROJECT MANAGER"],
+  },
+  {
+    link: "/user/employees",
+    icon: <Users className={IconStyle} />,
+    label: "Employees",
+    RoleView: ["RH"],
+  },
+  {
+    link: "/user/members",
+    icon: <Users className={IconStyle} />,
+    label: "Members",
+    RoleView: ["PROJECT MANAGER"],
+  },
+  {
+    link: "/user/employees-leave",
+    icon: <DoorOpen className={IconStyle} />,
+    label: "Employees Leave",
+    RoleView: ["RH"],
+  },
+  {
+    link: "/user/members-att",
+    icon: <DoorOpen className={IconStyle} />,
+    label: "Members Attendace",
+    RoleView: ["PROJECT MANAGER"],
   },
   {
     link: "/user/profile",

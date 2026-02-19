@@ -10,7 +10,7 @@ export const useLoginMutation = () => {
     mutationFn: LoginApifn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      navigate("/user/dashboard", { replace: true });
+      navigate("/user/", { replace: true });
 
       console.log("user is logged in");
     },

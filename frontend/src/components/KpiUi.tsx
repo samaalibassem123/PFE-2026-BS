@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   title: string;
-  value: number;
+  value: number | string;
   desc: string;
   icon: React.ReactNode;
   loading?: boolean;
@@ -25,7 +25,7 @@ interface Props {
     | undefined;
 }
 
-export default function ActiveUsersCard({ ...cardInfo }: Props) {
+export default function KpiUi({ ...cardInfo }: Props) {
   return (
     <Stat className={cn("flex-1")}>
       <StatLabel>{cardInfo.title}</StatLabel>

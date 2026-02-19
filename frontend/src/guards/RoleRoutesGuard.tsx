@@ -1,17 +1,19 @@
 import { useAuth } from "@/modules/auth/hooks";
+import LoadingPage from "@/shared/pages/LoadingPage";
 import type { AvailableRoles } from "@/utils/Roles";
-import type React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 interface Props {
   AllowedRoles: AvailableRoles[];
-  children: React.ReactNode;
 }
 
-export default function RoleGuard({ AllowedRoles, children }: Props) {
-  const { data } = useAuth();
+export default function RoleRoutesGuard({ AllowedRoles }: Props) {
+  const { data, isPending } = useAuth();
+  if (isPending) {
+    return <LoadingPage />;
+  }
   if (!AllowedRoles.includes(data["role"])) {
     return <Navigate to={"*"} replace />;
   }
-  return children;
+  return <Outlet />;
 }

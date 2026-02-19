@@ -5,9 +5,13 @@ import MainAppLayout from "./layouts/MainAppLayout";
 import ProtectedRoutes from "./guards/ProtectedRoutes";
 import PageNotfound from "@/shared/pages/PageNotfound";
 import PublicRoutesGuard from "./guards/PublicRoutesGuard";
-import { DashboardPage } from "./modules/dashboard";
 
 import { Toaster } from "./components/ui/sonner";
+
+import ProjectmangerRoutes from "./routes/ProjectmangerRoutes";
+import RhRoutes from "./routes/RhRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
+import { UserIndexRedirect } from "./routes/UserIndexRedirect";
 
 export function App() {
   return (
@@ -26,13 +30,11 @@ export function App() {
         {/*Protected Routes */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/user" element={<MainAppLayout />}>
-            <Route
-              path="/user"
-              element={<Navigate to="/user/dashboard" replace />}
-            />
-            <Route path="/user/dashboard" element={<DashboardPage />} />
-            <Route path="/user/profile" element={<p>profile</p>} />
-            <Route path="/user/settings" element={<p>setting</p>} />
+            <Route index element={<UserIndexRedirect />} />
+            {AdminRoutes()}
+            {ProjectmangerRoutes()}
+            {RhRoutes()}
+            <Route path="profile" element={<p>profile</p>} />
           </Route>
         </Route>
       </Routes>

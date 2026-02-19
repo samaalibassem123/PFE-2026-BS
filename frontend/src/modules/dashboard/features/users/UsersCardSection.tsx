@@ -1,13 +1,14 @@
 import { Users, Briefcase, Folder, User, ChartArea } from "lucide-react";
-import ActiveUsersCard from "../../components/ActiveUsersCard";
+
 import { useGetUsersNumbers } from "./hooks/users-card-info";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { getErrorMessage } from "@/shared/api/backend";
-import { RadialChart } from "../../components/RadialChart";
+import { RadialChart } from "../../../../components/RadialChart";
 import { type ChartConfig } from "../../../../components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import KpiUi from "@/components/KpiUi";
 const chartconfig = {
   total_admins: {
     label: "Admins",
@@ -48,28 +49,28 @@ export default function UsersCardSection() {
           value="cards"
           className="flex gap-3 w-full justify-between flex-wrap"
         >
-          <ActiveUsersCard
+          <KpiUi
             title="Total Users"
             desc="Total users created by the admin"
             value={data?.total_users ?? 0}
             loading={isPending}
             icon={<Users />}
           />
-          <ActiveUsersCard
+          <KpiUi
             title="Total Admins"
             desc="Total admins accounts"
             value={data?.total_admins ?? 0}
             icon={<User />}
             loading={isPending}
           />
-          <ActiveUsersCard
+          <KpiUi
             title="Total Project Managers"
             desc="Total Project Managers accounts"
             value={data?.total_projectM ?? 0}
             icon={<Folder />}
             loading={isPending}
           />
-          <ActiveUsersCard
+          <KpiUi
             title="Total RH"
             desc="Total Humans ressource accounts"
             value={data?.total_rh ?? 0}
