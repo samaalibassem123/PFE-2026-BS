@@ -25,7 +25,8 @@ class BiotimeDBServices:
     def get_BiotimeEmploye(self):
         with Session(BiotimeDb_engine) as session:
             res = session.query(BIOTIME_EMPLOYEE_VIEW).all()
-            print(res)
+            print(res) # the results are sturecture as tuples on a list [()]
+            return res
 
 
 Biotime_DB = BiotimeDBServices()

@@ -4,3 +4,4 @@
 '''
 
 from .BiotimeDb import Biotime_DB
+from .EasyProjectDb import EasyProject_DB
