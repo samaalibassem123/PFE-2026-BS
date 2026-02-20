@@ -1,0 +1,15 @@
+step 1 : psql -h localhost -U postgres -p 5433
+
+step 2 : CREATE DATABASE "MainAppDB";
+
+step 3 :
+	GRANT ALL PRIVILEGES ON DATABASE "MainAppDB" TO "user";
+	GRANT ALL ON SCHEMA public TO "user";
+	GRANT ALL ON SCHEMA public TO "user";
+     	GRANT ALL ON ALL TABLES IN SCHEMA public TO "user";
+	GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO "user";
+	ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO "user";
+	ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO "user";
+
+connect to ur db :
+	psql -h localhost -U user -d MainAppDB -p TON_PORT

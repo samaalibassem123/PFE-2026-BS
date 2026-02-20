@@ -1,6 +1,6 @@
 '''
     Biotime is a postgress DB
-    The View That  we going to use :
+    The View That we are going to use :
         - BIOTIME_EMPLOYEE_VIEW
         - BIOTIME_ATT_LEAVE_VIEW
         - CHECK_IN_OUT_VIEW
