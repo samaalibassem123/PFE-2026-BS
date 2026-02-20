@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 
 from app.modules.auth.controllers.AuthController import auth_router
+from app.modules.employees.controllers.v1.EmployeesController import employees_router
 from app.modules.user.controllers.v1.UserController import user_router
 
 
@@ -18,3 +19,4 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(user_router , prefix="/api")
+app.include_router(employees_router, prefix="/api")
