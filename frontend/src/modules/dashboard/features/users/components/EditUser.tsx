@@ -134,7 +134,7 @@ export default function EditUser({ user }: Props) {
                       onValueChange={(value) => {
                         field.handleChange(value);
                       }}
-                      defaultValue="ADMIN"
+                      defaultValue={user.role}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="ADMIN" />
@@ -143,7 +143,7 @@ export default function EditUser({ user }: Props) {
                         <SelectGroup>
                           <SelectItem value="ADMIN">ADMIN</SelectItem>
                           <SelectItem value="RH">RH</SelectItem>
-                          <SelectItem value="PROJECT MANAGER">
+                          <SelectItem value="PROJECT_MANAGER">
                             PROJECT MANAGER
                           </SelectItem>
                         </SelectGroup>

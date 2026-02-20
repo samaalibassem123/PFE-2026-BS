@@ -156,7 +156,7 @@ export default function AddUser() {
                       <SelectGroup>
                         <SelectItem value="ADMIN">ADMIN</SelectItem>
                         <SelectItem value="RH">RH</SelectItem>
-                        <SelectItem value="PROJECT MANAGER">
+                        <SelectItem value="PROJECT_MANAGER">
                           PROJECT MANAGER
                         </SelectItem>
                       </SelectGroup>

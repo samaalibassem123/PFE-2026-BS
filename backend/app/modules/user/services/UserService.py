@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth.security import hash_password
-from app.core.database.models import User
+from app.core.database.models.models import User
 from app.modules.user.schemas.User import UserCreateSchema, UserUpdateData, UsersNumberSchema
 
 
@@ -82,9 +82,9 @@ class UserService:
 
         res = {}
         res['total_users'] = len(users_table)
-        res['total_admins'] = data['ADMIN']
-        res['total_rh'] = data['RH']
-        res['total_projectM'] = data['PROJECT MANAGER']
+        res['total_admins'] = data['Role.ADMIN']
+        res['total_rh'] = data['Role.RH']
+        res['total_projectM'] = data['Role.PROJECT_MANAGER']
 
         return res
 

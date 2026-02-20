@@ -55,7 +55,7 @@ const Navigations: NavigationItem[] = [
     link: "/user/projects",
     icon: <Folder className={IconStyle} />,
     label: "Projects",
-    RoleView: ["PROJECT MANAGER"],
+    RoleView: ["PROJECT_MANAGER"],
   },
   {
     link: "/user/employees",
@@ -67,7 +67,7 @@ const Navigations: NavigationItem[] = [
     link: "/user/members",
     icon: <Users className={IconStyle} />,
     label: "Members",
-    RoleView: ["PROJECT MANAGER"],
+    RoleView: ["PROJECT_MANAGER"],
   },
   {
     link: "/user/employees-leave",
@@ -79,13 +79,13 @@ const Navigations: NavigationItem[] = [
     link: "/user/members-att",
     icon: <DoorOpen className={IconStyle} />,
     label: "Members Attendace",
-    RoleView: ["PROJECT MANAGER"],
+    RoleView: ["PROJECT_MANAGER"],
   },
   {
     link: "/user/profile",
     icon: <User className={IconStyle} />,
     label: "Profile",
-    RoleView: ["ADMIN", "RH", "PROJECT MANAGER"],
+    RoleView: ["ADMIN", "RH", "PROJECT_MANAGER"],
   },
   {
     link: "/user/settings",

@@ -12,8 +12,8 @@ from app.modules.user.services.UserService import UserService
 '''
     this route can only be used by 
     a user by the role of "ADMIN"
+    - you can delete the dependcies when u installed the app the first time so u cana create users 
 '''
-
 user_router = APIRouter(prefix="/v1/user", tags=["User"], dependencies=[ Depends(get_current_user), Depends(require_role(['ADMIN'])) ])
 
 

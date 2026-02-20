@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 
 const roleDashboardMap: Record<string, string> = {
   ADMIN: "dashboard",
-  "PROJECT MANAGER": "projects",
+  PROJECT_MANAGER: "projects",
   RH: "checkinout",
 };
 
