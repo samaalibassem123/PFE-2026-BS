@@ -48,8 +48,8 @@ class Project(Base):
     __tablename__ = "projects"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(150), nullable=False)
-    identifier: Mapped[Optional[str]] = mapped_column(String(50), unique=True, nullable=True)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    identifier: Mapped[Optional[str]] = mapped_column(Text, unique=False, nullable=True)
     created_on: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

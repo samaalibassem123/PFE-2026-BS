@@ -15,5 +15,5 @@ async def ETL_EmpAttEvents(db:AsyncSession):
     transformed_bt_emp_att = TransformerService.transform_biotime_emp_att_events(bt_emp_att)
 
     # Loading
-    await LoaderService.load_projects(transformed_ep_emp_att + transformed_bt_emp_att, db)
+    await LoaderService.load_emp_att_events(transformed_ep_emp_att + transformed_bt_emp_att, db)
 

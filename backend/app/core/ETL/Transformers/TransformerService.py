@@ -73,19 +73,27 @@ class TransformerService:
     def transform_projects(data):
         projects = []
         for p in data:
-            projects.append(Project(**p))
+            project = defaultdict()
+            project['id'] = p['id']
+            project['name'] = p['name']
+            project['identifier'] = p['identifier']
+            project['created_on'] = p['created_on']
+            project['updated_on'] = p['updated_on']
+
+            projects.append(Project(**project))
         return projects
 
     @staticmethod
     def transform_members(data):
         members = []
+        employees = EasyProject_extractor.get_employees()
         for m in data:
             member = defaultdict()
             member['id'] = m['id']
             member['emp_id'] = m['user_id']
             member['project_id'] = m['project_id']
-
-            members.append(Member(**member))
+            if member['emp_id'] in employees:
+                members.append(Member(**member))
 
         return members
 
