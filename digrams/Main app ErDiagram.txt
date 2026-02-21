@@ -91,3 +91,81 @@ erDiagram
 
     USER_PROJECT ||--o{ USER : assigned_to
     USER_PROJECT ||--o{ PROJECT : assigned_to
+
+----------- v2 ----------------.
+erDiagram
+	
+
+	users {
+		UUID id
+		VARCHAR(50) username
+		VARCHAR(255) email
+		TEXT password
+		role_enum role
+		TIMESTAMPTZ created_at
+	}
+
+	projects {
+		SERIAL id
+		VARCHAR(150) name
+		VARCHAR(50) identifier
+		TIMESTAMPTZ created_on
+		TIMESTAMPTZ updated_on
+	}
+
+	user_project {
+		SERIAL id
+		UUID user_id
+		INTEGER project_id
+	}
+
+	departments {
+		SERIAL dep_id
+		VARCHAR(100) dep_name
+	}
+
+	employees {
+		SERIAL emp_id
+		VARCHAR(150) emp_full_name
+		VARCHAR(255) emp_email
+		TIMESTAMPTZ hire_date
+		INTEGER dep_id
+	}
+
+	members {
+		SERIAL id
+		INTEGER emp_id
+		INTEGER project_id
+	}
+
+	attendance_events {
+		SERIAL id
+		VARCHAR(100) name
+	}
+
+	employee_attendance_event {
+		SERIAL id
+		INTEGER emp_id
+		INTEGER event_id
+		TIMESTAMPTZ apply_time
+		TIMESTAMPTZ start_date
+		TIMESTAMPTZ end_date
+	}
+
+	attendance {
+		SERIAL id
+		INTEGER emp_id
+		TIMESTAMPTZ check_in
+		TIMESTAMPTZ check_out
+		TIMESTAMPTZ att_date
+		INTEGER week_day
+	}
+
+    user_project }o--|| users : references
+	user_project }o--|| projects : references
+	employees }o--|| departments : references
+	members }o--|| employees : references
+	members }o--|| projects : references
+	employee_attendance_event }o--|| employees : references
+	employee_attendance_event }o--|| attendance_events : references
+	attendance }o--|| employees : references

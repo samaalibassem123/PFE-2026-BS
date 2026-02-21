@@ -1,0 +1,141 @@
+-- =========================
+-- USERS
+-- =========================
+CREATE TYPE role_enum AS ENUM (
+    'ADMIN',
+    'RH',
+    'PROJECT_MANAGER'
+);
+
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    username VARCHAR(50),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role role_enum DEFAULT 'ADMIN',
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_email ON users(email);
+
+
+-- =========================
+-- PROJECTS
+-- =========================
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    identifier VARCHAR(50) UNIQUE,
+    created_on TIMESTAMPTZ DEFAULT NOW(),
+    updated_on TIMESTAMPTZ
+);
+
+
+-- =========================
+-- USER_PROJECT (Many-to-Many Users ↔ Projects)
+-- =========================
+CREATE TABLE user_project (
+    id SERIAL PRIMARY KEY,
+    user_id UUID NOT NULL,
+    project_id INTEGER NOT NULL,
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_project
+        FOREIGN KEY(project_id)
+        REFERENCES projects(id)
+        ON DELETE CASCADE
+);
+
+
+-- =========================
+-- DEPARTMENTS
+-- =========================
+CREATE TABLE departments (
+    dep_id SERIAL PRIMARY KEY,
+    dep_name VARCHAR(100) NOT NULL
+);
+
+
+-- =========================
+-- EMPLOYEES
+-- =========================
+CREATE TABLE employees (
+    emp_id SERIAL PRIMARY KEY,
+    emp_full_name VARCHAR(150) NOT NULL,
+    emp_email VARCHAR(255) UNIQUE NOT NULL,
+    hire_date TIMESTAMPTZ,
+    dep_id INTEGER,
+    CONSTRAINT fk_department
+        FOREIGN KEY(dep_id)
+        REFERENCES departments(dep_id)
+);
+
+
+-- =========================
+-- MEMBERS (Employees ↔ Projects)
+-- =========================
+CREATE TABLE members (
+    id SERIAL PRIMARY KEY,
+    emp_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
+    CONSTRAINT fk_member_employee
+        FOREIGN KEY(emp_id)
+        REFERENCES employees(emp_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_member_project
+        FOREIGN KEY(project_id)
+        REFERENCES projects(id)
+        ON DELETE CASCADE
+);
+
+
+-- =========================
+-- ATTENDANCE EVENTS
+-- =========================
+CREATE TABLE attendance_events (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+
+-- =========================
+-- EMPLOYEE ATTENDANCE EVENT
+-- =========================
+CREATE TABLE employee_attendance_event (
+    id SERIAL PRIMARY KEY,
+    emp_id INTEGER NOT NULL,
+    event_id INTEGER NOT NULL,
+    apply_time TIMESTAMPTZ DEFAULT NOW(),
+    start_date TIMESTAMPTZ NOT NULL,
+    end_date TIMESTAMPTZ,
+    CONSTRAINT fk_event_employee
+        FOREIGN KEY(emp_id)
+        REFERENCES employees(emp_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_event_type
+        FOREIGN KEY(event_id)
+        REFERENCES attendance_events(id)
+        ON DELETE RESTRICT
+);
+
+
+-- =========================
+-- DAILY ATTENDANCE
+-- =========================
+CREATE TABLE attendance (
+    id SERIAL PRIMARY KEY,
+    emp_id INTEGER NOT NULL,
+    check_in TIMESTAMPTZ,
+    check_out TIMESTAMPTZ,
+    att_date TIMESTAMPTZ NOT NULL,
+    week_day INTEGER NOT NULL,
+    CONSTRAINT fk_attendance_employee
+        FOREIGN KEY(emp_id)
+        REFERENCES employees(emp_id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX idx_attendance_date ON attendance(att_date);

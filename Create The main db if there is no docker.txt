@@ -13,3 +13,8 @@ step 3 :
 
 connect to ur db :
 	psql -h localhost -U user -d MainAppDB -p TON_PORT
+
+
+
+
+
