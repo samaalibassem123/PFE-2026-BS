@@ -8,7 +8,7 @@
         - personnel_department
         - att_paycode
 '''
-from sqlalchemy import create_engine, MetaData, Table
+from sqlalchemy import create_engine, MetaData, Table, select
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -34,35 +34,35 @@ class BiotimeDBServices:
     # Views
     def get_BiotimeEmployees(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.query(BIOTIME_EMPLOYEE_VIEW).all()
-            print(res) # the results are sturecture as tuples on a list [()]
+            res = session.execute(select(BIOTIME_EMPLOYEE_VIEW)).all()
+            print(res)
             return res
 
 
     def get_BiotimeCheckInOut(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.query(CHECK_IN_OUT_VIEW).all()
-            print(res) # the results are sturecture as tuples on a list [()]
+            res = session.execute(select(CHECK_IN_OUT_VIEW)).all()
+            print(res)
             return res
 
     def get_BiotimeAttLeave(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.query(BIOTIME_ATT_LEAVE_VIEW).all()
-            print(res)  # the results are sturecture as tuples on a list [()]
+            res = session.execute(select(BIOTIME_ATT_LEAVE_VIEW)).all()
+            print(res)
             return res
 
 
     # Tables
     def get_BiotimeDepratments(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.query(personnel_department).all()
-            print(res) # the results are sturecture as tuples on a list [()]
+            res = session.execute(select(personnel_department)).all()
+            print(res)
             return res
 
     def get_BiotimeAttPaycode(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.query(att_paycode).all()
-            print(res)  # the results are sturecture as tuples on a list [()]
+            res = session.execute(select(att_paycode)).all()
+            print(res)
             return res
 
 
