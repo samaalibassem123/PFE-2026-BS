@@ -34,20 +34,20 @@ class BiotimeDBServices:
     # Views
     def get_BiotimeEmployees(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.execute(select(BIOTIME_EMPLOYEE_VIEW)).all()
+            res = session.execute(select(BIOTIME_EMPLOYEE_VIEW)).mappings().all()
             print(res)
             return res
 
 
     def get_BiotimeCheckInOut(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.execute(select(CHECK_IN_OUT_VIEW)).all()
+            res = session.execute(select(CHECK_IN_OUT_VIEW)).mappings().all()
             print(res)
             return res
 
     def get_BiotimeAttLeave(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.execute(select(BIOTIME_ATT_LEAVE_VIEW)).all()
+            res = session.execute(select(BIOTIME_ATT_LEAVE_VIEW)).mappings().all()
             print(res)
             return res
 
@@ -55,13 +55,13 @@ class BiotimeDBServices:
     # Tables
     def get_BiotimeDepratments(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.execute(select(personnel_department)).all()
+            res = session.execute(select(personnel_department)).mappings().all()
             print(res)
             return res
 
     def get_BiotimeAttPaycode(self):
         with Session(BiotimeDb_engine) as session:
-            res = session.execute(select(att_paycode)).all()
+            res = session.execute(select(att_paycode)).mappings().all()
             print(res)
             return res
 
