@@ -101,7 +101,10 @@ class TransformerService:
     def transform_att_event(data):
         att_events = []
         for ev in data:
-            att_events.append(AttendanceEvent(**ev))
+            att_event = defaultdict()
+            att_event['id'] = ev['id']
+            att_event['name'] = ev['name']
+            att_events.append(AttendanceEvent(**att_event))
 
         return att_events
 
