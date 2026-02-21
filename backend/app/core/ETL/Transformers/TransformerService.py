@@ -3,7 +3,7 @@ from collections import defaultdict
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.ETL.Extractors import Biotime_extractor, EasyProject_extractor
-from app.core.database.models import Department, Employee, Attendance
+from app.core.database.models import Department, Employee, Attendance, Project, Member, AttendanceEvent
 
 
 class TransformerService:
@@ -44,6 +44,7 @@ class TransformerService:
     @staticmethod
     def transform_biotime_checkinout_view(data):
         attendances = []
+        employees = EasyProject_extractor.get_employees()
         for att in data:
             attendance = defaultdict()
             attendance['id'] = att['id']
@@ -59,7 +60,7 @@ class TransformerService:
 
             # get employees from easy project
             # insert the emp only if u find his id
-            employees = EasyProject_extractor.get_employees()
+
             for e in employees:
                 if att['email'] == e['email'] or att['first_name'] == e['emp_fullname']:
                     attendance['emp_id'] = e['ep_emp_id']
@@ -68,3 +69,68 @@ class TransformerService:
 
         return attendances
 
+    @staticmethod
+    def transform_projects(data):
+        projects = []
+        for p in data:
+            projects.append(Project(**p))
+        return projects
+
+    @staticmethod
+    def transform_members(data):
+        members = []
+        for m in data:
+            member = defaultdict()
+            member['id'] = m['id']
+            member['emp_id'] = m['user_id']
+            member['project_id'] = m['project_id']
+
+            members.append(Member(**member))
+
+        return members
+
+    @staticmethod
+    def transform_att_event(data):
+        att_events = []
+        for ev in data:
+            att_events.append(AttendanceEvent(**ev))
+
+        return att_events
+
+
+    @staticmethod
+    def transform_easy_emp_att_events(data):
+        emp_att_events = []
+        for ev in data:
+            emp_att = defaultdict()
+            emp_att['id'] = ev['id']
+            emp_att['apply_time'] = ev['created_at']
+            emp_att['start_date'] = ev['arrival']
+            emp_att['end_date'] = ev['departure']
+            emp_att['emp_id'] = ev['ep_emp_id']
+            emp_att['event_id'] = ev['activity_id']
+
+            emp_att_events.append(AttendanceEvent(**emp_att))
+
+        return emp_att_events
+
+    @staticmethod
+    def transform_biotime_emp_att_events(data):
+        emp_att_events = []
+        employees = EasyProject_extractor.get_employees()
+        for ev in data:
+            emp_att = defaultdict()
+            emp_att['id'] = ev['id']
+            emp_att['apply_time'] = ev['apply_time']
+            emp_att['start_date'] = ev['start_time']
+            emp_att['end_date'] = ev['end_time']
+            emp_att['event_id'] = ev['pay_code_id']
+
+            # search for the emp id before inserting
+            for e in employees:
+                if ev['email'] == e['email'] or ev['first_name'] == e['emp_fullname']:
+                    emp_att['emp_id'] = e['ep_emp_id']
+                    emp_att_events.append(Attendance(**emp_att))
+                    break
+
+        return emp_att_events
