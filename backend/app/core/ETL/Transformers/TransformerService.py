@@ -3,7 +3,8 @@ from collections import defaultdict
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.ETL.Extractors import Biotime_extractor, EasyProject_extractor
-from app.core.database.models import Department, Employee, Attendance, Project, Member, AttendanceEvent
+from app.core.database.models import Department, Employee, Attendance, Project, Member, AttendanceEvent, \
+    EmployeeAttendanceEvent
 
 
 class TransformerService:
@@ -117,14 +118,13 @@ class TransformerService:
         emp_att_events = []
         for ev in data:
             emp_att = defaultdict()
-            emp_att['id'] = int(ev['id']) + 13
             emp_att['apply_time'] = ev['created_at']
             emp_att['start_date'] = ev['arrival']
             emp_att['end_date'] = ev['departure']
             emp_att['emp_id'] = ev['ep_emp_id']
-            emp_att['event_id'] = ev['activity_id']
+            emp_att['event_id'] = int(ev['activity_id']) + 19 #19 the numver of all events on biotime so the new id added without repeating or conflicts
 
-            emp_att_events.append(AttendanceEvent(**emp_att))
+            emp_att_events.append(EmployeeAttendanceEvent(**emp_att))
 
         return emp_att_events
 
@@ -134,7 +134,7 @@ class TransformerService:
         employees = EasyProject_extractor.get_employees()
         for ev in data:
             emp_att = defaultdict()
-            emp_att['id'] = ev['id']
+           
             emp_att['apply_time'] = ev['apply_time']
             emp_att['start_date'] = ev['start_time']
             emp_att['end_date'] = ev['end_time']
@@ -144,7 +144,7 @@ class TransformerService:
             for e in employees:
                 if ev['email'] == e['email'] or ev['first_name'] == e['emp_fullname']:
                     emp_att['emp_id'] = e['ep_emp_id']
-                    emp_att_events.append(Attendance(**emp_att))
+                    emp_att_events.append(EmployeeAttendanceEvent(**emp_att))
                     break
 
         return emp_att_events

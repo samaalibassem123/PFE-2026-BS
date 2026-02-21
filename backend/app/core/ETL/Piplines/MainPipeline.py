@@ -35,7 +35,7 @@ async def MainPipeline(db:AsyncSession):
         #await ETL_Members(db)
 
         # load attendance events
-        await ETL_AttEvents(db)
+        #await ETL_AttEvents(db)
 
         # load Employee attendance Events
         await ETL_EmpAttEvents(db)

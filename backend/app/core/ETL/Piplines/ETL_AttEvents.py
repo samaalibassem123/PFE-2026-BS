@@ -11,7 +11,7 @@ async def ETL_AttEvents(db:AsyncSession):
     att_event_biotime = Biotime_extractor.get_BiotimeAttPaycode()
 
     # Transform
-    transformed_att_event_easyP = TransformerService.transform_att_event(att_event_easyP, id_step=13)
+    transformed_att_event_easyP = TransformerService.transform_att_event(att_event_easyP, id_step=19)
     transformed_att_event_biotime = TransformerService.transform_att_event(att_event_biotime)
 
     # Loading of the two transfomed table from biotime and easyprojects
