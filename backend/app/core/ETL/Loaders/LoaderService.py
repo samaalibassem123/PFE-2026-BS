@@ -1,8 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.core import DB_dependecy
-from app.core.database.models import Department, Employee
+from app.core.database.models import Department, Employee, Attendance
 
 
 class LoaderService:
@@ -23,3 +21,13 @@ class LoaderService:
             return True
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
+    async def load_attendance(attendaces: list[Attendance], db: AsyncSession):
+        try:
+            db.add_all(attendaces)
+            await db.commit()
+            return True
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
