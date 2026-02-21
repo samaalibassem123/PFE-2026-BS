@@ -97,12 +97,15 @@ class TransformerService:
 
         return members
 
+    '''
+        id_step so confilcts between biotime and easyP don't happed
+    '''
     @staticmethod
-    def transform_att_event(data):
+    def transform_att_event(data, id_step:int=0):
         att_events = []
         for ev in data:
             att_event = defaultdict()
-            att_event['id'] = ev['id']
+            att_event['id'] = int(ev['id']) + id_step
             att_event['name'] = ev['name']
             att_events.append(AttendanceEvent(**att_event))
 
@@ -114,7 +117,7 @@ class TransformerService:
         emp_att_events = []
         for ev in data:
             emp_att = defaultdict()
-            emp_att['id'] = ev['id']
+            emp_att['id'] = int(ev['id']) + 13
             emp_att['apply_time'] = ev['created_at']
             emp_att['start_date'] = ev['arrival']
             emp_att['end_date'] = ev['departure']
