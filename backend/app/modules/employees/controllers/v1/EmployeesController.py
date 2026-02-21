@@ -5,7 +5,9 @@ from app.core.external_database import Biotime_DB, EasyProject_DB
 
 employees_router = APIRouter(prefix="/v1/employees", tags=["Employees"])
 
+'''
+    this api fill the department table at first than the employees table
+'''
 @employees_router.post('/fill_table')
 async def fill_employee_table(db:DB_dependecy):
-    EasyProject_DB.get_attendance()
-    Biotime_DB.get_BiotimeEmploye()
+    pass
