@@ -9,12 +9,13 @@ from app.core.database.models import Member, Employee, Project, UserProject
 class MemberService:
     @staticmethod
     async def get_members(userid,db:AsyncSession, limit: int = 50,offset: int = 0):
+
         try:
             stm = (select(Member, UserProject)
             .join(UserProject, Member.project_id == UserProject.project_id)
             .options(joinedload(Member.employee),
                      joinedload(Member.project))
-            .where(userid == UserProject.user_id )
+            .where(UserProject.user_id == str(userid) )
             .limit(limit)
             .offset(offset))
 

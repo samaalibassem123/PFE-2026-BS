@@ -10,7 +10,7 @@ class EasyProjectDbService:
     def get_employees(self):
         with Session(EasyProjectdb_engine) as session:
             res = session.execute(select(EASY_EMPLOYEE_VIEW)).mappings().all()
-            print(res)
+
             return res
 
     def get_attendance(self):
