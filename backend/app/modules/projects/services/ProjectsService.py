@@ -7,9 +7,9 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, P
 
 class ProjectsService:
     @staticmethod
-    async def get_projects(db:AsyncSession):
+    async def get_projects(db:AsyncSession, limit: int = 50,offset: int = 0):
         try:
-            projects = await db.execute(select(Project))
+            projects = await db.execute(select(Project).limit(limit).offset(offset))
             return projects.scalars().all()
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))

@@ -7,11 +7,11 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, E
 
 class EmployeesLeaveService:
     @staticmethod
-    async def get_employees_leave(db:AsyncSession):
+    async def get_employees_leave(db:AsyncSession, limit: int = 50,offset: int = 0):
         # get employees with their attendance events
         stm = (select(EmployeeAttendanceEvent, AttendanceEvent, Employee)
                .join(AttendanceEvent, EmployeeAttendanceEvent.event_id == AttendanceEvent.id)
-               .join(Employee ,EmployeeAttendanceEvent.emp_id == Employee.id))
+               .join(Employee ,EmployeeAttendanceEvent.emp_id == Employee.id).limit(limit).offset(offset))
         try:
             emps_leave = await db.execute(stm)
             return emps_leave.scalars().all()
