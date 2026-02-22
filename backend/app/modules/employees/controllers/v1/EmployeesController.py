@@ -1,13 +1,12 @@
 from fastapi import APIRouter
 
 from app.core import DB_dependecy
-
+from app.modules.employees.services.EmployeesServices import EmployeesServices
 
 employees_router = APIRouter(prefix="/v1/employees", tags=["Employees"])
 
-'''
-    this api fill the department table at first than the employees table
-'''
-@employees_router.post('/fill_table')
-async def fill_employee_table(db:DB_dependecy):
-    pass
+
+@employees_router.post('/')
+async def get_employees(db:DB_dependecy):
+     employees = await EmployeesServices.get_Employees(db)
+     return employees

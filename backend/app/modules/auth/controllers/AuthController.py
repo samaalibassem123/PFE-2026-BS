@@ -26,7 +26,7 @@ async def login(request:Request,response:Response,user:UserLoginRequest, db:DB_d
     set the token httponly
     '''
 
-    token = create_access_token({"email":user.email, "role":user.role})
+    token = create_access_token({"id":user.id,"email":user.email, "role":user.role})
     response.set_cookie(
         key='access_token',
         value=token,
