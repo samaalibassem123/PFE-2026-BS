@@ -1,18 +1,25 @@
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
-from app.core.database.models import  Member, Employee, Project
+from app.core.database.models import Member, Employee, Project, UserProject
 
 
 class MemberService:
     @staticmethod
-    async def get_members(db:AsyncSession, limit: int = 50,offset: int = 0):
-        stm = (select(Member, Employee, Project)
-               .join(Project,Member.project_id == Project.id)
-               .join(Employee, Member.emp_id == Employee.id).limit(limit).offset(offset))
+    async def get_members(userid,db:AsyncSession, limit: int = 50,offset: int = 0):
         try:
+            stm = (select(Member, UserProject)
+            .join(UserProject, Member.project_id == UserProject.project_id)
+            .options(joinedload(Member.employee),
+                     joinedload(Member.project))
+            .where(userid == UserProject.user_id )
+            .limit(limit)
+            .offset(offset))
+
             members = await db.execute(stm)
             return members.scalars().all()
+
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
