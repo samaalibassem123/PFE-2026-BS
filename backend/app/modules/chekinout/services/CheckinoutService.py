@@ -14,13 +14,13 @@ class CheckinOutService:
 
             # filters
             if fullname :
-                query = query.where(Employee.full_name == fullname)
+                query = query.where(Employee.full_name.ilike(f"%{fullname}%"))
             if email:
-                query = query.where(Employee.email == email)
+                query = query.where(Employee.email.ilike(f"{email}"))
             if att_date :
                 query = query.where(Attendance.att_date == att_date)
             # total numbers of attendace
-            total = await db.execute(select(func.count()))
+            total = await db.execute(select(func.count()).select_from(query.subquery()))
             # result with pagination
             result = await db.execute(query.options(joinedload(Attendance.employee)).limit(limit).offset(offset))
             checkinouts = result.scalars().all()
