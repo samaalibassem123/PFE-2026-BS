@@ -14,10 +14,9 @@ auth_router = APIRouter(prefix='/auth', tags=['Auth'])
 @auth_router.post('/login', response_model=UserLoginRespone)
 async def login(request:Request,response:Response,user:UserLoginRequest, db:DB_dependecy):
 
-    '''
-    step 1 : Auth the user
-    the authuser fnc will handle any problem like the user does not exist or the password is incorrect
-    '''
+
+    # step 1 : Auth the user
+    # the authuser fnc will handle any problem like the user does not exist or the password is incorrect
 
     user = await AuthService.authUser(db,user)
 
@@ -26,7 +25,7 @@ async def login(request:Request,response:Response,user:UserLoginRequest, db:DB_d
     set the token httponly
     '''
 
-    token = create_access_token({"id":user.id,"email":user.email, "role":user.role})
+    token = create_access_token({"id":str(user.id),"email":user.email, "role":user.role})
     response.set_cookie(
         key='access_token',
         value=token,
