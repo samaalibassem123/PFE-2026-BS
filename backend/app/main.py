@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 
 from app.core import DB_dependecy
+from app.core.config import settings
 #from app.core.ETL.Piplines.MainPipeline import MainPipeline
 from app.modules.auth.controllers.AuthController import auth_router
 from app.modules.chekinout.controllers.v1.CheckinoutController import checkinout_router
@@ -28,7 +29,7 @@ app.add_middleware(
 async def elt_db(db:DB_dependecy):
     return await MainPipeline(db)'''
 
-
+print(settings.POSTGRES_PORT)
 
 app.include_router(auth_router)
 app.include_router(user_router , prefix="/api")
