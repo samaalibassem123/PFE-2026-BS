@@ -7,20 +7,21 @@ from app.core.external_database.BiotimeDb import BiotimeDb_engine, CHECK_IN_OUT_
 
 class BiotimeDBServices:
     # Views
-    def get_BiotimeEmployees(self):
+    @staticmethod
+    def get_BiotimeEmployees():
         with Session(BiotimeDb_engine) as session:
             res = session.execute(select(BIOTIME_EMPLOYEE_VIEW)).mappings().all()
 
             return res
 
-
-    def get_BiotimeCheckInOut(self):
+    @staticmethod
+    def get_BiotimeCheckInOut():
         with Session(BiotimeDb_engine) as session:
             res = session.execute(select(CHECK_IN_OUT_VIEW)).mappings().all()
 
             return res
-
-    def get_BiotimeAttLeave(self):
+    @staticmethod
+    def get_BiotimeAttLeave():
         with Session(BiotimeDb_engine) as session:
             res = session.execute(select(BIOTIME_ATT_LEAVE_VIEW)).mappings().all()
 
@@ -28,13 +29,14 @@ class BiotimeDBServices:
 
 
     # Tables
-    def get_BiotimeDepratments(self):
+    @staticmethod
+    def get_BiotimeDepratments():
         with Session(BiotimeDb_engine) as session:
             res = session.execute(select(personnel_department)).mappings().all()
 
             return res
-
-    def get_BiotimeAttPaycode(self):
+    @staticmethod
+    def get_BiotimeAttPaycode():
         with Session(BiotimeDb_engine) as session:
             res = session.execute(select(att_paycode)).mappings().all()
 
