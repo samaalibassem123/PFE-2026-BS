@@ -19,11 +19,11 @@ class MemberService:
                      .where(UserProject.user_id == str(userid) ))
 
             if member_name:
-                query.where(Employee.full_name.ilike(f"%{member_name}%"))
+                query = query.where(Employee.full_name.ilike(f"%{member_name}%"))
             if member_email:
-                query.where(Employee.email.ilike(f"%{member_email}%"))
+                query = query.where(Employee.email.ilike(f"%{member_email}%"))
             if project_name:
-                query.where(Project.name.ilike(f"%{project_name}%"))
+                query = query.where(Project.name.ilike(f"%{project_name}%"))
 
 
             total_res = await db.execute(select(func.count()).select_from(query.subquery()))
