@@ -7,7 +7,7 @@ from app.modules.projects.services.ProjectsService import ProjectsService
 projects_router = APIRouter(prefix='/v1/projects', tags=['Projects'])
 
 @projects_router.get('/')
-async def get_projects(db:DB_dependecy, limit: int = 50,offset: int = 0, name:str|None=None, year:int|None=None, month:str|None=None,user=Depends(get_current_user)):
+async def get_projects(db:DB_dependecy, limit: int = 50,offset: int = 0, name:str|None=None, year:int|None=None, month:int|None=None,user=Depends(get_current_user)):
     projects = await ProjectsService.get_projects(user,db,limit,offset,name, year, month)
     return projects
 

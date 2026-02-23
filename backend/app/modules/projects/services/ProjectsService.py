@@ -7,7 +7,7 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, P
 
 class ProjectsService:
     @staticmethod
-    async def get_projects(user:dict,db:AsyncSession, limit: int = 50,offset: int = 0, name:str|None=None, year:int|None=None, month:str|None=None):
+    async def get_projects(user:dict,db:AsyncSession, limit: int = 50,offset: int = 0, name:str|None=None, year:int|None=None, month:int|None=None):
         try:
             query = select(Project, UserProject)
             if user['role']=="PROJECT_MANAGER": # get only the project that assigned to the PM
