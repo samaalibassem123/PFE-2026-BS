@@ -10,7 +10,7 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, E
 
 class MembersAttendanceService:
     @staticmethod
-    async def get_members_att(userId, db:AsyncSession, limit: int = 50,offset: int = 0, email:str|None=None, member_name:str|None=None, project_name:str|None=None, start_date:int|None=None, end_date:int|None=None ):
+    async def get_members_att(userId, db:AsyncSession, limit: int = 50,offset: int = 0, email:str|None=None, member_name:str|None=None, project_name:str|None=None, start_date:int|None=None, end_date:int|None=None, event:str|None=None ):
 
 
 
@@ -33,9 +33,13 @@ class MembersAttendanceService:
             if start_date and end_date:
                 query = query.where(extract("year", EmployeeAttendanceEvent.start_date) >= start_date, extract("year", EmployeeAttendanceEvent.end_date) <=end_date)
 
+            if event:
+                query = query.where(AttendanceEvent.name == event)
+
+
             total_res = await db.execute(select(func.count()).select_from(query.subquery()))
             total = total_res.scalar_one()
-            result = await db.execute(query.options(joinedload(EmployeeAttendanceEvent.employee), joinedload(Member.project)).limit(limit).offset(offset))
+            result = await db.execute(query.options(joinedload(EmployeeAttendanceEvent.employee),  joinedload(EmployeeAttendanceEvent.event)).limit(limit).offset(offset))
             members_att = result.scalars().all()
 
             return {
