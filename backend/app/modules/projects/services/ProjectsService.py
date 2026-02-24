@@ -3,6 +3,7 @@ from sqlalchemy import select, extract, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, Project, UserProject
+from app.modules.projects.schemas.ProjectSchemas import GetProjectsResponse
 
 
 class ProjectsService:

@@ -128,6 +128,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+
       <div className="  justify-end flex gap-2 items-center w-full p-4">
         <Select onValueChange={(value) => onLimitChange(Number(value))}>
           <SelectTrigger className="w-fit">
