@@ -55,7 +55,7 @@ const Navigations: NavigationItem[] = [
     link: "/user/projects",
     icon: <Folder className={IconStyle} />,
     label: "Projects",
-    RoleView: ["PROJECT_MANAGER"],
+    RoleView: ["PROJECT_MANAGER", "ADMIN"],
   },
   {
     link: "/user/employees",

@@ -7,9 +7,10 @@ import {
   get_users_api,
   update_user_api,
 } from "../api/users.api";
-import type { UserData, userUpdateArgs } from "../type";
+import type { UsersData, userUpdateArgs } from "../type";
 
 import { getErrorMessage } from "@/shared/api/backend";
+import type { AvailableRoles } from "@/utils/Roles";
 
 export const useCreateUser = () => {
   const client = useQueryClient();
@@ -22,10 +23,15 @@ export const useCreateUser = () => {
   });
 };
 
-export const useGetUsers = () => {
-  return useQuery<UserData[]>({
-    queryKey: ["users"],
-    queryFn: get_users_api,
+export const useGetUsers = (params: {
+  limit: number;
+  offset: number;
+  role: AvailableRoles | "";
+  email: string;
+}) => {
+  return useQuery<UsersData>({
+    queryKey: ["users", params],
+    queryFn: () => get_users_api(params),
     staleTime: 5 * 60 * 1000,
   });
 };

@@ -15,6 +15,11 @@ export interface UserData {
   created_at: string;
 }
 
+export interface UsersData {
+  total: number;
+  data: UserData[];
+}
+
 export interface UserUpdateData {
   username: string;
   email: string;

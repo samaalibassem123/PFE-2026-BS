@@ -1,5 +1,6 @@
 import api from "@/shared/api/backend";
-import type { UserCreateSchma, UserData, UserUpdateData } from "../type";
+import type { UserCreateSchma, UsersData, UserUpdateData } from "../type";
+import type { AvailableRoles } from "@/utils/Roles";
 
 export const create_user_api = async (user: UserCreateSchma) => {
   const { data } = await api.post("/api/v1/user/", user);
@@ -11,8 +12,13 @@ export const delete_user_api = async (user_id: string) => {
   return data;
 };
 
-export const get_users_api = async () => {
-  const { data } = await api.get<UserData[]>("/api/v1/user/");
+export const get_users_api = async (params: {
+  limit: number;
+  offset: number;
+  role: AvailableRoles | "";
+  email: string;
+}) => {
+  const { data } = await api.get<UsersData>("/api/v1/user/", { params });
   return data;
 };
 

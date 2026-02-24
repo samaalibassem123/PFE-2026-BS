@@ -42,13 +42,17 @@ async def get_user(email:str, db:DB_dependecy):
         raise HTTPException(status_code=400, detail='Server Error' )
 
 
-@user_router.get('/', response_model=list[UserResponseSchema])
-async def get_users(db:DB_dependecy, current_user=Depends(get_current_user)):
-    try:
-        users = await UserService.fetch_all_users(db, current_user)
-        return users
-    except:
-        raise HTTPException(status_code=400, detail='Server Error')
+@user_router.get('/')
+async def get_users(db:DB_dependecy,
+                    limit:int|None=5,
+                    offset:int|None = 0,
+                    role: str|None = None,
+                    email:str|None = None,
+                    current_user=Depends(get_current_user)):
+
+    users = await UserService.fetch_all_users(db, current_user, limit, offset, role, email)
+    return users
+
 
 
 @user_router.delete('/{user_id}')

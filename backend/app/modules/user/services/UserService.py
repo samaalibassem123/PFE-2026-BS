@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth.security import hash_password
@@ -30,9 +30,32 @@ class UserService:
         user  = await db.execute(select(User).where(User.id == user_id))
         return user.scalars().first()
 
-    async def fetch_all_users(db:AsyncSession, user):
-        users = await db.execute(select(User).where(User.email != user['email']))
-        return users.scalars().all()
+    async def fetch_all_users(db:AsyncSession, user,
+                    limit:int|None=5,
+                    offset:int|None = 0,
+                    role: str|None = None,
+                    email:str|None = None,):
+        try:
+            #filters
+            query = select(User).where(User.email != user['email'])
+            if role:
+                query = query.where(User.role == role)
+            if email:
+                query = query.where(User.email.ilike(f"%{email}%"))
+
+            total_res = await db.execute(select(func.count()).select_from(query.subquery()))
+            total = total_res.scalar_one()
+
+            result = await db.execute(query.limit(limit).offset(offset))
+            users = result.scalars().all()
+
+            return {
+                "total":total,
+                "data":users
+            }
+        except Exception as e :
+            raise HTTPException(status_code=400, detail=str(e))
+
 
     async def delete_user_by_id(db:AsyncSession, user_id):
         user = await db.get(User, user_id)
