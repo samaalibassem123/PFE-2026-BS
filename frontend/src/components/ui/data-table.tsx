@@ -67,14 +67,12 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-
-    getPaginationRowModel: getPaginationRowModel(),
   });
 
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="overflow-hidden  border">
+    <div className="  border">
       {/** FILTERS COMPONENT */}
       {children}
       <Table>

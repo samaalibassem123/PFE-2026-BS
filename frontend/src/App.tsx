@@ -12,6 +12,8 @@ import ProjectmangerRoutes from "./routes/ProjectmangerRoutes";
 import RhRoutes from "./routes/RhRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import { UserIndexRedirect } from "./routes/UserIndexRedirect";
+import { AssingProjectPage, ProjectsPage } from "./modules/projects";
+import RoleRoutesGuard from "./guards/RoleRoutesGuard";
 
 export function App() {
   return (
@@ -31,6 +33,15 @@ export function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/user" element={<MainAppLayout />}>
             <Route index element={<UserIndexRedirect />} />
+            <Route
+              element={
+                <RoleRoutesGuard AllowedRoles={["ADMIN", "PROJECT_MANAGER"]} />
+              }
+            >
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="projects/:id" element={<AssingProjectPage />} />
+            </Route>
+
             {AdminRoutes()}
             {ProjectmangerRoutes()}
             {RhRoutes()}

@@ -14,7 +14,7 @@ export function UserIndexRedirect() {
   if (isPending) {
     return <LoadingPage />;
   }
-  const path = roleDashboardMap[data.role];
+  const path = roleDashboardMap[data["role"]];
 
   return <Navigate to={path || "/unauthorized"} replace />;
 }
