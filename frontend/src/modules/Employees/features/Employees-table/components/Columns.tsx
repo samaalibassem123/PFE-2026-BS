@@ -1,3 +1,4 @@
+import OnHoverText from "@/components/OnHoverText";
 import type { EmployeeData } from "@/modules/Employees/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -7,21 +8,27 @@ export const EmployessColumns: ColumnDef<EmployeeData>[] = [
     accessorKey: "email",
     header: "Employee Email",
     cell: ({ row }) => (
-      <p className=" truncate w-[130px] ">{row.original.email}</p>
+      <OnHoverText msg={row.original.email}>
+        <p className=" truncate w-[130px] ">{row.original.email}</p>
+      </OnHoverText>
     ),
   },
   {
     accessorKey: "full_name",
     header: "Employee Name",
     cell: ({ row }) => (
-      <p className=" truncate w-[130px] ">{row.original.full_name}</p>
+      <OnHoverText msg={row.original.full_name}>
+        <p className=" truncate w-[130px] ">{row.original.full_name}</p>
+      </OnHoverText>
     ),
   },
   {
     accessorKey: "department.name",
     header: "Department",
     cell: ({ row }) => (
-      <p className=" truncate w-[130px] ">{row.original.department.name}</p>
+      <OnHoverText msg={row.original.department.name}>
+        <p className=" truncate w-[130px] ">{row.original.department.name}</p>
+      </OnHoverText>
     ),
   },
   {

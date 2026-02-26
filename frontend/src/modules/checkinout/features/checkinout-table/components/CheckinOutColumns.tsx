@@ -1,3 +1,4 @@
+import OnHoverText from "@/components/OnHoverText";
 import { getDayName } from "@/lib/utils";
 import type { CheckInoutData } from "@/modules/checkinout/types";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -8,18 +9,20 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     accessorKey: "employee.full_name",
     header: "employee_fullname",
     cell: ({ row }) => (
-      <span className=" truncate w-[130px] ">
-        {row.original.employee.full_name}
-      </span>
+      <OnHoverText msg={row.original.employee.full_name}>
+        <p className=" truncate w-[130px] ">
+          {row.original.employee.full_name}
+        </p>
+      </OnHoverText>
     ),
   },
   {
     accessorKey: "employee.email",
     header: "employee_email",
     cell: ({ row }) => (
-      <span className=" truncate w-[130px] ">
-        {row.original.employee.email}
-      </span>
+      <OnHoverText msg={row.original.employee.email}>
+        <p className=" truncate w-[130px] ">{row.original.employee.email}</p>
+      </OnHoverText>
     ),
   },
   {

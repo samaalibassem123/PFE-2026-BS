@@ -11,20 +11,25 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import dayjs from "dayjs";
+import OnHoverText from "@/components/OnHoverText";
 
 export const columns: ColumnDef<ProjectData>[] = [
   {
     accessorKey: "name",
     header: "Project name",
     cell: ({ row }) => (
-      <p className=" truncate w-[130px] ">{row.original.name}</p>
+      <OnHoverText msg={row.original.name}>
+        <p className=" truncate w-[130px] ">{row.original.name}</p>
+      </OnHoverText>
     ),
   },
   {
     accessorKey: "identifier",
     header: "Identifier",
     cell: ({ row }) => (
-      <p className=" truncate w-[130px] ">{row.original.identifier}</p>
+      <OnHoverText msg={row.original.identifier}>
+        <p className=" truncate w-[130px] ">{row.original.identifier}</p>
+      </OnHoverText>
     ),
   },
   {
