@@ -8,7 +8,7 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     accessorKey: "employee.full_name",
     header: "employee_fullname",
     cell: ({ row }) => (
-      <span className=" truncate max-w-full ">
+      <span className=" truncate w-[130px] ">
         {row.original.employee.full_name}
       </span>
     ),
@@ -17,7 +17,7 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     accessorKey: "employee.email",
     header: "employee_email",
     cell: ({ row }) => (
-      <span className=" truncate max-w-full ">
+      <span className=" truncate w-[130px] ">
         {row.original.employee.email}
       </span>
     ),

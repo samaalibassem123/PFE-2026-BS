@@ -7,21 +7,21 @@ export const EmployessColumns: ColumnDef<EmployeeData>[] = [
     accessorKey: "email",
     header: "Employee Email",
     cell: ({ row }) => (
-      <span className=" truncate max-w-full ">{row.original.email}</span>
+      <span className=" truncate w-[130px] ">{row.original.email}</span>
     ),
   },
   {
     accessorKey: "full_name",
     header: "Employee Name",
     cell: ({ row }) => (
-      <span className=" truncate max-w-full ">{row.original.full_name}</span>
+      <span className=" truncate w-[130px] ">{row.original.full_name}</span>
     ),
   },
   {
     accessorKey: "department.name",
     header: "Department",
     cell: ({ row }) => (
-      <span className=" truncate max-w-full ">
+      <span className=" truncate w-[130px] ">
         {row.original.department.name}
       </span>
     ),
