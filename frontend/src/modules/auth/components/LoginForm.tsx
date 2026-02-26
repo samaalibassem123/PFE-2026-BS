@@ -6,16 +6,16 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLegend,
-  FieldSeparator,
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 import { useLoginMutation } from "../hooks";
 import { useForm } from "@tanstack/react-form";
 
 import z from "zod";
 import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
+import { Separator } from "@/components/ui/separator";
 
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -25,14 +25,14 @@ const userSchema = z.object({
 });
 
 export default function LoginForm() {
-  const login = useLoginMutation();
+  const { mutate, isPending, isError } = useLoginMutation();
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-      login.mutate(value);
+      mutate(value);
     },
     validators: {
       onSubmit: userSchema,
@@ -45,12 +45,12 @@ export default function LoginForm() {
         e.preventDefault();
         form.handleSubmit();
       }}
-      className="border p-10 w-sm"
+      className="border p-10 w-sm z-50 bg-black space-y-4"
     >
       <FieldSet>
         <FieldLegend>Login</FieldLegend>
         <FieldDescription>Login to your space.</FieldDescription>
-        {login.error && (
+        {isError && (
           <FieldError className="bg-destructive/20 p-2 text-center">
             Email or password incorrect
           </FieldError>
@@ -88,23 +88,16 @@ export default function LoginForm() {
               </Field>
             )}
           </form.Field>
-
-          <FieldSeparator />
-          <Field>
-            <Button
-              disabled={login.isPending}
-              className={cn(login.isPending && "cursor-not-allowed")}
-            >
-              Login
-            </Button>
-            <FieldLabel className="text-secondary-foreground/40">
-              <Link to="/register" className=" underline cursor-pointer">
-                Create an account
-              </Link>
-            </FieldLabel>
-          </Field>
         </FieldGroup>
       </FieldSet>
+      <Separator />
+      <Button
+        disabled={isPending}
+        className={cn(isPending && "cursor-not-allowed", "w-full")}
+      >
+        Login
+        {isPending && <Spinner />}
+      </Button>
     </form>
   );
 }
