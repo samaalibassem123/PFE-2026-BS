@@ -10,6 +10,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import dayjs from "dayjs";
 
 export const columns: ColumnDef<ProjectData>[] = [
   {
@@ -23,28 +24,53 @@ export const columns: ColumnDef<ProjectData>[] = [
   {
     accessorKey: "created_on",
     header: "Created On",
+    cell: ({ row }) => {
+      const transformed_date = dayjs(row.original.created_on).format(
+        "YYYY-MM-DD HH:MM:ss",
+      );
+      return <span>{transformed_date}</span>;
+    },
   },
   {
     accessorKey: "updated_on",
     header: "Updated On",
+    cell: ({ row }) => {
+      const transformed_date = dayjs(row.original.updated_on).format(
+        "YYYY-MM-DD HH:MM:ss",
+      );
+      return <span>{transformed_date}</span>;
+    },
   },
   {
     accessorKey: "actions",
     header: "actions",
+    size: 70,
     cell: ({ row }) => (
-      <>
+      <div className="">
         <RoleGuardComponents AllowedRoles={["ADMIN"]}>
-          <Button variant={"secondary"} asChild>
-            <Link to={`/user/projects/${row.original.id}`}>
-              Asssign to <ArrowRight />
+          <Button
+            variant={"secondary"}
+            className="w-full hover:tracking-wide"
+            asChild
+          >
+            <Link
+              to={`/user/projects/${row.original.id}?name=${row.original.name}&created_on=${dayjs(
+                row.original.created_on,
+              ).format("YYYY-MM-DD HH:MM:ss")}`}
+            >
+              Assign to <ArrowRight />
             </Link>
           </Button>
         </RoleGuardComponents>
         <RoleGuardComponents AllowedRoles={["PROJECT_MANAGER"]}>
           <HoverCard>
             <HoverCardTrigger>
-              <Button variant={"secondary"} disabled>
-                Asssign to <ArrowRight />
+              <Button
+                variant={"secondary"}
+                className="w-full hover:tracking-wide"
+                disabled
+              >
+                Assign to <ArrowRight />
               </Button>
             </HoverCardTrigger>
             <HoverCardContent>
@@ -52,7 +78,7 @@ export const columns: ColumnDef<ProjectData>[] = [
             </HoverCardContent>
           </HoverCard>
         </RoleGuardComponents>
-      </>
+      </div>
     ),
   },
 ];

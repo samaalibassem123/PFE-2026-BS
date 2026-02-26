@@ -1,9 +1,9 @@
-import { AdminProjectTable } from "../features/project-table";
+import { ProjectsTable } from "../features/project-table";
 
 export default function ProjectsPage() {
   return (
     <div>
-      <AdminProjectTable />
+      <ProjectsTable />
     </div>
   );
 }

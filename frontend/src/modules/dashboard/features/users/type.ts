@@ -1,3 +1,4 @@
+import type { GetUserDataSchema } from "@/shared/types";
 import type { AvailableRoles } from "@/utils/Roles";
 
 export interface UserCreateSchma {
@@ -7,17 +8,9 @@ export interface UserCreateSchma {
   password: string;
 }
 
-export interface UserData {
-  id?: string;
-  username: string;
-  email: string;
-  role: AvailableRoles;
-  created_at: string;
-}
-
 export interface UsersData {
   total: number;
-  data: UserData[];
+  data: GetUserDataSchema[];
 }
 
 export interface UserUpdateData {

@@ -29,7 +29,10 @@ def get_current_user(request:Request):
     if not token:
         raise HTTPException(status_code=404, detail='user unothorized')
 
+
     payload = verify_token(token)
+    # add fetch user from the backend
+
     return payload
 
 

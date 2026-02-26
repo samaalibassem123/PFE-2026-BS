@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { UserData } from "../type";
+
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, Ellipsis } from "lucide-react";
 import dayjs from "dayjs";
@@ -15,8 +15,9 @@ import {
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
 import { Badge } from "@/components/ui/badge";
+import type { GetUserDataSchema } from "@/shared/types";
 
-export const columns: ColumnDef<UserData>[] = [
+export const columns: ColumnDef<GetUserDataSchema>[] = [
   {
     accessorKey: "created_at",
     header: ({ column }) => (

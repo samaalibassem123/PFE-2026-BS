@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-export default function AdminProjectTable() {
+export default function ProjectsTable() {
   const [limit, setLimit] = useState<number>(30);
   const [page, setPage] = useState<number>(0);
   //filters

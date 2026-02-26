@@ -142,7 +142,7 @@ export default function MainAppLayout() {
 
       {/* Main content */}
       <SidebarInset>
-        <header className="flex h-16 items-center gap-2 px-4 border-b sticky top-0 backdrop-blur-2xl">
+        <header className="flex h-16  z-50 items-center gap-2 px-4 border-b sticky top-0 backdrop-blur-2xl">
           <SidebarTrigger />
           <h1 className="text-lg font-semibold capitalize">{location}</h1>
           <Badge className="text-xs" variant={"secondary"}>

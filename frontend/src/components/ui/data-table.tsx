@@ -4,8 +4,8 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
+  type RowSelectionState,
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "./separator";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +41,7 @@ interface DataTableProps<TData, TValue> {
   page: number;
   onPagechange: (page: number) => void;
   onLimitChange: (page: number) => void;
+  onSelectChange?: (rows: TData[]) => void;
   children?: React.ReactNode;
 }
 
@@ -52,22 +54,38 @@ export function DataTable<TData, TValue>({
   onPagechange,
   loading,
   onLimitChange,
+  onSelectChange,
   children,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting, columnFilters },
+    state: { sorting, columnFilters, rowSelection },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+
+    enableColumnResizing: false,
+    columnResizeMode: "onChange",
   });
+
+  useEffect(() => {
+    if (onSelectChange) {
+      const selectedData = table
+        .getSelectedRowModel()
+        .rows.map((r) => r.original);
+
+      onSelectChange(selectedData);
+    }
+  }, [rowSelection, onSelectChange, table]);
 
   const totalPages = Math.ceil(total / limit);
 
@@ -75,19 +93,32 @@ export function DataTable<TData, TValue>({
     <div className="  border">
       {/** FILTERS COMPONENT */}
       {children}
-      <Table>
+      <Table className="table-fixed">
         <TableHeader className="bg-border">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="border">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+                  <TableHead
+                    key={header.id}
+                    style={{ width: header.getSize() }}
+                    className="border relative"
+                  >
+                    {header.isPlaceholder ? null : (
+                      <>
+                        {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
+                        {header.column.getCanResize() && (
+                          <div
+                            onMouseDown={header.getResizeHandler()}
+                            onTouchStart={header.getResizeHandler()}
+                            className="absolute right-0 top-0 h-full w-1 cursor-col-resize bg-border hover:bg-primary"
+                          />
+                        )}
+                      </>
+                    )}
                   </TableHead>
                 );
               })}
@@ -111,7 +142,11 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="border">
+                  <TableCell
+                    key={cell.id}
+                    className="border"
+                    style={{ width: cell.column.getSize() }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -126,7 +161,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-
+      <Separator />
       <div className="  justify-end flex gap-2 items-center w-full p-4">
         <Select onValueChange={(value) => onLimitChange(Number(value))}>
           <SelectTrigger className="w-fit">
