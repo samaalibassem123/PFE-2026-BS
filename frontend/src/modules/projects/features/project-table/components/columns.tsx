@@ -16,10 +16,16 @@ export const columns: ColumnDef<ProjectData>[] = [
   {
     accessorKey: "name",
     header: "Project name",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.name}</span>
+    ),
   },
   {
     accessorKey: "identifier",
     header: "Identifier",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.identifier}</span>
+    ),
   },
   {
     accessorKey: "created_on",

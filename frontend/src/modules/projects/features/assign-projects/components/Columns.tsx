@@ -34,10 +34,16 @@ export const columns: ColumnDef<GetUserDataSchema>[] = [
   {
     accessorKey: "username",
     header: "name",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.username}</span>
+    ),
   },
   {
     accessorKey: "email",
     header: "Email",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.email}</span>
+    ),
   },
   {
     accessorKey: "role",

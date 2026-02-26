@@ -6,20 +6,31 @@ export const EmployessColumns: ColumnDef<EmployeeData>[] = [
   {
     accessorKey: "email",
     header: "Employee Email",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.email}</span>
+    ),
   },
   {
     accessorKey: "full_name",
     header: "Employee Name",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">{row.original.full_name}</span>
+    ),
   },
   {
     accessorKey: "department.name",
     header: "Department",
+    cell: ({ row }) => (
+      <span className=" truncate max-w-full ">
+        {row.original.department.name}
+      </span>
+    ),
   },
   {
     accessorKey: "hire_date",
     header: "Hire Date",
     cell: ({ row }) => {
-      const date = dayjs(row.original.hire_date).format("YY/MM/DD HH:MM:ss");
+      const date = dayjs(row.original.hire_date).format("YYYY/MM/DD HH:MM:ss");
       return <span>{date}</span>;
     },
   },
