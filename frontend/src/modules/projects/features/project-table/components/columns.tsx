@@ -17,14 +17,14 @@ export const columns: ColumnDef<ProjectData>[] = [
     accessorKey: "name",
     header: "Project name",
     cell: ({ row }) => (
-      <span className=" truncate w-[130px] ">{row.original.name}</span>
+      <p className=" truncate w-[130px] ">{row.original.name}</p>
     ),
   },
   {
     accessorKey: "identifier",
     header: "Identifier",
     cell: ({ row }) => (
-      <span className=" truncate w-[130px] ">{row.original.identifier}</span>
+      <p className=" truncate w-[130px] ">{row.original.identifier}</p>
     ),
   },
   {
