@@ -1,4 +1,3 @@
-import React from "react";
 import EmployeesTable from "../features/Employees-table/components/EmployeesTable";
 
 export default function EmployeesPage() {

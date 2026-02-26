@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useDepartments, useEmployees } from "../hooks/employees";
 export default function EmployeesTable() {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
@@ -19,12 +20,21 @@ export default function EmployeesTable() {
   const [email, setEmail] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
 
+  const { data, isPending } = useEmployees({
+    limit: limit,
+    offset: limit * page,
+    fullname: fullname,
+    email: email,
+    department: department === "all" ? "" : department,
+  });
+  const departments = useDepartments();
   return (
     <div>
       <DataTable
+        loading={isPending}
         columns={EmployessColumns}
-        data={[]}
-        total={0}
+        data={data?.data ? data.data : []}
+        total={data?.total ? data.total : 0}
         page={page}
         limit={limit}
         onPagechange={setPage}
@@ -45,9 +55,18 @@ export default function EmployeesTable() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="light">test</SelectItem>
-                <SelectItem value="dark">test</SelectItem>
-                <SelectItem value="system">test</SelectItem>
+                <SelectItem value="all">show all departments</SelectItem>
+                {isPending ? (
+                  <span className="text-sm animate-pulse">
+                    fetch departments
+                  </span>
+                ) : (
+                  departments.data?.map((d) => (
+                    <SelectItem value={d.name} key={d.id}>
+                      {d.name}
+                    </SelectItem>
+                  ))
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>

@@ -37,3 +37,10 @@ class EmployeesServices:
         except Exception as e:
             raise HTTPException(status_code=400,  detail=str(e))
 
+    @staticmethod
+    async def get_departments(db:AsyncSession):
+        try:
+            departments = await db.execute(select(Department))
+            return departments.scalars().all()
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))

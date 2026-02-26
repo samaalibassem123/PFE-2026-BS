@@ -16,6 +16,8 @@ import z from "zod";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { Separator } from "@/components/ui/separator";
+import { EyeIcon, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -25,6 +27,7 @@ const userSchema = z.object({
 });
 
 export default function LoginForm() {
+  const [password, setshowPassword] = useState<boolean>(false);
   const { mutate, isPending, isError } = useLoginMutation();
   const form = useForm({
     defaultValues: {
@@ -77,11 +80,24 @@ export default function LoginForm() {
             {(field) => (
               <Field>
                 <FieldLabel>Password</FieldLabel>
-                <Input
-                  placeholder=""
-                  type="password"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
+                <div className="flex  overflow-hidden items-center">
+                  <Input
+                    placeholder="**********"
+                    type={!password ? "password" : "text"}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <div
+                    onClick={() => setshowPassword(!password)}
+                    className="flex-1 text-foreground/50 hover:text-foreground/70 cursor-pointer transition-all  p-1.5 border scale-96  bg-foreground/5 text-center "
+                  >
+                    {!password ? (
+                      <EyeOff className=" size-5 " />
+                    ) : (
+                      <EyeIcon className=" size-5 " />
+                    )}
+                  </div>
+                </div>
+
                 {field.state.meta.errors.length > 0 && (
                   <FieldError>{field.state.meta.errors[0]?.message}</FieldError>
                 )}

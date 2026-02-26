@@ -1,6 +1,19 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
+}
+export function getDayName(dayNumber: number): string {
+  const days = [
+    "Sunday", // 0
+    "Monday", // 1
+    "Tuesday", // 2
+    "Wednesday", // 3
+    "Thursday", // 4
+    "Friday", // 5
+    "Saturday", // 6
+  ];
+
+  return days[dayNumber] ?? "Invalid day number";
 }
