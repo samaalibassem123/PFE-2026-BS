@@ -1,3 +1,4 @@
+import datetime
 from collections import defaultdict
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -35,8 +36,7 @@ class TransformerService:
                 if  bt_emp['emp_fullname'].upper() == emp['full_name'].upper():
                     emp['department_id'] = bt_emp['department_id']
                     emp['hire_date'] = bt_emp['hire_date']
-                    # insert mail if it didn't  exist on easyproject
-                    emp['email'] = bt_emp['email']
+
                     break
 
             employee = Employee(**emp)
@@ -50,12 +50,10 @@ class TransformerService:
         employees = EasyProject_extractor.get_employees()
         for att in data:
             attendance = defaultdict()
-            attendance['id'] = att['id']
             attendance['check_in'] = att['clock_in']
             attendance['check_out'] = att['clock_out']
             attendance['att_date'] = att['att_date']
-            attendance['week_day'] = att['week_day']
-
+            attendance['week_day'] = att['weekday']
             '''
               - now we get the emp id
               - to get teh emp_id we can use either easyproject employee view or the main app employees table  
@@ -65,7 +63,6 @@ class TransformerService:
             for e in employees:
                 if att['email'] == e['email'] or att['first_name'].upper() == e['emp_fullname'].upper():
                     attendance['emp_id'] = e['ep_emp_id']
-                    att['email'] = e['email']
                     attendances.append(Attendance(**attendance))
                     break
 
