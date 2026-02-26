@@ -32,9 +32,11 @@ class TransformerService:
 
             biotime_emps = Biotime_extractor.get_BiotimeEmployees()
             for bt_emp in biotime_emps:
-                if bt_emp['email'] == emp['email'] or bt_emp['emp_fullname'] == emp['full_name']:
+                if  bt_emp['emp_fullname'].upper() == emp['full_name'].upper():
                     emp['department_id'] = bt_emp['department_id']
                     emp['hire_date'] = bt_emp['hire_date']
+                    # insert mail if it didn't  exist on easyproject
+                    emp['email'] = bt_emp['email']
                     break
 
             employee = Employee(**emp)
@@ -60,11 +62,10 @@ class TransformerService:
             '''
 
             # get employees from easy project
-            # insert the emp only if u find his id
-
             for e in employees:
-                if att['email'] == e['email'] or att['first_name'] == e['emp_fullname']:
+                if att['email'] == e['email'] or att['first_name'].upper() == e['emp_fullname'].upper():
                     attendance['emp_id'] = e['ep_emp_id']
+                    att['email'] = e['email']
                     attendances.append(Attendance(**attendance))
                     break
 
@@ -143,7 +144,7 @@ class TransformerService:
 
             # search for the emp id before inserting
             for e in employees:
-                if ev['email'] == e['email'] or ev['first_name'] == e['emp_fullname']:
+                if ev['email'] == e['email'] or ev['first_name'].upper() == e['emp_fullname'].upper():
                     emp_att['emp_id'] = e['ep_emp_id']
                     emp_att_events.append(EmployeeAttendanceEvent(**emp_att))
                     break
