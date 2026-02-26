@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.core import DB_dependecy
 from app.core.config import settings
-from app.core.ETL.Piplines.MainPipeline import MainPipeline
+#from app.core.ETL.Piplines.MainPipeline import MainPipeline
 from app.modules.auth.controllers.AuthController import auth_router
 from app.modules.chekinout.controllers.v1.CheckinoutController import checkinout_router
 from app.modules.employees.controllers.v1.EmployeesController import employees_router
@@ -25,9 +25,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/etl')
+'''@app.get('/etl')
 async def elt_db(db:DB_dependecy):
-    return await MainPipeline(db)
+    return await MainPipeline(db)'''
 
 print(settings.POSTGRES_PORT)
 
