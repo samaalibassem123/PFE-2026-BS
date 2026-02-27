@@ -1,11 +1,11 @@
 import OnHoverText from "@/components/OnHoverText";
 import { Badge } from "@/components/ui/badge";
 import { getDayName } from "@/lib/utils";
-import type { CheckInoutData } from "@/modules/checkinout/types";
+import type { EmployeeLeaveData } from "@/modules/Employees-leave/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 
-export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
+export const EmployeeLeaveColumns: ColumnDef<EmployeeLeaveData>[] = [
   {
     accessorKey: "employee.full_name",
     header: "employee_fullname",
@@ -27,12 +27,12 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     ),
   },
   {
-    accessorKey: "check_in",
-    header: "clock in",
+    accessorKey: "start_date",
+    header: "Start Date",
     size: 200,
     minSize: 200,
     cell: ({ row }) => {
-      const date = dayjs(row.original.check_in).format("HH:MM:ss YYYY/MM/DD");
+      const date = dayjs(row.original.start_date).format("HH:MM:ss YYYY/MM/DD");
       return date !== "Invalid Date" ? (
         <Badge variant={"secondary"}>{date}</Badge>
       ) : (
@@ -41,12 +41,12 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     },
   },
   {
-    accessorKey: "check_out",
-    header: "clock out",
+    accessorKey: "end_date",
+    header: "End Date",
     minSize: 200,
     size: 200,
     cell: ({ row }) => {
-      const date = dayjs(row.original.check_out).format("HH:MM:ss YYYY/MM/DD");
+      const date = dayjs(row.original.end_date).format("HH:MM:ss YYYY/MM/DD");
       return date !== "Invalid Date" ? (
         <Badge variant={"secondary"}>{date}</Badge>
       ) : (
@@ -55,20 +55,19 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     },
   },
   {
-    accessorKey: "att_date",
-    header: "Attendance Date",
+    accessorKey: "apply_time",
+    header: "Apply Date",
     cell: ({ row }) => {
-      const date = dayjs(row.original.att_date).format("YYYY/MM/DD");
+      const date = dayjs(row.original.apply_time).format("YYYY/MM/DD HH:MM:ss");
       return <Badge variant={"outline"}>{date}</Badge>;
     },
   },
   {
-    accessorKey: "week_day",
-    header: "Week Day",
+    accessorKey: "event.name",
+    header: "Status",
 
     cell: ({ row }) => {
-      const day = getDayName(row.original.week_day);
-      return <Badge variant={"ghost"}>{day}</Badge>;
+      return <Badge variant={"ghost"}>{row.original.event.name}</Badge>;
     },
   },
 ];
