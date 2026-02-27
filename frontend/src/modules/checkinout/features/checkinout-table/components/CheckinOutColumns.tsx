@@ -1,4 +1,5 @@
 import OnHoverText from "@/components/OnHoverText";
+import { Badge } from "@/components/ui/badge";
 import { getDayName } from "@/lib/utils";
 import type { CheckInoutData } from "@/modules/checkinout/types";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -28,25 +29,37 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
   {
     accessorKey: "check_in",
     header: "clock in",
+    size: 200,
+    minSize: 200,
     cell: ({ row }) => {
       const date = dayjs(row.original.check_in).format("HH:MM:ss YYYY/MM/DD");
-      return <span>{date}</span>;
+      return date ? (
+        <Badge variant={"secondary"}>{date}</Badge>
+      ) : (
+        <Badge variant={"destructive"}>Invalid Date</Badge>
+      );
     },
   },
   {
     accessorKey: "check_out",
     header: "clock out",
+    minSize: 200,
+    size: 200,
     cell: ({ row }) => {
       const date = dayjs(row.original.check_out).format("HH:MM:ss YYYY/MM/DD");
-      return <span>{date}</span>;
+      return date ? (
+        <Badge variant={"secondary"}>{date}</Badge>
+      ) : (
+        <Badge variant={"destructive"}>Invalid Date</Badge>
+      );
     },
   },
   {
     accessorKey: "att_date",
     header: "Attendance Date",
     cell: ({ row }) => {
-      const date = dayjs(row.original.att_date).format("HH:MM:ss YYYY/MM/DD");
-      return <span>{date}</span>;
+      const date = dayjs(row.original.att_date).format("YYYY/MM/DD");
+      return <Badge variant={"outline"}>{date}</Badge>;
     },
   },
   {
@@ -55,7 +68,7 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
 
     cell: ({ row }) => {
       const day = getDayName(row.original.week_day);
-      return <span>{day}</span>;
+      return <Badge variant={"ghost"}>{day}</Badge>;
     },
   },
 ];
