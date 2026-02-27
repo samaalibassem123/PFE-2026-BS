@@ -1,3 +1,9 @@
+import { MembersTable } from "../features/members-table";
+
 export default function MembersPage() {
-  return <div>MembersPage</div>;
+  return (
+    <div>
+      <MembersTable />
+    </div>
+  );
 }

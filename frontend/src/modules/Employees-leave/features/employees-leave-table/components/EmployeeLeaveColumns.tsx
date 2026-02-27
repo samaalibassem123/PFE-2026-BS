@@ -1,6 +1,5 @@
 import OnHoverText from "@/components/OnHoverText";
 import { Badge } from "@/components/ui/badge";
-import { getDayName } from "@/lib/utils";
 import type { EmployeeLeaveData } from "@/modules/Employees-leave/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";

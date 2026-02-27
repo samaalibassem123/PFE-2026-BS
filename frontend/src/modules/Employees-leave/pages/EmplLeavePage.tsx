@@ -1,5 +1,4 @@
-import React from "react";
-import EmployeLeaveTable from "../features/employees-leave-table/components/EmployeLeaveTable";
+import { EmployeLeaveTable } from "../features/employees-leave-table";
 
 export default function EmplLeavePage() {
   return (
