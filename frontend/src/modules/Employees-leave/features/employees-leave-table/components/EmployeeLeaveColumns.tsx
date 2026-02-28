@@ -56,6 +56,8 @@ export const EmployeeLeaveColumns: ColumnDef<EmployeeLeaveData>[] = [
   {
     accessorKey: "apply_time",
     header: "Apply Date",
+    minSize: 200,
+    size: 200,
     cell: ({ row }) => {
       const date = dayjs(row.original.apply_time).format("YYYY/MM/DD HH:MM:ss");
       return <Badge variant={"outline"}>{date}</Badge>;

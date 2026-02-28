@@ -15,14 +15,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSearchParams } from "react-router-dom";
 
 export default function EmployeLeaveTable() {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
+  // to get filters from the path if the user click the row from the chekinout table
+  const [searchParams] = useSearchParams();
+  console.log(searchParams.get("emp_name"));
   // filters
-  const [fullname, setFullname] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [fullname, setFullname] = useState<string>(
+    searchParams.get("emp_name") ?? "",
+  );
+  const [email, setEmail] = useState<string>(
+    searchParams.get("emp_email") ?? "",
+  );
   const [event, setEvent] = useState<string>("");
   //const [start_date, setStartdate] = useState<number | null>(null);
   //const [end_date, setEndDate] = useState<number | null>(null);
@@ -55,10 +63,12 @@ export default function EmployeLeaveTable() {
         <Input
           placeholder="search by employee name"
           onChange={(e) => setFullname(e.target.value)}
+          defaultValue={fullname}
         />
         <Input
           placeholder="search by email"
           onChange={(e) => setEmail(e.target.value)}
+          defaultValue={email}
         />
 
         {/*<Input

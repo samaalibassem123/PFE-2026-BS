@@ -4,27 +4,51 @@ import { getDayName } from "@/lib/utils";
 import type { CheckInoutData } from "@/modules/checkinout/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
   {
     accessorKey: "employee.full_name",
     header: "employee_fullname",
-    cell: ({ row }) => (
-      <OnHoverText msg={row.original.employee.full_name}>
-        <p className=" truncate w-[130px] ">
-          {row.original.employee.full_name}
-        </p>
-      </OnHoverText>
-    ),
+    cell: ({ row }) => {
+      const navigate = useNavigate();
+      return (
+        <OnHoverText msg={row.original.employee.full_name}>
+          <p
+            className=" truncate w-[130px] cursor-pointer "
+            onClick={() =>
+              navigate(
+                `/user/employees-leave?emp_name=${row.original.employee.full_name}&emp_email=${row.original.employee.email}`,
+              )
+            }
+          >
+            {row.original.employee.full_name}
+          </p>
+        </OnHoverText>
+      );
+    },
   },
   {
     accessorKey: "employee.email",
     header: "employee_email",
-    cell: ({ row }) => (
-      <OnHoverText msg={row.original.employee.email}>
-        <p className=" truncate w-[130px] ">{row.original.employee.email}</p>
-      </OnHoverText>
-    ),
+    cell: ({ row }) => {
+      const navigate = useNavigate();
+
+      return (
+        <OnHoverText msg={row.original.employee.email}>
+          <p
+            className=" truncate w-[130px] cursor-pointer"
+            onClick={() =>
+              navigate(
+                `/user/employees-leave?emp_name=${row.original.employee.full_name}&emp_email=${row.original.employee.email}`,
+              )
+            }
+          >
+            {row.original.employee.email}
+          </p>
+        </OnHoverText>
+      );
+    },
   },
   {
     accessorKey: "check_in",
