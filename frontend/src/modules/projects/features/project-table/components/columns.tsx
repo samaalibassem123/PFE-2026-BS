@@ -3,7 +3,7 @@ import RoleGuardComponents from "@/guards/RoleGuardComponents";
 import type { ProjectData } from "@/modules/projects/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   HoverCard,
@@ -17,11 +17,21 @@ export const columns: ColumnDef<ProjectData>[] = [
   {
     accessorKey: "name",
     header: "Project name",
-    cell: ({ row }) => (
-      <OnHoverText msg={row.original.name}>
-        <p className=" truncate w-[130px] ">{row.original.name}</p>
-      </OnHoverText>
-    ),
+    cell: ({ row }) => {
+      const navigate = useNavigate();
+      return (
+        <OnHoverText msg={row.original.name}>
+          <p
+            onClick={() =>
+              navigate(`/user/members?project_name=${row.original.name}`)
+            }
+            className=" truncate w-[130px] cursor-pointer"
+          >
+            {row.original.name}
+          </p>
+        </OnHoverText>
+      );
+    },
   },
   {
     accessorKey: "identifier",

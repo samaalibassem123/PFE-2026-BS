@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useMembers } from "../hooks/use-members";
 import { MembersColumns } from "./MemeberColumns";
+import { useSearchParams } from "react-router-dom";
 {
   /*import {
   Select,
@@ -17,10 +18,14 @@ export default function MembersTable() {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
+  const [searchParams] = useSearchParams();
+
   // filters
   const [fullname, setFullname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [project_name, setProjectName] = useState<string>("");
+  const [project_name, setProjectName] = useState<string>(
+    searchParams.get("project_name") ?? "",
+  );
   //const [department, setDepartment] = useState<string>("");
 
   const { data, isPending } = useMembers({
@@ -57,6 +62,7 @@ export default function MembersTable() {
           <Input
             placeholder="search by project Name"
             onChange={(v) => setProjectName(v.target.value)}
+            defaultValue={project_name}
           />
           {/*   <Select onValueChange={(v) => setDepartment(v)}>
             <SelectTrigger className="w-[200px]">

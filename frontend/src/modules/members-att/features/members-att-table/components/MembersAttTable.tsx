@@ -14,14 +14,21 @@ import {
 import { useMembersAtt } from "../hooks/user-members-att";
 import { useEmployeesLeaveEvents } from "@/modules/Employees-leave/features/employees-leave-table/hooks/use-employee-leave";
 import { MembersAttColumns } from "./MembersAttColumns";
+import { useSearchParams } from "react-router-dom";
 
 export default function MembersAttTable() {
   const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
+  const [searchParams] = useSearchParams();
+
   // filters
-  const [fullname, setFullname] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [fullname, setFullname] = useState<string>(
+    searchParams.get("member_name") ?? "",
+  );
+  const [email, setEmail] = useState<string>(
+    searchParams.get("member_email") ?? "",
+  );
   const [event, setEvent] = useState<string>("");
   const [start_date, setStartdate] = useState<number | null>(null);
   const [end_date, setEndDate] = useState<number | null>(null);
@@ -54,10 +61,12 @@ export default function MembersAttTable() {
         <Input
           placeholder="search by employee name"
           onChange={(e) => setFullname(e.target.value)}
+          defaultValue={fullname}
         />
         <Input
           placeholder="search by email"
           onChange={(e) => setEmail(e.target.value)}
+          defaultValue={email}
         />
 
         <Input
