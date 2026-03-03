@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { ConstellationBackground } from "@/components/ui/constellation";
 import {
   Sidebar,
   SidebarContent,
@@ -103,13 +104,14 @@ export default function MainAppLayout() {
   return (
     <SidebarProvider>
       <Sidebar>
+        <ConstellationBackground className="-z-20" />
         {/* Header */}
-        <SidebarHeader>
+        <SidebarHeader className="backdrop-blur-2xl">
           <h2 className="text-lg font-semibold px-2">TBS</h2>
         </SidebarHeader>
 
         {/* Content */}
-        <SidebarContent>
+        <SidebarContent className="backdrop-blur-2xl">
           <SidebarGroup>
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -119,7 +121,10 @@ export default function MainAppLayout() {
                   (item) =>
                     item.RoleView.includes(data.role) && (
                       <SidebarMenuItem key={item.label}>
-                        <SidebarMenuButton asChild>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname == item.link}
+                        >
                           <Link to={item.link}>
                             {item.icon}
                             {item.label}
@@ -134,7 +139,7 @@ export default function MainAppLayout() {
         </SidebarContent>
 
         {/* Footer */}
-        <SidebarFooter>
+        <SidebarFooter className="backdrop-blur-2xl">
           <LogoutButton />
           <p className="text-xs text-muted-foreground px-2">© 2026</p>
         </SidebarFooter>
@@ -150,7 +155,7 @@ export default function MainAppLayout() {
           </Badge>
         </header>
 
-        <main className="p-4">
+        <main className="p-20">
           <Outlet />
         </main>
       </SidebarInset>

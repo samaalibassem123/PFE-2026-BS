@@ -209,7 +209,7 @@ export function ConstellationBackground({
   return (
     <div
       ref={containerRef}
-      className={cn("fixed inset-0 overflow-hidden bg-neutral-950", className)}
+      className={cn("fixed inset-0 overflow-hidden bg-neutral-950 ", className)}
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
 
@@ -219,15 +219,6 @@ export function ConstellationBackground({
         style={{
           background:
             "radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Vignette */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(10,10,10,0.8) 100%)",
         }}
       />
 

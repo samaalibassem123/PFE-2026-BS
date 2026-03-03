@@ -90,10 +90,10 @@ export function DataTable<TData, TValue>({
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="  border">
+    <div className="  border rounded-lg backdrop-blur-sm">
       {/** FILTERS COMPONENT */}
       {children}
-      <Table className="table-fixed">
+      <Table className="table-fixed rounded-md">
         <TableHeader className="bg-border">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

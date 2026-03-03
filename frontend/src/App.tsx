@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login } from "./modules/auth";
+import { Login, Register } from "./modules/auth";
 import { ThemeProvider } from "@/components/theme-provider";
 import MainAppLayout from "./layouts/MainAppLayout";
 import ProtectedRoutes from "./guards/ProtectedRoutes";
@@ -25,6 +25,7 @@ export function App() {
         <Route element={<PublicRoutesGuard />}>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route path="*" element={<PageNotfound />} />

@@ -18,6 +18,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Separator } from "@/components/ui/separator";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -48,7 +49,7 @@ export default function LoginForm() {
         e.preventDefault();
         form.handleSubmit();
       }}
-      className="border p-10 w-sm z-50 bg-black space-y-4"
+      className="border p-10 w-sm z-50 rounded-lg backdrop-blur-sm space-y-4"
     >
       <FieldSet>
         <FieldLegend>Login</FieldLegend>
@@ -113,6 +114,11 @@ export default function LoginForm() {
       >
         Login
         {isPending && <Spinner />}
+      </Button>
+      <Button variant={"outline"} className="w-full" asChild>
+        <Link to={"/register"} className="py-2  text-xs text-foreground/50">
+          create an account
+        </Link>
       </Button>
     </form>
   );

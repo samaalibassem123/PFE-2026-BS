@@ -12,9 +12,10 @@ from sqlalchemy import (
     Integer,
     DateTime,
     func,
-    Enum as SAEnum,
+    Enum as SAEnum, Boolean,
 )
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import  Mapped, mapped_column, relationship
 
 from app.core.database.models.Base import Base
 
@@ -43,11 +44,21 @@ class User(Base):
         back_populates="user", cascade="all, delete-orphan"
     )
 
+class PendingUser(Base):
+    __tablename__ = "pending_users"
+    pass
+    id:Mapped[UUID] = mapped_column(primary_key=True, default=uuid4, index=True)
+    user:Mapped[dict[str, any]] = mapped_column(JSONB)
+    approved:Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at:Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    approved_at:Mapped[datetime] = mapped_column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
+
 
 class Project(Base):
     __tablename__ = "projects"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    email:Mapped[str] = mapped_column(String(255), unique=True, index=True)
     name: Mapped[str] = mapped_column(Text, nullable=False)
     identifier: Mapped[Optional[str]] = mapped_column(Text, unique=False, nullable=True)
     created_on: Mapped[datetime] = mapped_column(
