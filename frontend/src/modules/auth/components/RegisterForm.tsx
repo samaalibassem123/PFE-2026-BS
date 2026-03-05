@@ -77,7 +77,7 @@ export default function RegisterForm() {
         e.preventDefault();
         form.handleSubmit();
       }}
-      className="border p-10 w-lg z-50 rounded-lg backdrop-blur-sm space-y-4"
+      className="border p-10 sm:w-lg z-50 rounded-lg backdrop-blur-sm space-y-4"
     >
       <FieldSet>
         <FieldLegend>Register</FieldLegend>

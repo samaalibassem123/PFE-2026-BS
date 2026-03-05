@@ -3,14 +3,23 @@ import datetime
 from fastapi import HTTPException
 from sqlalchemy import select, func, extract
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, selectinload
 
 from app.core.database.models import Attendance, Employee
 
 
 class CheckinOutService:
     @staticmethod
-    async def get_checkinouts(db:AsyncSession, limit:int=50, offset:int=0, fullname:str | None = None, email: str | None = None,  start_date:int|None=None, end_date:int|None=None):
+    async def get_checkinouts(db:AsyncSession,
+                              limit:int=50,
+                              offset:int=0,
+                              fullname:str | None = None,
+                              email: str | None = None,
+                              start_date:int|None=None,
+                              end_date:int|None=None,
+                              month:int|None=None,
+                              day:int|None=None):
+        print(month)
         try:
             query = select(Attendance, Employee).join(Employee, Attendance.emp_id == Employee.id )
 
@@ -23,12 +32,16 @@ class CheckinOutService:
                 query = query.where(extract("year",Attendance.att_date) >= start_date)
             if end_date:
                 query = query.where(extract("year", Attendance.att_date) <= end_date)
+            if month:
+                query = query.where(extract("month", Attendance.att_date) == month)
+            if day:
+                query = query.where(extract("day", Attendance.att_date) == day)
 
             # total numbers of attendace
             total_res = await db.execute(select(func.count()).select_from(query.subquery()))
             total = total_res.scalar_one()
             # result with pagination
-            result = await db.execute(query.options(joinedload(Attendance.employee)).limit(limit).offset(offset))
+            result = await db.execute(query.options(selectinload(Attendance.employee).selectinload(Employee.department)).limit(limit).offset(offset))
             checkinouts = result.scalars().all()
 
             return {

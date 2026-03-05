@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 export default function ProjectsTable() {
   const [limit, setLimit] = useState<number>(30);
   const [page, setPage] = useState<number>(0);
@@ -40,11 +41,15 @@ export default function ProjectsTable() {
         data={data?.data ?? []}
       >
         {/** FILTERS */}
-        <div className="p-4 flex gap-2">
-          <Input
-            placeholder="search by project name..."
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className="p-4 flex gap-2 items-end">
+          <div className="flex gap-2 flex-col ">
+            <Label>Project Name</Label>
+            <Input
+              placeholder="search by project name..."
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
           <Select
             onValueChange={(value) =>
               value === "all" ? setYear(null) : setYear(Number(value))

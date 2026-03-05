@@ -15,6 +15,9 @@ async def get_checkinouts(db:DB_dependecy,
                           fullname:str | None = None,
                           email: str | None = None,
                           start_date:int|None=None,
-                          end_date:int|None=None):
-    checkinouts = await CheckinOutService.get_checkinouts(db, limit, offset ,fullname, email, start_date, end_date)
+                          end_date:int|None=None,
+                          month:int|None=None,
+                          day:int|None=None
+                          ):
+    checkinouts = await CheckinOutService.get_checkinouts(db, limit, offset ,fullname, email, start_date,end_date,month,day)
     return checkinouts

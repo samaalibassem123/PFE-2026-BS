@@ -48,6 +48,7 @@ class PendingUser(Base):
     __tablename__ = "pending_users"
     pass
     id:Mapped[UUID] = mapped_column(primary_key=True, default=uuid4, index=True)
+    email:Mapped[str] = mapped_column(String(255), unique=True, index=True)
     user:Mapped[dict[str, any]] = mapped_column(JSONB)
     approved:Mapped[bool] = mapped_column(Boolean, default=False)
     created_at:Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
@@ -58,7 +59,6 @@ class Project(Base):
     __tablename__ = "projects"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    email:Mapped[str] = mapped_column(String(255), unique=True, index=True)
     name: Mapped[str] = mapped_column(Text, nullable=False)
     identifier: Mapped[Optional[str]] = mapped_column(Text, unique=False, nullable=True)
     created_on: Mapped[datetime] = mapped_column(
