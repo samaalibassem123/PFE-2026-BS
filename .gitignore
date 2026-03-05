@@ -1,0 +1,79 @@
+# ===============================
+# Global
+# ===============================
+.DS_Store
+Thumbs.db
+*.log
+*.env
+.env.*
+*.sqlite3
+*.db
+
+# ===============================
+# Python / FastAPI (backend/)
+# ===============================
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+
+# Virtual environments
+backend/.venv/
+backend/venv/
+backend/env/
+
+# uv
+backend/.uv/
+backend/uv.lock
+
+# Python build
+backend/build/
+backend/dist/
+backend/*.egg-info/
+
+# Testing / coverage
+backend/.pytest_cache/
+backend/.coverage
+backend/htmlcov/
+
+# IDE
+backend/.idea/
+backend/.vscode/
+
+# ===============================
+# React / Node (frontend/)
+# ===============================
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+# Build outputs
+frontend/build/
+frontend/dist/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Environment files
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Cache
+frontend/.cache/
+frontend/.parcel-cache/
+
+# IDE
+frontend/.idea/
+frontend/.vscode/
+
+# ===============================
+# Misc
+# ===============================
+coverage/
+tmp/
+temp/

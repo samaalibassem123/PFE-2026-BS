@@ -1,13 +1,69 @@
-# =========================
 # Python
-# =========================
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-*.egg
-*.egg-info/
-dist/
+*.pyo
+*.pyd
+
+# Distribution / packaging
 build/
+dist/
+*.egg-info/
 .eggs/
-pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# uv
+.uv/
+uv.lock
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Logs
+*.log
+
+# Testing
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Type checkers
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# FastAPI / ASGI servers
+*.pid
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Node (if using frontend with Next.js or React)
+node_modules/
+.next/
+out/
+
+# Database
+*.db
+*.sqlite3
