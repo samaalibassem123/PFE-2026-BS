@@ -13,7 +13,7 @@ export interface GetMembersAttParams {
   email: string;
   member_name: string;
   project_name: string;
-  start_date: number | null;
-  end_date: number | null;
+  start_date: string | undefined;
+  end_date: string | undefined;
   event: string;
 }

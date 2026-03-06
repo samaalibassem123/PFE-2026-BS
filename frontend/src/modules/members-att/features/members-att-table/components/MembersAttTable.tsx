@@ -15,6 +15,7 @@ import { useMembersAtt } from "../hooks/user-members-att";
 import { useEmployeesLeaveEvents } from "@/modules/Employees-leave/features/employees-leave-table/hooks/use-employee-leave";
 import { MembersAttColumns } from "./MembersAttColumns";
 import { useSearchParams } from "react-router-dom";
+import { CalendarRange } from "@/components/CalendarRange";
 
 export default function MembersAttTable() {
   const [limit, setLimit] = useState<number>(10);
@@ -30,8 +31,8 @@ export default function MembersAttTable() {
     searchParams.get("member_email") ?? "",
   );
   const [event, setEvent] = useState<string>("");
-  const [start_date, setStartdate] = useState<number | null>(null);
-  const [end_date, setEndDate] = useState<number | null>(null);
+  const [start_date, setStartdate] = useState<string | undefined>(undefined);
+  const [end_date, setEndDate] = useState<string | undefined>(undefined);
 
   const { data, isPending } = useMembersAtt({
     limit: limit,
@@ -69,16 +70,6 @@ export default function MembersAttTable() {
           defaultValue={email}
         />
 
-        <Input
-          placeholder="start_date"
-          type="number"
-          onChange={(e) => setStartdate(Number(e.target.value))}
-        />
-        <Input
-          type="number"
-          placeholder="end_date"
-          onChange={(e) => setEndDate(Number(e.target.value))}
-        />
         <Select onValueChange={(v) => setEvent(v)}>
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Filter by Status" />
@@ -98,6 +89,12 @@ export default function MembersAttTable() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <CalendarRange
+          onDateChange={(start, end) => {
+            setStartdate(start);
+            setEndDate(end);
+          }}
+        />
       </div>
     </DataTable>
   );
