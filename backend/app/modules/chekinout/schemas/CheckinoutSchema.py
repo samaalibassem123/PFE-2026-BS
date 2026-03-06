@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-from app.modules.employees.schemas.EmployeesSchema import EmployeeData
+from app.modules.employees.schemas.EmployeesSchema import EmployeeData, DepartmentData
 
 
 class CheckinoutData(BaseModel):
@@ -9,7 +9,8 @@ class CheckinoutData(BaseModel):
     check_out: datetime
     att_date: datetime
     week_day: int
-    employee: EmployeeData;
+    employee: EmployeeData
+    department:DepartmentData
 
 class GetCheckinoutRespone(BaseModel):
     total:int

@@ -1,7 +1,7 @@
 import datetime
 
 from fastapi import HTTPException
-from sqlalchemy import select, func, extract
+from sqlalchemy import select, func, extract, Date, cast
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
 
@@ -15,8 +15,8 @@ class CheckinOutService:
                               offset:int=0,
                               fullname:str | None = None,
                               email: str | None = None,
-                              start_date:int|None=None,
-                              end_date:int|None=None,
+                              start_date:datetime.date|None=None,
+                              end_date:datetime.date|None=None,
                               month:int|None=None,
                               day:int|None=None):
         print(month)
@@ -28,10 +28,12 @@ class CheckinOutService:
                 query = query.where(Employee.full_name.ilike(f"%{fullname}%"))
             if email:
                 query = query.where(Employee.email.ilike(f"%{email}%"))
-            if start_date :
-                query = query.where(extract("year",Attendance.att_date) >= start_date)
-            if end_date:
-                query = query.where(extract("year", Attendance.att_date) <= end_date)
+            if start_date and end_date:
+                query = query.where(cast(Attendance.att_date,Date).between(start_date, end_date))
+            elif start_date:
+                query = query.where(cast(Attendance.att_date, Date) >= start_date)
+            elif end_date:
+                query = query.where(cast(Attendance.att_date, Date) <= end_date)
             if month:
                 query = query.where(extract("month", Attendance.att_date) == month)
             if day:

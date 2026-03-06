@@ -24,4 +24,6 @@ export interface GetEmployeeLeaveParams {
   fullname: string;
   email: string;
   event: string;
+  start_date: string | undefined;
+  end_date: string | undefined;
 }

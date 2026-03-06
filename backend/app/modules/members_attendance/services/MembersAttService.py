@@ -1,7 +1,7 @@
-
+import datetime
 
 from fastapi import HTTPException
-from sqlalchemy import select, func, extract
+from sqlalchemy import select, func, extract, Date, cast
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -10,7 +10,19 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, E
 
 class MembersAttendanceService:
     @staticmethod
-    async def get_members_att(userId, db:AsyncSession, limit: int = 50,offset: int = 0, email:str|None=None, member_name:str|None=None, project_name:str|None=None, start_date:int|None=None, end_date:int|None=None, event:str|None=None ):
+    async def get_members_att(userId,
+                              db:AsyncSession,
+                              limit: int = 50,
+                              offset: int = 0,
+                              email:str|None=None,
+                              member_name:str|None=None,
+                              project_name:str|None=None,
+                              start_date:datetime.date|None=None,
+                              end_date:datetime.date|None=None,
+                              event:str|None=None,
+                              month: int | None = None,
+                              day: int | None = None,
+                              ):
         try:
             # get only the  attendance of  members that are assigned to the projects that the user can see
             query = ((select(EmployeeAttendanceEvent, AttendanceEvent, Employee, UserProject, Member, Project)
@@ -27,13 +39,20 @@ class MembersAttendanceService:
                 query = query.where(Employee.full_name.ilike(f"%{member_name}%"))
             if project_name:
                 query = query.where(Project.name.ilike(f"%{project_name}%"))
-            if start_date :
-                query = query.where(extract("year", EmployeeAttendanceEvent.start_date) >= start_date)
-            if end_date :
-                query = query.where(extract("year", EmployeeAttendanceEvent.end_date) <=end_date)
+            #filter by dates
+            # cast date remove the time to compare only with his format yyyy-mm-dd
+            if start_date and end_date:
+                query = query.where(cast(EmployeeAttendanceEvent.apply_time, Date).between(start_date, end_date))
+            elif start_date:
+                query = query.where(cast(EmployeeAttendanceEvent.apply_time, Date) >= start_date)
+            elif end_date:
+                query = query.where(cast(EmployeeAttendanceEvent.apply_time, Date) <= end_date)
+            if day:
+                query = query.where(extract("day", EmployeeAttendanceEvent.apply_time) == day)
+            if month:
+                query = query.where(extract("month", EmployeeAttendanceEvent.apply_time) == month)
             if event:
                 query = query.where(AttendanceEvent.name == event)
-
 
             total_res = await db.execute(select(func.count()).select_from(query.subquery()))
             total = total_res.scalar_one()

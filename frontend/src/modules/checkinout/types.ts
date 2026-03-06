@@ -19,6 +19,6 @@ export interface GetChekinoutParams {
   //filters
   fullname: string;
   email: string;
-  start_date: number | null;
-  end_date: number | null;
+  start_date: string | undefined;
+  end_date: string | undefined;
 }

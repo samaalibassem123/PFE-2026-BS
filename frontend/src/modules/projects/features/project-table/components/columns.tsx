@@ -65,7 +65,7 @@ export const columns: ColumnDef<ProjectData>[] = [
   {
     accessorKey: "actions",
     header: "actions",
-    size: 70,
+    size: 100,
     cell: ({ row }) => (
       <div className="">
         <RoleGuardComponents AllowedRoles={["ADMIN"]}>

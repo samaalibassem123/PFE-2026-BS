@@ -7,7 +7,12 @@ employees_router = APIRouter(prefix="/v1/employees", tags=["Employees"])
 
 
 @employees_router.get('/')
-async def get_employees(db:DB_dependecy, limit: int = 50,offset: int = 0, fullname:str|None=None, email:str|None=None, department:str|None=None):
+async def get_employees(db:DB_dependecy,
+                        limit: int = 50,
+                        offset: int = 0,
+                        fullname:str|None=None,
+                        email:str|None=None,
+                        department:str|None=None):
      employees = await EmployeesServices.get_Employees(db, limit,offset, fullname, email, department)
      return employees
 

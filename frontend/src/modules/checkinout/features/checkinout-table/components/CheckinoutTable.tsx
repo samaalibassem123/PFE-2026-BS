@@ -4,6 +4,7 @@ import { CheckinOutColumns } from "./CheckinOutColumns";
 import { useState } from "react";
 import { useCheckinout } from "../hooks/usecheckinout";
 import { Input } from "@/components/ui/input";
+import { CalendarRange } from "@/components/CalendarRange";
 
 export default function CheckinoutTable() {
   const [limit, setLimit] = useState<number>(10);
@@ -12,8 +13,8 @@ export default function CheckinoutTable() {
   // filters
   const [fullname, setFullname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [start_date, setStartdate] = useState<number | null>(null);
-  const [end_date, setEndDate] = useState<number | null>(null);
+  const [start_date, setStartdate] = useState<string | undefined>(undefined);
+  const [end_date, setEndDate] = useState<string | undefined>(undefined);
 
   const { data, isPending } = useCheckinout({
     limit: limit,
@@ -44,15 +45,11 @@ export default function CheckinoutTable() {
           placeholder="search by email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Input
-          placeholder="start_date"
-          type="number"
-          onChange={(e) => setStartdate(Number(e.target.value))}
-        />
-        <Input
-          type="number"
-          placeholder="end_date"
-          onChange={(e) => setEndDate(Number(e.target.value))}
+        <CalendarRange
+          onDateChange={(start, end) => {
+            setStartdate(start);
+            setEndDate(end);
+          }}
         />
       </div>
     </DataTable>

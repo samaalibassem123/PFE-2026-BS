@@ -1,5 +1,7 @@
+import datetime
+
 from fastapi import HTTPException
-from sqlalchemy import select, func
+from sqlalchemy import select, func, extract, cast, Date
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -8,7 +10,17 @@ from app.core.database.models import EmployeeAttendanceEvent, AttendanceEvent, E
 
 class EmployeesLeaveService:
     @staticmethod
-    async def get_employees_leave(db:AsyncSession, limit: int = 50,offset: int = 0, fullname:str|None = None,email:str|None = None, event:str|None = None):
+    async def get_employees_leave(db:AsyncSession,
+                                  limit: int = 50,
+                                  offset: int = 0,
+                                  fullname:str|None = None,
+                                  email:str|None = None,
+                                  event:str|None = None,
+                                  start_date: datetime.date | None = None,
+                                  end_date:datetime.date | None = None,
+                                  month:int | None = None,
+                                  day: int | None = None,
+                                  ):
 
         try:
             query = (select(EmployeeAttendanceEvent, Employee, AttendanceEvent)
@@ -22,6 +34,22 @@ class EmployeesLeaveService:
                 query = query.where(Employee.email.ilike(f"%{email}%"))
             if event:
                 query = query.where(AttendanceEvent.name == event)
+
+            # date filters
+            if start_date and end_date:
+                query = query.where(
+                    cast(EmployeeAttendanceEvent.apply_time, Date).between(start_date, end_date)
+                )
+            elif start_date:
+                query = query.where(cast(EmployeeAttendanceEvent.apply_time, Date) >= start_date)
+            elif end_date:
+                query = query.where(cast(EmployeeAttendanceEvent.apply_time, Date) <= end_date)
+
+            if month:
+                query = query.where(extract("month", EmployeeAttendanceEvent.apply_time) == month)
+            if day:
+                query = query.where(extract("day", EmployeeAttendanceEvent.apply_time) == day)
+
 
 
             total_res = await db.execute(select(func.count()).select_from(query.subquery()))

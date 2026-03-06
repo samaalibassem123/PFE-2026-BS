@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSearchParams } from "react-router-dom";
+import { CalendarRange } from "@/components/CalendarRange";
 
 export default function EmployeLeaveTable() {
   const [limit, setLimit] = useState<number>(10);
@@ -32,8 +33,8 @@ export default function EmployeLeaveTable() {
     searchParams.get("emp_email") ?? "",
   );
   const [event, setEvent] = useState<string>("");
-  //const [start_date, setStartdate] = useState<number | null>(null);
-  //const [end_date, setEndDate] = useState<number | null>(null);
+  const [start_date, setStartdate] = useState<string | undefined>(undefined);
+  const [end_date, setEndDate] = useState<string | undefined>(undefined);
 
   const { data, isPending } = useEmployeesLeave({
     limit: limit,
@@ -41,9 +42,8 @@ export default function EmployeLeaveTable() {
     fullname: fullname,
     email: email,
     event: event == "all" ? "" : event,
-
-    //start_date: start_date,
-    //end_date: end_date,
+    start_date: start_date,
+    end_date: end_date,
   });
 
   const events = useEmployeesLeaveEvents();
@@ -71,16 +71,6 @@ export default function EmployeLeaveTable() {
           defaultValue={email}
         />
 
-        {/*<Input
-          placeholder="start_date"
-          type="number"
-          onChange={(e) => setStartdate(Number(e.target.value))}
-        />
-        <Input
-          type="number"
-          placeholder="end_date"
-          onChange={(e) => setEndDate(Number(e.target.value))}
-        />*/}
         <Select onValueChange={(v) => setEvent(v)}>
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Filter by Status" />
@@ -100,6 +90,12 @@ export default function EmployeLeaveTable() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <CalendarRange
+          onDateChange={(start, end) => {
+            setStartdate(start);
+            setEndDate(end);
+          }}
+        />
       </div>
     </DataTable>
   );

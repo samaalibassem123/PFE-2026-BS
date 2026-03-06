@@ -14,8 +14,8 @@ async def get_checkinouts(db:DB_dependecy,
                           offset: int = 0,
                           fullname:str | None = None,
                           email: str | None = None,
-                          start_date:int|None=None,
-                          end_date:int|None=None,
+                          start_date:datetime.date|None=None,
+                          end_date:datetime.date|None=None,
                           month:int|None=None,
                           day:int|None=None
                           ):

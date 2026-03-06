@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { ConstellationBackground } from "@/components/ui/constellation";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Sidebar,
   SidebarContent,
@@ -47,6 +48,12 @@ const Navigations: NavigationItem[] = [
     RoleView: ["ADMIN"],
   },
   {
+    link: "/user/employees",
+    icon: <Users className={IconStyle} />,
+    label: "Employees",
+    RoleView: ["RH"],
+  },
+  {
     link: "/user/checkinout",
     icon: <Clock className={IconStyle} />,
     label: "Check in-out",
@@ -58,12 +65,7 @@ const Navigations: NavigationItem[] = [
     label: "Projects",
     RoleView: ["PROJECT_MANAGER", "ADMIN"],
   },
-  {
-    link: "/user/employees",
-    icon: <Users className={IconStyle} />,
-    label: "Employees",
-    RoleView: ["RH"],
-  },
+
   {
     link: "/user/members",
     icon: <Users className={IconStyle} />,
@@ -155,7 +157,7 @@ export default function MainAppLayout() {
           </Badge>
         </header>
 
-        <main className="p-20">
+        <main className="p-10 w-full ">
           <Outlet />
         </main>
       </SidebarInset>
