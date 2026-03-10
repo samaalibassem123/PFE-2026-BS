@@ -24,7 +24,7 @@ class UserService:
 
     async def fetch_by_email(db:AsyncSession, user_email:str):
         db_user = await db.execute(select(User).where(User.email == user_email))
-        return db_user.scalars().first()
+        return db_user.scalar_one_or_none()
 
     async def fetch_user_by_id(db:AsyncSession, user_id:str):
         user  = await db.execute(select(User).where(User.id == user_id))

@@ -62,14 +62,16 @@ class PendingUsersService:
 
     @staticmethod
     async def addUser(user:PendingUserData,db:AsyncSession):
-        try:
+
             # first fetch user by mail the user table
             fetched_user = await UserService.fetch_by_email(db,user.email)
             if fetched_user:
-                raise HTTPException(status_code=404, detail="user email is already used")
-            user = user.model_dump()
-            user['user']['password'] = hash_password(user['user']['password'])
-            db.add(PendingUser(**user))
-            await db.commit()
-        except Exception as e:
-            raise  HTTPException(status_code=404, detail="User is already on the waiting list")
+                raise HTTPException(status_code=422 , detail="user email is already used")
+
+            try:
+                user = user.model_dump()
+                user['user']['password'] = hash_password(user['user']['password'])
+                db.add(PendingUser(**user))
+                await db.commit()
+            except Exception as e:
+                raise  HTTPException(status_code=404, detail="User is already on the waiting list")
