@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { getErrorMessage } from "@/shared/api/backend";
 
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -29,7 +30,7 @@ const userSchema = z.object({
 
 export default function LoginForm() {
   const [password, setshowPassword] = useState<boolean>(false);
-  const { mutate, isPending, isError } = useLoginMutation();
+  const { mutate, isPending, isError, error } = useLoginMutation();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -56,7 +57,7 @@ export default function LoginForm() {
         <FieldDescription>Login to your space.</FieldDescription>
         {isError && (
           <FieldError className="bg-destructive/20 p-2 text-center">
-            Email or password incorrect
+            {getErrorMessage(error)}
           </FieldError>
         )}
 

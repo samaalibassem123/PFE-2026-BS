@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum as PyEnum
-from typing import List, Optional
+from typing import List, Optional, Any
 from uuid import UUID, uuid4
 
 from sqlalchemy import (
@@ -25,6 +25,10 @@ class Role(str, PyEnum):
     RH = "RH"
     PROJECT_MANAGER = "PROJECT_MANAGER"
 
+class PendingUsersStatus(str, PyEnum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    DECLINED  = "DECLINED"
 
 class User(Base):
     __tablename__ = "users"
@@ -46,11 +50,11 @@ class User(Base):
 
 class PendingUser(Base):
     __tablename__ = "pending_users"
-    pass
+    
     id:Mapped[UUID] = mapped_column(primary_key=True, default=uuid4, index=True)
     email:Mapped[str] = mapped_column(String(255), unique=True, index=True)
-    user:Mapped[dict[str, any]] = mapped_column(JSONB)
-    approved:Mapped[bool] = mapped_column(Boolean, default=False)
+    user:Mapped[dict[str, Any]] = mapped_column(JSONB)
+    status:Mapped[PendingUsersStatus] = mapped_column(SAEnum(PendingUsersStatus), default=PendingUsersStatus.PENDING)
     created_at:Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     approved_at:Mapped[datetime] = mapped_column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
 

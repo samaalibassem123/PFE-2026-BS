@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "./separator";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -93,7 +94,8 @@ export function DataTable<TData, TValue>({
     <div className="  overflow-auto w-full  border rounded-lg backdrop-blur-sm">
       {/** FILTERS COMPONENT */}
       {children}
-      <Table className=" rounded-md">
+      <ScrollArea className="w-full">
+          <Table className=" rounded-md">
         <TableHeader className="bg-border">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -162,7 +164,10 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       <Separator />
-      <div className="  justify-end flex gap-2 items-center w-full p-4">
+
+      <ScrollBar orientation="horizontal" className=" absolute -top-2 h-[30px] "/>
+      </ScrollArea>
+    <div className="  justify-end flex gap-2 items-center w-full p-4">
         <Select onValueChange={(value) => onLimitChange(Number(value))}>
           <SelectTrigger className="w-fit">
             <SelectValue placeholder="rows" />

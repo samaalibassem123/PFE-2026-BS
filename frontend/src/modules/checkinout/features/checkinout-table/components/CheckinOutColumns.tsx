@@ -51,6 +51,21 @@ export const CheckinOutColumns: ColumnDef<CheckInoutData>[] = [
     },
   },
   {
+    accessorKey: "employee.department?.name",
+    header: "Department",
+    size: 200,
+    minSize: 200,
+    cell: ({ row }) => {
+      return (
+        <OnHoverText msg={row.original.employee.department?.name ?? ""}>
+          <p className=" truncate w-[130px] cursor-pointer">
+            {row.original.employee.department?.name}
+          </p>
+        </OnHoverText>
+      );
+    },
+  },
+  {
     accessorKey: "check_in",
     header: "clock in",
     size: 200,

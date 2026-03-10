@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
 import { ConstellationBackground } from "@/components/ui/constellation";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Sidebar,
   SidebarContent,
@@ -16,11 +15,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+//import RoleGuardComponents from "@/guards/RoleGuardComponents";
 import LogoutButton from "@/modules/auth/components/LogoutButton";
 import { useAuth } from "@/modules/auth/hooks";
+//import NotificationBell from "@/modules/dashboard/features/notifications/components/NotificationBell";
 import type { AvailableRoles } from "@/utils/Roles";
 
 import {
+
   Clock,
   DoorOpen,
   Folder,
@@ -28,6 +30,7 @@ import {
   Settings,
   User,
   Users,
+  Users2,
 } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
@@ -48,16 +51,10 @@ const Navigations: NavigationItem[] = [
     RoleView: ["ADMIN"],
   },
   {
-    link: "/user/employees",
-    icon: <Users className={IconStyle} />,
-    label: "Employees",
-    RoleView: ["RH"],
-  },
-  {
-    link: "/user/checkinout",
-    icon: <Clock className={IconStyle} />,
-    label: "Check in-out",
-    RoleView: ["RH"],
+    link: "/user/pendings",
+    icon: <Users2 className={IconStyle} />,
+    label: "Pending Users",
+    RoleView: ["ADMIN"],
   },
   {
     link: "/user/projects",
@@ -72,24 +69,42 @@ const Navigations: NavigationItem[] = [
     label: "Members",
     RoleView: ["PROJECT_MANAGER"],
   },
-  {
-    link: "/user/employees-leave",
-    icon: <DoorOpen className={IconStyle} />,
-    label: "Employees Leave",
-    RoleView: ["RH"],
-  },
+
   {
     link: "/user/members-att",
     icon: <DoorOpen className={IconStyle} />,
     label: "Members Attendace",
     RoleView: ["PROJECT_MANAGER"],
   },
+
+  {
+    link: "/user/employees",
+    icon: <Users className={IconStyle} />,
+    label: "Employees",
+    RoleView: ["RH"],
+  },
+
+  {
+    link: "/user/checkinout",
+    icon: <Clock className={IconStyle} />,
+    label: "Check in-out",
+    RoleView: ["RH"],
+  },
+
+  {
+    link: "/user/employees-leave",
+    icon: <DoorOpen className={IconStyle} />,
+    label: "Employees Leave",
+    RoleView: ["RH"],
+  },
+
   {
     link: "/user/profile",
     icon: <User className={IconStyle} />,
     label: "Profile",
     RoleView: ["ADMIN", "RH", "PROJECT_MANAGER"],
   },
+
   {
     link: "/user/settings",
     icon: <Settings className={IconStyle} />,
@@ -97,7 +112,6 @@ const Navigations: NavigationItem[] = [
     RoleView: ["ADMIN"],
   },
 ];
-
 export default function MainAppLayout() {
   const { data } = useAuth();
   const { pathname } = useLocation();
@@ -149,12 +163,18 @@ export default function MainAppLayout() {
 
       {/* Main content */}
       <SidebarInset>
-        <header className="flex h-16  z-50 items-center gap-2 px-4 border-b sticky top-0 backdrop-blur-2xl">
-          <SidebarTrigger />
-          <h1 className="text-lg font-semibold capitalize">{location}</h1>
-          <Badge className="text-xs" variant={"secondary"}>
-            {data.role}
-          </Badge>
+        <header className="flex justify-between h-16  z-50 items-center  px-4 border-b sticky top-0 backdrop-blur-2xl">
+          <div className="flex items-center gap-2 ">
+            <SidebarTrigger />
+            <h1 className="text-lg font-semibold capitalize">{location}</h1>
+            <Badge className="text-xs" variant={"secondary"}>
+              {data.role}
+            </Badge>
+          </div>
+       {/*   <RoleGuardComponents AllowedRoles={["ADMIN"]}>
+            <NotificationBell/>
+          </RoleGuardComponents>*/}
+
         </header>
 
         <main className="p-10 w-full ">

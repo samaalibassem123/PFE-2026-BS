@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useLoginMutation } from "../hooks";
+import { usePendingUserMutation } from "../hooks";
 import { useForm } from "@tanstack/react-form";
 
 import z from "zod";
@@ -26,6 +26,9 @@ import { Separator } from "@/components/ui/separator";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { getErrorMessage } from "@/shared/api/backend";
+import type { PendingUserData } from "@/modules/pending-users/types";
+
 
 const userSchema = z
   .object({
@@ -52,7 +55,7 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const { mutate, isPending, isError } = useLoginMutation();
+  const { mutate, isPending, isError, error } = usePendingUserMutation();
 
   const form = useForm({
     defaultValues: {
@@ -63,8 +66,17 @@ export default function RegisterForm() {
       confirmPassword: "",
     },
     onSubmit: async ({ value }) => {
-      const { confirmPassword, ...payload } = value;
-      mutate(payload);
+      const new_user: PendingUserData = {
+        email: value.email,
+        user: {
+          email: value.email,
+          username: value.username,
+          password: value.password,
+          role: value.role,
+        },
+        status: "PENDING",
+      };
+      mutate(new_user);
     },
     validators: {
       onSubmit: userSchema,
@@ -84,7 +96,7 @@ export default function RegisterForm() {
         <FieldDescription>Create your account.</FieldDescription>
         {isError && (
           <FieldError className="bg-destructive/20 p-2 text-center">
-            Something went wrong. Please try again.
+            {getErrorMessage(error)}
           </FieldError>
         )}
 

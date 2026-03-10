@@ -21,4 +21,5 @@ export interface GetChekinoutParams {
   email: string;
   start_date: string | undefined;
   end_date: string | undefined;
+  department: string | undefined;
 }

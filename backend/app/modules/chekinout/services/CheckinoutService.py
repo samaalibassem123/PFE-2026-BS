@@ -19,7 +19,7 @@ class CheckinOutService:
                               end_date:datetime.date|None=None,
                               month:int|None=None,
                               day:int|None=None):
-        print(month)
+
         try:
             query = select(Attendance, Employee).join(Employee, Attendance.emp_id == Employee.id )
 

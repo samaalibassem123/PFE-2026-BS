@@ -8,7 +8,7 @@ export interface EmployeeData {
   full_name: string;
   email: string;
   hire_date: Date;
-  department: DepartmentData;
+  department?: DepartmentData;
 }
 
 export interface GetEmployeesParams {
