@@ -20,3 +20,5 @@ async def get_employees(db:DB_dependecy,
 async def get_departments(db:DB_dependecy):
      departments = await EmployeesServices.get_departments(db)
      return departments
+
+

@@ -9,6 +9,7 @@ from app.core.database.models import PendingUsersStatus
 
 class ApproveUserRequest(BaseModel):
     email:str
+    username:Optional[str]
     status:PendingUsersStatus
 
 class PendingUserData(BaseModel):

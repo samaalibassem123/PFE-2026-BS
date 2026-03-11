@@ -37,7 +37,7 @@ class PendingUsersService:
     @staticmethod
     async def getPendingUser(db:AsyncSession, email:str):
         try:
-            user = await db.execute(select(PendingUser).where(PendingUser.email == email))
+            user = await db.execute(select(PendingUser).where(PendingUser.email == email , PendingUser.status == "PENDING"))
             return user.scalar_one_or_none()
         except Exception as e:
             raise HTTPException(status_code=404, detail=str(e))

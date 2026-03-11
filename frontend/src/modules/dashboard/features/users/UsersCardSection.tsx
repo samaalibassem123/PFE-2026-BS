@@ -4,7 +4,7 @@ import { useGetUsersNumbers } from "./hooks/users-card-info";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { getErrorMessage } from "@/shared/api/backend";
-import { RadialChart } from "../../../../components/RadialChart";
+import { RadialChart } from "../../../../components/charts/RadialChart";
 import { type ChartConfig } from "../../../../components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";

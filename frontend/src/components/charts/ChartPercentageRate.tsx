@@ -45,7 +45,7 @@ export function ChartPercentageRate({ ...props }: Props) {
   ];
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col flex-1">
       <CardHeader className="items-center pb-0">
         <CardTitle>Radial Chart - Shape</CardTitle>
         <CardDescription>{date}</CardDescription>

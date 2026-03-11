@@ -32,6 +32,9 @@ class Settings(BaseSettings):
 
     EASY_PROJECT_URL:str
 
+    # Resend / for mail sending
+    RESEND_API_KEY:str
+
 
     class Config:
         env_file = ".env"

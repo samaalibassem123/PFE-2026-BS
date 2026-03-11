@@ -22,6 +22,7 @@ interface Props{
 }
 
 export default function ApproveDialog({ user_data }: Props) {
+
   const { mutate, isPending } = useApproving({
     email: user_data.email,
     status: "APPROVED",
@@ -46,7 +47,7 @@ export default function ApproveDialog({ user_data }: Props) {
           <Button
             disabled={isPending}
             variant={"confirme"}
-            onClick={() => mutate({ email: user_data.email, status: "APPROVED" })}
+            onClick={() => mutate({ email: user_data.email, username: user_data.username, status: "APPROVED" })}
           >
             Confirm {isPending && <Spinner />}
           </Button>

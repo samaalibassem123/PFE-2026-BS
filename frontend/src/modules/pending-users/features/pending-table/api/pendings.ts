@@ -8,6 +8,7 @@ export const get_pendings_fn = async (params:GetPendingsParams)=>{
 
 
 export const approve_fn = async (params:ApproveRequest)=>{
+
     const {data} =  await api.post('/api/pending-users/approve', params)
     return data
 }

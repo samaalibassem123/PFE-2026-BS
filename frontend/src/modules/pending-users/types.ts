@@ -33,7 +33,8 @@ export interface GetPendingsParams {
 
 export type PendingUsersStatus = "PENDING" | "APPROVED" | "DECLINED";
 
-export interface ApproveRequest{
-    email:string
-    status:PendingUsersStatus
+export interface ApproveRequest {
+  email: string;
+  username?: string;
+  status: PendingUsersStatus;
 }

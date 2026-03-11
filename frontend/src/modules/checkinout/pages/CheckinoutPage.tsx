@@ -1,5 +1,4 @@
-import { ChartArea } from "@/components/ChartArea";
-import RadialCharts from "../features/checkinout-charts/components/RadialCharts";
+
 import { CheckinoutTable } from "../features/checkinout-table";
 
 export default function CheckinoutPage() {

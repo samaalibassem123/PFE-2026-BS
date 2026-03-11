@@ -76,6 +76,7 @@ export default function RegisterForm() {
         },
         status: "PENDING",
       };
+
       mutate(new_user);
     },
     validators: {

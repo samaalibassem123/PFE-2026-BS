@@ -11,6 +11,7 @@ class AuthService:
     async def authUser(db:AsyncSession,user:UserLoginRequest):
         # step 1 : fetch user if he exist on pending users table
         pending_user = await PendingUsersService.getPendingUser(db,user.email)
+
         if pending_user:
             raise HTTPException(status_code=401,detail="you must wait for admin approving")
         # step 2 : fetch user by email
