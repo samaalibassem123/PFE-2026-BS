@@ -27,6 +27,7 @@ async def approve_user(data:ApproveUserRequest, db:DB_dependecy, background_task
     await PendingUsersService.approveUser(data.email, data.status,db)
     # if the user is approved than send mail so he can login
     if data.status == "APPROVED":
+        # we need to add the send mail func to background because it can be slow and stop the api
         background_task.add_task(send_mail, data.email,data.username, "Login to your OTBS Account")
     return  {"message":"user approved succfully and mail is send"}
 
