@@ -57,11 +57,9 @@ async def get_users(db:DB_dependecy,
 
 @user_router.delete('/{user_id}')
 async def delete_user(user_id:str, db:DB_dependecy):
-    try:
+
         user = await UserService.delete_user_by_id(db, user_id)
         return user
-    except:
-        raise HTTPException(status_code=400, detail="Server Error")
 
 @user_router.put('/{user_id}')
 async def update_user(user_id:str, new_user_data:UserUpdateData , db:DB_dependecy):

@@ -5,6 +5,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth.security import hash_password
+from app.core.database.models import PendingUser
 from app.core.database.models.models import User
 from app.modules.user.schemas.User import UserCreateSchema, UserUpdateData, UsersNumberSchema
 
@@ -56,15 +57,28 @@ class UserService:
         except Exception as e :
             raise HTTPException(status_code=400, detail=str(e))
 
+    async def delete_user_by_id(db: AsyncSession, user_id):
+        try:
+            user = await db.get(User, user_id)
 
-    async def delete_user_by_id(db:AsyncSession, user_id):
-        user = await db.get(User, user_id)
-        if not user:
-            raise HTTPException(status_code=404, detail='user not found')
+            if not user:
+                raise HTTPException(status_code=404, detail="User not found")
 
-        await db.delete(user)
-        await db.commit()
-        return True
+            result = await db.execute(
+                select(PendingUser).where(PendingUser.email == user.email)
+            )
+            pending_user = result.scalar_one_or_none()
+
+            await db.delete(user)
+
+            if pending_user:
+                await db.delete(pending_user)
+
+            await db.commit()
+            return True
+
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
     async def update_user_by_ida(db:AsyncSession, user_id:str, new_user_data:UserUpdateData):
         # step 1 : fetch the new user email if it is used before

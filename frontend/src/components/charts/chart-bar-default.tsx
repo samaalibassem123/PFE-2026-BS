@@ -1,7 +1,7 @@
-"use client";
-
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import * as React from "react";
+import dayjs from 'dayjs';
 
 import {
   Card,
@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import {
   ChartContainer,
   ChartTooltip,
@@ -18,56 +19,74 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-export const description = "A bar chart";
-
-
-
-
 interface Props {
-    chartData:any[]
+  chartData: any[];
+  chartConfig:ChartConfig
+  xKey?: string;
+  yKey?: string;
+  title?: string;
+  description?: string;
 }
 
+export function ChartBarDefault({
+  chartData,
+  chartConfig,
+  xKey,
+  yKey,
+  title = "Bar Chart",
+  description = "",
+}: Props) {
 
-export function ChartBarDefault({ chartData }: Props) {
-  const chartConfig = {
-    desktop: {
-      label: Object.keys(chartData[0])[0],
-      color: "var(--chart-1)",
-    },
-  } satisfies ChartConfig;
-  console.log(Object.keys(chartData[0])[0], )
+  const keys = React.useMemo(() => {
+    if (!chartData?.length) return [];
+    return Object.keys(chartData[0]);
+  }, [chartData]);
+
+  const categoryKey = xKey ?? keys[0];
+  const valueKey = yKey ?? keys[1];
+
+
+const date = dayjs(new Date()).format("YYYY-MM-DD")
+
   return (
-    <Card className="flex-1">
+    <Card className=" flex-1  max-h-fit">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
+
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
+
             <XAxis
-              dataKey={Object.keys(chartData[0])[0]}
+              dataKey={categoryKey}
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) =>
+                typeof value === "string" ? value.slice(0, 3) : value
+              }
             />
+
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey={Object.keys(chartData[0])[1]} fill="var(--color-desktop)" radius={8} />
+
+            <Bar dataKey={valueKey} radius={8} />
           </BarChart>
         </ChartContainer>
       </CardContent>
+
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Showing chart data distribution
+          <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
+
+        <div className="leading-none text-muted-foreground">{date}</div>
       </CardFooter>
     </Card>
   );

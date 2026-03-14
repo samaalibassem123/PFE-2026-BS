@@ -48,7 +48,7 @@ export default function DeclineDialog({user_data}:Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button disabled={isPending} variant={"destructive"} onClick={()=>mutate({email:user_data.email, status:"DECLINED"})}>Confirm {isPending && <Spinner/>}</Button>
+          <Button disabled={isPending} variant={"destructive"} onClick={()=>mutate({email:user_data.email,username:user_data.username, status:"DECLINED"})}>Confirm {isPending && <Spinner/>}</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
