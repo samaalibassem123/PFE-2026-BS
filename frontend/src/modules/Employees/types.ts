@@ -22,3 +22,11 @@ export interface GetEmployeesData {
   total: number;
   data: EmployeeData[];
 }
+
+
+
+// Employees Charts
+export interface EmployeeByDepartmentData{
+  department:string
+  employees:number
+}

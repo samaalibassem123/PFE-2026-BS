@@ -44,3 +44,21 @@ class EmployeesServices:
             return departments.scalars().all()
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
+
+    @staticmethod
+    async def get_employees_by_depart(db:AsyncSession):
+        try:
+            stmt = select(Department.name.label("department"), func.count(Employee.id).label("employees")).join(Department.employees).group_by(Department.name)
+
+            result = await db.execute(stmt)
+            rows = result.all()
+
+            return [
+                {
+                    "department": r.department,
+                    "employees": r.employees
+                }
+                for r in rows
+            ]
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))

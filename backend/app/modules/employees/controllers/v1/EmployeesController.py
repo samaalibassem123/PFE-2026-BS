@@ -22,3 +22,7 @@ async def get_departments(db:DB_dependecy):
      return departments
 
 
+@employees_router.get('/by_department')
+async def get_employees_by_depart(db:DB_dependecy):
+     emp_count  = await EmployeesServices.get_employees_by_depart(db)
+     return emp_count
