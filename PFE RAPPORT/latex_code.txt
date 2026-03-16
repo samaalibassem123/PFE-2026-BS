@@ -1,0 +1,801 @@
+\documentclass[a4paper,12pt]{report}
+
+% ------------------ Packages ------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{float}
+\usepackage{needspace}
+\usepackage{longtable}
+
+% Chapter style with a horizontal line
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries}
+  {\chaptername\ \thechapter}{20pt}{}
+  [\vspace{0.5ex}\titlerule] % <-- adds the line under the title
+
+%To make links active
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, linktoc=all}
+
+% Make the subsections appear with Roman numbers
+\renewcommand{\thesubsection}{\thechapter.\Roman{subsection}}
+
+
+% Page Paddings
+\geometry{
+    left=2cm,
+    right=1.5cm, 
+    top=2.5cm,
+    bottom=3cm
+}
+
+% Remove page number
+
+
+% ------------------ Border ------------------
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usepackage{xcolor}          % ← required for hex
+\usetikzlibrary{calc}
+
+\definecolor{myborder}{HTML}{336699}  % your color #336699
+
+\newcommand\PageBorder{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=1.5pt, myborder]  % ← use the name here
+      ($(current page.north west)+(1.3cm,-1.3cm)$)
+      rectangle
+      ($(current page.south east)+(-1.3cm,1.3cm)$);
+    \draw[line width=2.5pt, myborder]
+      ($(current page.north west)+(1.4cm,-1.4cm)$)
+      rectangle
+      ($(current page.south east)+(-1.4cm,1.4cm)$);
+  \end{tikzpicture}%
+}
+
+
+% ------------------ Technology Icons ------------------
+\newcommand{\TechIcon}[2][1.45cm]{%
+  \raisebox{0pt}[#1][#1]{\makebox[\linewidth][c]{%
+    \includegraphics[width=\linewidth,height=#1,keepaspectratio]{#2}%
+  }}%
+}
+
+
+
+% ------------------ Document ------------------
+\begin{document}
+\hypersetup{pageanchor=false}
+%----------- set the border for the first page only
+\AddToShipoutPictureBG*{\PageBorder}
+%------------------ The first page or the Title page ------------------
+
+\begin{titlepage}
+\begin{center}
+
+% ------------------ Header ------------------
+\textbf{Tunisian Republic}\\[0.2cm]
+\textbf{Ministry of Higher Education and Scientific Research}\\[0.5cm]
+\begin{center}
+  \begin{minipage}{0.22\textwidth}
+    \centering
+    \includegraphics[width=2cm]{logos/utm-header.png}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}{0.50\textwidth}
+    \centering
+    \large\textbf{University of Tunis El Manar}\\
+    \small\textbf{{Faculty of Economics and Management of Tunis}}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}{0.22\textwidth}
+    \centering
+    \includegraphics[width=3cm]{logos/logo_fsegt.png}
+  \end{minipage}
+  \hfill
+  
+\end{center}
+
+
+
+% ------------------ Title ------------------
+{\LARGE\textbf{FINAL YEAR PROJECT}}\\[1cm]
+
+Submitted in partial fulfillment of the requirements for the degree:\\[0.3cm]
+{\Large\textbf{Bachelor's Degree in Business Intelligence}}\\[1.2cm]
+
+% ------------------ PFE Title Box ------------------
+\fbox{
+\parbox{0.85\textwidth}{
+\centering
+\vspace{0.4cm}
+{\Large\textcolor{blue}{\textbf{FYP Title}}}
+\vspace{0.4cm}
+}
+}
+
+\vspace{1.2cm}
+
+% ------------------ Organization ------------------
+\textbf{Host Organization}\\[0.3cm]
+\textbf{OneTech Business Solution}\\[0.2cm]
+ \begin{minipage}{0.22\textwidth}
+    \centering
+    \includegraphics[width=2cm]{logos/onetech_b_s_logo.jpeg}
+  \end{minipage}%
+\\[1.2cm]
+
+% ------------------ Author ------------------
+\textbf{PREPARED BY}\\[0.3cm]
+ Mr \textbf{Samaali Bassem}\\[1.2cm]
+
+% ------------------ Supervisors ------------------
+\textbf{SUPERVISED BY}\\[0.4cm]
+Professor Besma BEN AMARA\\
+(Academic supervisor)\\[0.3cm]
+Mr Maher Daassi\\
+(Professional supervisor)\\[1.5cm]
+
+% ------------------ Year ------------------
+\textbf{ACADEMIC YEAR: 2025-2026}
+
+\end{center}
+\end{titlepage}
+
+%------------------ Acknowledgements page ------------------
+\newpage
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+I express my sincere gratitude to my academic supervisor, Mrs Besma BEN AMARA, for her
+invaluable guidance, support, and insightful feedback throughout this project. Her expertise
+and encouragement were instrumental in the successful completion of this work.
+I am also deeply grateful to my professional supervisor, Mr Maher Daassi, at OneTech
+Business Solution, for giving me the opportunity to work on this project and for his practical guidance and
+continuous support. His insights into the industry were truly valuable.
+I also extend my sincere thanks and profound respect to all the professors and staff of
+the Faculty of Economic Sciences and Management of Tunis, as well as to everyone who
+contributed, directly or indirectly, to the development of this work.
+Finally, I would like to thank the jury members for accepting to evaluate my work. I hope
+that this report meets their expectations in terms of clarity, quality, and motivation.
+
+
+%------------------ Table of content page ------------------
+
+% Table of contents
+\newpage
+\tableofcontents
+\addcontentsline{toc}{chapter}{Table of contents}
+\clearpage
+\hypersetup{pageanchor=true}
+
+% List of abbreviations (optional)
+\newpage
+\chapter*{List of abbreviations}
+\addcontentsline{toc}{chapter}{List of abbreviations}
+\begin{itemize}[noitemsep]
+    \item SWOT : Strengths, Weaknesses, Opportunities, Threats
+    \item PESTEL : Political, Economic, Social, Technological, Environmental, Legal
+    % Add your own
+\end{itemize}
+
+\chapter{General Introduction}
+\section{General Context of the Project}
+This chapter introduces the organizational context of the internship, defines the problem this project aims to solve, establishes system requirements, and justifies the selected development methodology.
+
+\section{Company Presentation}
+The internship was carried out within a company that manages a significant workforce distributed across multiple projects. The organization relies on digital tools to administer human resources, project assignments, and employee scheduling. Two existing systems --- BioTime and EasyProject --- were already in place, each serving a distinct operational purpose.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{10cm}|}
+\hline
+\textbf{Industry} & Technology / IT Services \\
+\hline
+\textbf{Business Activity} & Project-based workforce management and software development \\
+\hline
+\textbf{Existing Systems} & BioTime (ZKTeco biometric attendance) + EasyProject (project \& HR management) \\
+\hline
+\textbf{Infrastructure} & On-premise PostgreSQL and MySQL databases, internal network \\
+\hline
+\textbf{Internship Duration} & 3 months (approximately 12 weeks) \\
+\hline
+\textbf{Intern Role} & Full-Stack Developer --- Design, ETL, Backend (FastAPI), Frontend (React) \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Existing Information Systems}
+The company operates two independent database systems:
+\begin{itemize}[noitemsep]
+    \item \textbf{BioTime (PostgreSQL)}: Connected to ZKTeco biometric devices, recording raw clock-in and clock-out events with employee identifiers and timestamps.
+    \item \textbf{EasyProject (MySQL)}: Handles employee profiles, team structure, project assignments, schedules, and leave requests.
+\end{itemize}
+
+These systems operate in silos with no native integration, which creates visibility gaps and forces manual reconciliation.
+
+\section{Problem Statement}
+\subsection{Identified Pain Points}
+Prior to this project, the company faced the following operational challenges:
+\begin{itemize}[noitemsep]
+    \item Data silos between attendance data (BioTime/PostgreSQL) and HR/project data (EasyProject/MySQL).
+    \item No unified view combining physical attendance and project assignment.
+    \item Conflict risks between systems (presence/absence mismatches and overlapping assignments).
+    \item No real-time monitoring dashboard for managers.
+    \item Manual, time-consuming, and error-prone Excel reporting.
+    \item No unified role-based authentication layer across the whole workflow.
+\end{itemize}
+
+\subsection{Project Objective}
+The objective of this internship project is to design and implement a unified web application that:
+\begin{itemize}[noitemsep]
+    \item Merges BioTime and EasyProject into a conflict-free PostgreSQL database through an ETL pipeline.
+    \item Exposes secure and role-aware REST APIs using FastAPI.
+    \item Provides a React dashboard for real-time attendance, leave, delay, overtime, and assignment visualization.
+    \item Eliminates data conflicts through ETL transformation and reconciliation rules.
+\end{itemize}
+
+\section{Requirements Analysis}
+\subsection{Functional Requirements}
+
+\textbf{Administrator}
+\begin{itemize}[noitemsep]
+    \item \textbf{FR-01}: Create and manage user accounts.
+    \item \textbf{FR-02}: Assign roles (Admin, HR, Project Manager).
+    \item \textbf{FR-03}: Assign projects to Project Managers.
+    \item \textbf{FR-04}: Assign Project Managers to projects.
+    \item \textbf{FR-05}: The Administrator shall not access employee details or attendance records.
+\end{itemize}
+
+\textbf{Human Resources (HR)}
+\begin{itemize}[noitemsep]
+    \item \textbf{FR-06}: View all employees across the organization.
+    \item \textbf{FR-07}: View attendance records for all employees.
+    \item \textbf{FR-08}: View attendance summaries and reports at global scope.
+    \item \textbf{FR-09}: Manage HR attendance and leave follow-up operations.
+\end{itemize}
+\vspace{2cm}
+\textbf{Project Manager}
+\begin{itemize}[noitemsep]
+    \item \textbf{FR-10}: View only projects assigned by the Administrator.
+    \item \textbf{FR-11}: View members belonging to assigned projects.
+    \item \textbf{FR-12}: View attendance records of members in assigned projects only.
+\end{itemize}
+
+\textbf{ETL \& System}
+\begin{itemize}[noitemsep]
+    \item \textbf{FR-13}: Extract attendance and HR data from BioTime and EasyProject on schedule.
+    \item \textbf{FR-14}: Resolve duplicate records, ID mismatches, and timezone differences.
+    \item \textbf{FR-15}: Store transformed and unified data in the main PostgreSQL database through \textbf{SQLAlchemy}.
+    \item \textbf{FR-16}: Provide real-time synchronization capabilities.
+\end{itemize}
+
+\textbf{Dashboard \& Reporting}
+\begin{itemize}[noitemsep]
+    \item The dashboard shall display KPIs (present employees, absences, late arrivals, overtime).
+    \item The system shall allow filtering by date range, project, and employee.
+    \item Reports shall be exportable in standard formats.
+\end{itemize}
+
+\subsection{Non-Functional Requirements}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|>{\raggedright\arraybackslash}p{8cm}|}
+\hline
+\textbf{Category} & \textbf{Requirement ID} & \textbf{Description} \\
+\hline
+Performance & NFR-01 & API endpoints shall respond within 300ms for standard queries on datasets up to 5,000 employees. \\
+Security & NFR-02 & All API routes shall be protected by JWT-based authentication. Passwords shall be hashed using bcrypt. \\
+Security & NFR-03 & Role-based access control (RBAC) shall enforce permission boundaries. \\
+Reliability & NFR-04 & ETL shall handle source failures, log errors, and resume from the last successful sync point. \\
+Data Integrity & NFR-05 & Duplicate attendance records shall be prevented through ETL deduplication and unique constraints. \\
+Scalability & NFR-06 & The architecture shall support additional devices and new employee data sources. \\
+Usability & NFR-07 & The React interface shall be responsive on desktop and tablet screens. \\
+Maintainability & NFR-08 & Database migrations shall be managed with Alembic. \\
+Portability & NFR-09 & The application shall be Docker-compatible for deployment flexibility. \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Development Methodology: Scrum}
+\subsection{Why Scrum Was Chosen}
+\subsubsection{(a) Evolving and partially unknown requirements}
+At the start of the internship, the complete conflict-resolution logic between BioTime and EasyProject was not fully understood. Scrum enabled progressive refinement after each sprint.
+
+\subsubsection{(b) Short internship duration (3 months)}
+With a fixed 12-week timeline, two-week sprints ensured continuous delivery of working increments rather than a risky end-only delivery.
+
+\subsubsection{(c) Modular and layered architecture}
+The project naturally decomposes into ETL/data, API/backend, and UI/frontend layers. Scrum sprint boundaries map cleanly onto this layered architecture.
+
+\subsubsection{(d) Adaptability to technical challenges}
+Data quality issues such as missing IDs, timestamp mismatch, and null values were addressed iteratively through sprint planning and retrospectives.
+
+\subsubsection{(e) Why not Waterfall?}
+Waterfall requires complete and stable upfront requirements, which was not realistic for this data-integration project under internship time constraints.
+
+\subsubsection{(f) Why not Kanban alone?}
+Kanban is useful for continuous flow but lacks the strong time-boxed cadence required for milestone tracking in a fixed-duration internship.
+
+\subsection{Scrum Framework Overview}
+\subsubsection{Roles}
+\begin{itemize}[noitemsep]
+    \item Product Owner: company supervisor.
+    \item Scrum Master / Developer: intern.
+\end{itemize}
+
+\subsubsection{Artifacts}
+\begin{itemize}[noitemsep]
+    \item Product Backlog.
+    \item Sprint Backlog.
+    \item Increment.
+\end{itemize}
+
+\subsubsection{Ceremonies}
+\begin{itemize}[noitemsep]
+    \item Sprint Planning.
+    \item Sprint Review.
+    \item Sprint Retrospective.
+\end{itemize}
+
+\subsection{Sprint Plan}
+\begin{center}
+\begin{tabular}{|l|l|>{\raggedright\arraybackslash}p{8cm}|}
+\hline
+\textbf{Sprint} & \textbf{Duration} & \textbf{Main Objective} \\
+\hline
+Sprint 1 & Week 1 -- Week 2 & Project setup, database architecture, and ETL pipeline implementation \\
+Sprint 2 & Week 3 -- Week 4 & Authentication system and user management \\
+Sprint 3 & Week 5 -- Week 6 & Employee management and HR data integration \\
+Sprint 4 & Week 7 -- Week 8 & Project management and member allocation \\
+Sprint 5 & Week 9 -- Week 10 & Attendance tracking and leave management \\
+Sprint 6 & Week 11 -- Week 12 & Dashboard analytics, KPI visualization, testing, and system optimization \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Chosen Technologies and Rationale}
+To solve the integration problem between heterogeneous systems and deliver a maintainable full-stack solution, a focused technology stack was selected. The choice was driven by interoperability, reliability, development speed, and long-term maintainability.
+
+\subsection{Technology Stack Table}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{|>{\centering\arraybackslash}m{1.8cm}|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{5.0cm}|>{\raggedright\arraybackslash}p{5.0cm}|}
+\hline
+\textbf{Icon} & \textbf{Technology} & \textbf{Description} & \textbf{Why I Chose It} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Icon} & \textbf{Technology} & \textbf{Description} & \textbf{Why I Chose It} \\
+\hline
+\endhead
+
+\TechIcon{logos/tech/sqlalchemy.pdf} & \textbf{SQLAlchemy} & Python ORM/SQL toolkit used in ETL and backend data access. & One consistent way to work with both PostgreSQL and MySQL, reducing complexity and duplicated logic. \\
+\hline
+\TechIcon{logos/tech/fastapi.pdf} & \textbf{FastAPI} & High-performance framework for building REST APIs with validation and auto-docs. & Fast development, clean architecture, and excellent performance for real-time endpoints. \\
+\hline
+ALEMBIC & \textbf{Alembic} & Database migration tool for versioning schema changes. & Safe, traceable schema evolution across sprints and environments. \\
+\hline
+\TechIcon{logos/tech/postgresql.pdf} & \textbf{PostgreSQL} & Main unified relational database for transformed attendance and HR data. & Strong integrity, reliability, and good fit for analytical plus transactional workloads. \\
+\hline
+\TechIcon{logos/tech/mysql.pdf} & \textbf{MySQL (Source)} & Source database used by EasyProject and read by ETL jobs. & Necessary to integrate existing company data without changing the legacy system. \\
+\hline
+\TechIcon{logos/tech/resend.pdf} & \textbf{Resend} & Email delivery service for notifications and account communication. & Simple API and reliable transactional email delivery. \\
+\hline
+\TechIcon{logos/tech/docker.pdf} & \textbf{Docker} & Containerization platform for packaging backend services and dependencies. & Reproducible environments and easier deployment across development and production. \\
+\hline
+\TechIcon{logos/tech/react.pdf} & \textbf{React} & Component-based frontend library for dynamic single-page interfaces. & Reusable UI components and efficient rendering for dashboard screens. \\
+\hline
+\TechIcon{logos/tech/tailwindcss.pdf} & \textbf{Tailwind CSS} & Utility-first CSS framework for rapid interface styling. & Faster UI implementation with consistent design across pages. \\
+\hline
+\TechIcon{logos/tech/shadcn-ui.pdf} & \textbf{shadcn/ui} & Reusable, accessible UI components built on top of Radix and Tailwind. & Speeds up building professional interfaces while keeping full customization. \\
+\hline
+\TechIcon{logos/tech/tanstack.pdf} & \textbf{TanStack Table} & Data-grid engine for sorting, filtering, and pagination. & Essential for handling large employee and attendance tables efficiently. \\
+\hline
+\TechIcon{logos/tech/tanstack.pdf} & \textbf{TanStack Query} & Server-state and caching library for API synchronization. & Better performance and cleaner async state handling in the frontend. \\
+\hline
+\end{longtable}
+
+Overall, this stack directly addresses the project problem: integrating two isolated source systems, exposing secure and maintainable APIs, and delivering a responsive interface for real-time operational follow-up.
+
+\section{Chapter Conclusion}
+This chapter established the project foundation by describing the organizational context and the core challenge caused by the coexistence of two isolated systems: BioTime and EasyProject.
+
+The proposed response is a unified architecture based on an ETL pipeline, a consolidated PostgreSQL database, a FastAPI backend, and a React web dashboard to ensure reliable and conflict-free attendance monitoring.
+
+The next chapter presents the analysis and design artifacts, including use case and sequence diagrams, database schema, and global system architecture.
+
+\chapter{Analysis and Design}
+\section{Chapter Introduction}
+This chapter formalizes the solution through analysis and design artifacts. It presents the behavioral view of the system, the interaction flows between components, the data model, and the global architecture adopted for implementation.
+
+\section{Use Case Analysis}
+\subsection{Actors and Access Scope}
+The system defines three primary actors with clearly separated responsibilities:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Administrator (Admin)}: Manages platform access and governance. The Admin can create accounts for HR and Project Managers, view projects, and assign projects to Project Managers.
+    \item \textbf{Human Resources (HR)}: Has organization-wide visibility over human resources data. HR can view all employees, attendance records, and related organizational information (such as departments).
+    \item \textbf{Project Manager}: Operates at project scope. A Project Manager can view projects assigned by the Admin and consult attendance of members belonging to those assigned projects.
+\end{itemize}
+\newpage
+\subsection{Global Use Case Diagram}
+
+
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-use-case-diagram.png}{%
+    \includegraphics[width=0.86\textwidth,height=0.80\textheight,keepaspectratio]{diagrams/ch2-use-case-diagram.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{2.2cm}
+    \textit{Missing file: diagrams/ch2-use-case-diagram.png}\\
+    \textit{Export your Mermaid use case diagram as PNG and place it in the diagrams folder.}
+    \vspace{2.2cm}
+    }}
+}
+\caption{Global Use Case Diagram}
+\label{fig:global-use-case}
+\end{figure}
+
+\textbf{Diagram logic (actor -- use case mapping):}
+\begin{itemize}[noitemsep]
+    \item \textbf{Admin}: create HR account, create Project Manager account, view projects, assign projects to Project Managers.
+    \item \textbf{HR}: view all employees, view all attendance records, view departments.
+    \item \textbf{Project Manager}: view assigned projects and view attendance of members in assigned projects.
+\end{itemize}
+
+\subsection{Main Use Cases Description}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{7cm}|}
+\hline
+\textbf{Actor} & \textbf{Use Case} & \textbf{Description} \\
+\hline
+Administrator & Create HR account & Creates user accounts with HR role to allow access to organization-wide employee and attendance data. \\
+\hline
+Administrator & Create Project Manager account & Creates user accounts with Project Manager role for project-level supervision. \\
+\hline
+Administrator & View projects & Consults the list of available projects before assignment decisions. \\
+\hline
+Administrator & Assign project to Project Manager & Links one or multiple projects to a specific Project Manager according to organizational planning. \\
+\hline
+Human Resources & View all employees & Accesses the complete employee directory across all departments. \\
+\hline
+Human Resources & View all attendance records & Monitors attendance organization-wide for follow-up and reporting. \\
+\hline
+Human Resources & View departments & Checks department-level information for HR administration and analysis. \\
+\hline
+Project Manager & View assigned projects & Sees only projects assigned by the Administrator. \\
+\hline
+Project Manager & View members attendance in assigned projects & Consults attendance of team members belonging to projects under their responsibility. \\
+\hline
+\end{tabular}
+\end{center}
+
+\Needspace{0.20\textheight}
+\section{Sequence Diagrams}
+\Needspace{0.16\textheight}
+\subsection{Authentication Workflow}
+
+This subsection presents the authentication sequence diagram as a PNG export.
+
+\textbf{Authentication flow logic:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Login flow with JWT}: The user submits credentials; the backend validates them and issues a signed JWT access token with an expiration time.
+    \item \textbf{Access to protected routes}: The client sends the JWT in the \texttt{Authorization: Bearer <token>} header; the backend verifies signature, claims, and role permissions before granting access.
+    \item \textbf{Token expiration}: When the token reaches its \texttt{exp} timestamp, protected requests are rejected (unauthorized), and the user must re-authenticate (or use a refresh strategy if implemented).
+    \item \textbf{User logout}: On logout, the client removes stored token(s). If server-side revocation or blacklisting is enabled, the token is invalidated immediately.
+\end{itemize}
+
+\Needspace{0.72\textheight}
+\vspace*{\fill}
+\textbf{Login Flow Diagram:}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-auth-login-flow.png}{%
+    \includegraphics[width=0.95\textwidth,height=0.62\textheight,keepaspectratio]{diagrams/ch2-auth-login-flow.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-auth-login-flow.png}\\
+    \textit{Export the Login Flow sequence diagram as PNG and place it in the diagrams folder.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Login Flow with JWT Issuance}
+\label{fig:auth-login-flow}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.72\textheight}
+\vspace*{\fill}
+\textbf{Protected Route Access Diagram:}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-auth-protected-route-flow.png}{%
+    \includegraphics[width=0.95\textwidth,height=0.62\textheight,keepaspectratio]{diagrams/ch2-auth-protected-route-flow.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-auth-protected-route-flow.png}\\
+    \textit{Export the Protected Route Access sequence diagram as PNG and place it in the diagrams folder.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Protected Route Access with JWT Verification}
+\label{fig:auth-protected-route-flow}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+\Needspace{0.72\textheight}
+\vspace*{\fill}
+\textbf{Token Expiration Diagram:}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-auth-token-expiration-flow.png}{%
+    \includegraphics[width=0.95\textwidth,height=0.62\textheight,keepaspectratio]{diagrams/ch2-auth-token-expiration-flow.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-auth-token-expiration-flow.png}\\
+    \textit{Export the Token Expiration sequence diagram as PNG and place it in the diagrams folder.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Token Expiration and Re-authentication Flow}
+\label{fig:auth-token-expiration-flow}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.72\textheight}
+\vspace*{\fill}
+\textbf{Logout Flow Diagram:}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-auth-logout-flow.png}{%
+    \includegraphics[width=0.95\textwidth,height=0.62\textheight,keepaspectratio]{diagrams/ch2-auth-logout-flow.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-auth-logout-flow.png}\\
+    \textit{Export the Logout Flow sequence diagram as PNG and place it in the diagrams folder.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{User Logout and Token Invalidation Flow}
+\label{fig:auth-logout-flow}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+
+\Needspace{0.20\textheight}
+\section{Database Schema Design}
+\Needspace{0.18\textheight}
+\subsection{Source Databases: BioTime and EasyProject}
+The source systems contain many tables; after full exploration, only the most relevant tables were selected for ETL.
+
+\Needspace{0.76\textheight}
+\vspace*{\fill}
+\textbf{1) Selected BioTime Tables}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-biotime-selected-tables.png}{%
+    \includegraphics[width=0.96\textwidth,height=0.66\textheight,keepaspectratio]{diagrams/ch2-biotime-selected-tables.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-biotime-selected-tables.png}\\
+    \textit{Insert image of selected BioTime tables used in ETL.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Selected Tables from BioTime}
+\label{fig:biotime-selected-tables}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.76\textheight}
+\vspace*{\fill}
+\textbf{2) Selected EasyProject Tables}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-easyproject-selected-tables.png}{%
+    \includegraphics[width=0.96\textwidth,height=0.66\textheight,keepaspectratio]{diagrams/ch2-easyproject-selected-tables.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-easyproject-selected-tables.png}\\
+    \textit{Insert image of selected EasyProject tables used in ETL.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Selected Tables from EasyProject}
+\label{fig:easyproject-selected-tables}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.18\textheight}
+\subsection{Unified PostgreSQL Target Schema}
+To simplify extraction and transformation, dedicated SQL views were created from the selected source tables before loading into the unified PostgreSQL schema.
+
+\Needspace{0.74\textheight}
+\vspace*{\fill}
+\textbf{3) BioTime Views Created After Table Selection}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-biotime-created-views.png}{%
+    \includegraphics[width=0.96\textwidth,height=0.64\textheight,keepaspectratio]{diagrams/ch2-biotime-created-views.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-biotime-created-views.png}\\
+    \textit{Insert image of BioTime views created for ETL simplification.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Views Created from BioTime Selected Tables}
+\label{fig:biotime-created-views}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.74\textheight}
+\vspace*{\fill}
+\textbf{4) EasyProject Views Created After Table Selection}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-easyproject-created-views.png}{%
+    \includegraphics[width=0.96\textwidth,height=0.64\textheight,keepaspectratio]{diagrams/ch2-easyproject-created-views.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{1.8cm}
+    \textit{Missing file: diagrams/ch2-easyproject-created-views.png}\\
+    \textit{Insert image of EasyProject views created for ETL simplification.}
+    \vspace{1.8cm}
+    }}
+}
+\caption{Views Created from EasyProject Selected Tables}
+\label{fig:easyproject-created-views}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.16\textheight}
+\subsection{Key Relationships and Constraints}
+The created views normalize identifiers and timestamps to provide clean ETL inputs and reduce multi-table join complexity.
+
+\Needspace{0.82\textheight}
+\vspace*{\fill}
+\textbf{Main Application Diagram (Global Architecture Placeholder)}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-main-app-diagram.png}{%
+    \includegraphics[width=0.98\textwidth,height=0.72\textheight,keepaspectratio]{diagrams/ch2-main-app-diagram.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{2.0cm}
+    \textit{Missing file: diagrams/ch2-main-app-diagram.png}\\
+    \textit{Insert the main application diagram (global system view).}
+    \vspace{2.0cm}
+    }}
+}
+\caption{Main Application Diagram}
+\label{fig:main-app-diagram}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\Needspace{0.20\textheight}
+\section{Global System Architecture}
+
+The global architecture starts by extracting data from \textbf{BioTime (PostgreSQL)} and \textbf{EasyProject (MySQL)} with \textbf{SQLAlchemy}. Then, the data is transformed and loaded into the main application database.
+
+On top of this unified database, the backend is implemented with \textbf{FastAPI}, \textbf{Alembic}, and \textbf{SQLAlchemy} to expose endpoints consumed by a frontend built with \textbf{React}, \textbf{Tailwind CSS}, and \textbf{shadcn/ui}.
+
+\Needspace{0.70\textheight}
+\vspace*{\fill}
+\textbf{Global System Architecture Diagram}
+\begin{figure}[H]
+\centering
+\IfFileExists{diagrams/ch2-global-system-architecture.png}{%
+    \includegraphics[width=0.98\textwidth,height=0.72\textheight,keepaspectratio]{diagrams/ch2-global-system-architecture.png}
+}{%
+    \fbox{\parbox{0.9\textwidth}{
+    \centering
+    \vspace{2.0cm}
+    \textit{Missing file: diagrams/ch2-global-system-architecture.png}\\
+    \textit{Insert the global system architecture flow diagram.}
+    \vspace{2.0cm}
+    }}
+}
+\caption{Global System Architecture Flow}
+\label{fig:global-system-architecture}
+\end{figure}
+\vspace*{\fill}
+\clearpage
+
+\section{Chapter Conclusion}
+This chapter defines the analytical and technical foundation of the solution. The next chapter details implementation progress through sprint execution and delivered increments.
+
+\chapter{Dashboard Module (\texttt{dashboard})}
+\section{Purpose}
+\section{Frontend Responsibilities}
+
+\chapter[User Management Module]{User Management Module \\ (\texttt{user} \& \texttt{pending\_users})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter{Projects Module (\texttt{projects})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter{Employees Module (\texttt{employees})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter{Project Members Allocation (\texttt{members})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter{Daily Timecard Module (\texttt{checkinout})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter[Employee Leave Applications]{Employee Leave Applications \\ (\texttt{employees\_leave})}
+\section{Purpose}
+\section{Responsibilities}
+
+\chapter[Member Attendance Tracking]{Member Attendance Tracking \\ (\texttt{members\_attendance} / \texttt{members-att})}
+\section{Purpose}
+\section{Responsibilities}
+
+% References
+\newpage
+\addcontentsline{toc}{chapter}{References}
+\chapter*{References}
+
+\begin{thebibliography}{9}
+
+\bibitem{kotler2003}
+Kotler P., Dubois B., (2003), \textit{Marketing Management}, 11th edition, Pearson Education.
+
+\bibitem{westbrook1991}
+Westbrook R.A., Oliver R.L., (1991), "The Dimensionality of Consumption Emotion Patterns and Consumer Satisfaction", \textit{Journal of Consumer Research}, Vol. 18, pp. 84--91.
+
+% Add all your sources
+
+\end{thebibliography}
+
+% Appendices
+\appendix
+\chapter{Appendix 1: Questionnaire}
+% Content...
+
+\chapter{Appendix 2: ...}
+
+\end{document}
