@@ -15,6 +15,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import RoleGuardComponents from "@/guards/RoleGuardComponents";
+import { ChatBox } from "@/modules/ai-agent/features/chat";
 //import RoleGuardComponents from "@/guards/RoleGuardComponents";
 import LogoutButton from "@/modules/auth/components/LogoutButton";
 import { useAuth } from "@/modules/auth/hooks";
@@ -22,7 +24,6 @@ import { useAuth } from "@/modules/auth/hooks";
 import type { AvailableRoles } from "@/utils/Roles";
 
 import {
-
   Clock,
   DoorOpen,
   Folder,
@@ -171,14 +172,16 @@ export default function MainAppLayout() {
               {data.role}
             </Badge>
           </div>
-       {/*   <RoleGuardComponents AllowedRoles={["ADMIN"]}>
+          {/*   <RoleGuardComponents AllowedRoles={["ADMIN"]}>
             <NotificationBell/>
           </RoleGuardComponents>*/}
-
         </header>
 
         <main className="p-10 w-full ">
           <Outlet />
+          <RoleGuardComponents AllowedRoles={["RH"]}>
+            <ChatBox />
+          </RoleGuardComponents>
         </main>
       </SidebarInset>
     </SidebarProvider>

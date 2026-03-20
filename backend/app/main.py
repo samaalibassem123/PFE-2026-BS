@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.core import DB_dependecy
 from app.core.config import settings
+from app.modules.ai_agents.controllers.v1.RhAgentContoller import rh_agent_router
 #from app.core.ETL.Piplines.MainPipeline import MainPipeline
 from app.modules.auth.controllers.AuthController import auth_router
 from app.modules.chekinout.controllers.v1.CheckinoutController import checkinout_router
@@ -33,6 +34,8 @@ async def elt_db(db:DB_dependecy):
 print(settings.POSTGRES_PORT)
 
 app.include_router(auth_router)
+
+app.include_router(rh_agent_router, prefix="/api")
 
 app.include_router(user_router , prefix="/api")
 app.include_router(pending_users_router, prefix="/api")

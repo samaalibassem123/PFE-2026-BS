@@ -34,8 +34,8 @@ class Settings(BaseSettings):
 
     # Resend / for mail sending
     RESEND_API_KEY:str
-
-
+    # Ollama for cloud service
+    OLLAMA_API_KEY:str
     class Config:
         env_file = ".env"
 

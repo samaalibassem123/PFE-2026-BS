@@ -12,9 +12,9 @@ interface Props {
 
 export default function OnHoverText({ ...props }: Props) {
   return (
-    <HoverCard>
+    <HoverCard >
       <HoverCardTrigger>{props.children}</HoverCardTrigger>
-      <HoverCardContent>{props.msg}</HoverCardContent>
+      <HoverCardContent className="w-fit">{props.msg}</HoverCardContent>
     </HoverCard>
   );
 }
