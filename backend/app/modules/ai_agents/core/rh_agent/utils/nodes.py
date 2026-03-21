@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from langchain_core.messages import SystemMessage, HumanMessage
 from sqlalchemy import text
@@ -53,7 +54,7 @@ async def intent_classification(state: AgentState):
 
 
         SystemPrompt = {
-            "messages":[SystemMessage(prompt)]
+            "messages":[SystemMessage(content=prompt),HumanMessage(user_input)]
         }
         response = await rh_agent.ainvoke(SystemPrompt)
 
@@ -66,11 +67,11 @@ async def intent_classification(state: AgentState):
 
         return {"intent": intent}
     except Exception as e:
-        print(e)
+        print("intent error",e)
         return {"error":e, "intent":"chat"}
 
 async def schema_inspector(state:AgentState, session:AsyncSession):
-    context = await get_table_context(session,["employees","departments"])
+    context = await get_table_context(session,["employees","departments","employee_attendance_event","attendance_events","attendance"])
     print(context)
     return {
         "db_context":context
@@ -89,24 +90,25 @@ async def query_generator(state:AgentState, session:AsyncSession):
                 - Never SELECT * on large tables — name only the columns you need
                 - Use CTEs for complex logic
                 - Return ONLY the SQL, nothing else
+                - Always name the columns using AS
                 
                 Schema:
                 {state["db_context"]}
                 
-                Question: {last_message.content}
+                Question: {state['user_input']}
                 """
         SystemPrompt = {
-            "messages":[SystemMessage(content=prompt)]
+            "messages":[SystemMessage(content=prompt), HumanMessage(state['user_input'])]
         }
         query = ((await rh_agent.ainvoke(SystemPrompt))
                  ["messages"][-1].
-                 content.
-                 strip().
-                 strip("```sql").strip("```").strip()
+                 content
                  )
-        print("query:" ,query)
+        cleaned_query = query.strip().strip("```sql").strip("```").strip()
+
+        print("query:" ,cleaned_query)
         return {
-            "sql_query":query
+            "sql_query":cleaned_query
         }
     except Exception as e:
         print(e)
@@ -116,10 +118,12 @@ async def query_generator(state:AgentState, session:AsyncSession):
 async def execute_query(state:AgentState, session:AsyncSession):
     try:
         query = state["sql_query"]
-
+        print(query)
         result = await session.execute(text(query))
-
-        query_result = '\n'.join(result.scalars().all())
+        res = result.mappings().all()
+        print("result",result.mappings())
+        print("res" , res)
+        query_result = json.dumps(res, indent=2, default=str)
         print("query result : " , query_result)
         return {
             "query_result":query_result
@@ -132,7 +136,7 @@ async def execute_query(state:AgentState, session:AsyncSession):
         }
 
 async def generate_response(state:AgentState):
-    query_result = state["query_result"]
+
     prompt = f"""
         You are a senior data analyst. Write a professional Markdown report.
         
@@ -148,19 +152,20 @@ async def generate_response(state:AgentState):
         ```sql
         {state['sql_query']}
         ```
-        
-        Data summary:
-        {query_result}
+        Data Summary or result:
+        {state['query_result']}
+     
         """
     SystemPrompt = {
         "messages":[
-            SystemMessage(prompt)
+            SystemMessage(content=prompt),
+            HumanMessage(state['user_input'])
         ]
     }
     llm_response = await rh_agent.ainvoke(SystemPrompt)
 
     return {
-        "messages":state["messages"] + llm_response["messages"][-1]
+        "messages":state["messages"] + [llm_response["messages"][-1]]
     }
 
 async def chat_node(state: AgentState):

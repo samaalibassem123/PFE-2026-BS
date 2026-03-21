@@ -6,10 +6,10 @@ from app.core.config import settings
 
 
 mistral_llm = ChatOllama(
-    #model="gemini-3-flash-preview:cloud",
-    model="gemma3:1b",
+    model="gemini-3-flash-preview:cloud",
+    #model="gemma3:1b",
     temperature=0,
-    #apî_key=settings.OLLAMA_API_KEY
+    apî_key=settings.OLLAMA_API_KEY
 )
 
 rh_agent = create_agent(

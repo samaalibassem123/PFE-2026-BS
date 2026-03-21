@@ -57,7 +57,7 @@ export default function MessagesContainer({
                       <Sparkle className="size-4" />
                     </HoverBorderGradient>
                   )}
-                  <MessageContent className=" font-extralight select-text flex  max-w-[80%] h-fit  ">
+                  <MessageContent className=" font-extralight select-text flex  max-w-[80%] overflow-auto h-fit  ">
                     <MessageResponse>{message.content}</MessageResponse>
                   </MessageContent>
                   {

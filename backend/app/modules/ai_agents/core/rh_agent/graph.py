@@ -71,16 +71,19 @@ async def generate_stream(message: str, thread_id: str,session:AsyncSession):
     }
 
     try:
-        async for event in graph.astream_events(inputs, config, version="v2"):
+        async for event in graph.astream_events(inputs, config,version="v2"):
             event_type = event["event"]
             name = event.get("name", "")
-            print(event_type, name)
+            run_id = event.get("run_id")
+            parent_ids = event.get("parent_ids", [])
+            #print(event_type, name, run_id, parent_ids)
 
-          
 
 
+
+            print(event["metadata"].get("langgraph_node"))
             # return only AI response
-            if event["event"] == "on_chat_model_stream" :
+            if event["event"] == "on_chat_model_stream" and event["metadata"].get("langgraph_node") == "chat_node":
                 token = event["data"]["chunk"].content
 
                 if token:
