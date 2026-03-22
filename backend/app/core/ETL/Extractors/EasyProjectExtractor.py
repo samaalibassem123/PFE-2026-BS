@@ -11,7 +11,6 @@ class EasyProjectDbService:
     def get_employees():
         with Session(EasyProjectdb_engine) as session:
             res = session.execute(select(EASY_EMPLOYEE_VIEW)).mappings().all()
-
             return res
     @staticmethod
     def get_attendance():

@@ -86,7 +86,7 @@ class TransformerService:
     def transform_members(data):
         members = []
         employees = EasyProject_extractor.get_employees()
-        employees_id = [emp['ep_emp_id'] for emp in employees]
+        employees_id = {emp['ep_emp_id'] for emp in employees}
         for m in data:
             member = defaultdict()
             member['id'] = m['id']

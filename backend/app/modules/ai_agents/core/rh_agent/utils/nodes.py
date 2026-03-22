@@ -161,6 +161,7 @@ async def handle_error(state:AgentState):
     print("error",error)
     prompt =  f'''
         Write An Error message
+        example : this action is forbidden
         context : {error}
         Query safety : {query_is_safe}
     '''

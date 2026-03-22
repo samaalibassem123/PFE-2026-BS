@@ -1,6 +1,8 @@
+import json
 from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 
 from app.core import DB_dependecy
 from app.core.config import settings
@@ -27,9 +29,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-'''@app.get('/etl')
-async def elt_db(db:DB_dependecy):
-    return await MainPipeline(db)'''
+'''
+@app.get("/etl")
+async def etl_db(db: DB_dependecy):
+    async def event_stream():
+        async for step in MainPipeline(db):
+            yield f"data: {json.dumps(step)}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream"
+    )'''
 
 print(settings.POSTGRES_PORT)
 
