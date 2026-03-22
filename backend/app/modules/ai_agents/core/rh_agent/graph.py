@@ -117,7 +117,7 @@ async def generate_stream(message: str, thread_id: str,session:AsyncSession):
                 if token:
                     yield json.dumps({
                         "type": "token",
-                        "content": token
+                        "content": token[0]["text"]
                     }) + "\n"
 
     except Exception as e:
