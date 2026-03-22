@@ -11,7 +11,11 @@ gemma3_1b_llm = ChatOllama(
 )
 gemini3_flash_cloud_llm = ChatOllama(
     model="gemini-3-flash-preview:cloud",
-    apî_key=settings.OLLAMA_API_KEY,
+    client_kwargs={
+        "headers": {
+            "Authorization": f"Bearer {settings.OLLAMA_API_KEY}"
+        }
+    },
     temperature=0
 )
 
