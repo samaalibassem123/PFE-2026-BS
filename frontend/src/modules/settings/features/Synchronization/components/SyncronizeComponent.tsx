@@ -12,11 +12,14 @@ import SyncLoaderSteps from "./SyncLoaderSteps";
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Shimmer } from "@/components/ai-elements/shimmer";
+import { cn } from "@/lib/utils";
 export default function SyncronizeComponent() {
-const[loading, setloading] = useState<boolean>(false)
+const [loadingSteps, setloadingSteps] = useState<boolean>(false)
+const [loading, setloading] = useState<boolean>(false)
 const [progress, setProgress] = useState(10);
 
 const handleSync =  ()=> {
+    setloadingSteps(true);
     setloading(true)
 }
 
@@ -57,24 +60,22 @@ return (
           activity and project information stay aligned and consistently updated
           in your main database.
         </p>
-
       </CardContent>
 
       <CardFooter className=" justify-between">
         <div className="w-full space-y-2 ">
-            <Shimmer>Loading departments....</Shimmer>
+          <Shimmer>Loading departments....</Shimmer>
 
-             <Progress value={progress} className="w-[60%]" />
+          <Progress value={progress} className="w-[60%]" />
         </div>
 
-
-        <Button size="lg" variant={"confirme"} onClick={() => handleSync()}>
-          <RefreshCcw />
+        <Button size="lg" variant={loading ? "secondary" : "confirme"} disabled={loading} onClick={() => handleSync()}>
+          <RefreshCcw className={cn(loading && " animate-spin")} />
           Run Synchronization
         </Button>
       </CardFooter>
     </Card>
-    <SyncLoaderSteps loading={loading} setloading={setloading} />
+    <SyncLoaderSteps loading={loadingSteps} setloading={setloadingSteps} />
   </>
 );
 }
