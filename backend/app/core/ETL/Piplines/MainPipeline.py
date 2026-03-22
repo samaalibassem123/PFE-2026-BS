@@ -16,42 +16,68 @@ from app.core.ETL.Piplines.ETL_EmployeeAttEvents import ETL_EmpAttEvents
 from app.core.ETL.Piplines.ETL_Members import ETL_Members
 from app.core.ETL.Piplines.ETL_Projects import ETL_Projects
 from app.core.ETL.Piplines.ETL_department import ETL_departments
-from app.core.database.models import Employee, EmployeeAttendanceEvent, Attendance, Project, Member, AttendanceEvent
+from app.core.database.models import Employee, EmployeeAttendanceEvent, Attendance, Project, Member, AttendanceEvent, \
+    Department
 
 
-async def MainPipeline(db:AsyncSession):
+import time
+from fastapi import HTTPException
+from sqlalchemy import delete
+
+async def MainPipeline(db):
+    total_start = time.perf_counter()
+
     try:
-        # fill departments table
-        #await ETL_departments(db)
+        # Departments
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(Department))
+            await ETL_departments(db)
+            print(f"Departments: {time.perf_counter() - start:.4f}s")
 
-        # fill employees table
-        #await db.execute(delete(Employee))
-        #await db.commit()
-        #await ETL_employees(db)
+        # Employees
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(Employee))
+            await ETL_employees(db)
+            print(f"Employees: {time.perf_counter() - start:.4f}s")
 
-        # fill Attendance table
-        #await db.execute(delete(Attendance))
-        #await db.commit()
-        #await ETL_Attendances(db)
+        # Attendance
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(Attendance))
+            await ETL_Attendances(db)
+            print(f"Attendance: {time.perf_counter() - start:.4f}s")
 
-        # fill Projects Table
-        await db.execute(delete(Project))
-        await db.commit()
-        await ETL_Projects(db)
+        # Projects
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(Project))
+            await ETL_Projects(db)
+            print(f"Projects: {time.perf_counter() - start:.4f}s")
 
-        # fill members Table
-        await db.execute(delete(Member))
-        await db.commit()
-        await ETL_Members(db)
+        # Members
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(Member))
+            await ETL_Members(db)
+            print(f"Members: {time.perf_counter() - start:.4f}s")
 
-        # load attendance events
-        await db.execute(delete(AttendanceEvent))
-        await db.commit()
-        await ETL_AttEvents(db)
+        # Attendance Events
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(AttendanceEvent))
+            await ETL_AttEvents(db)
+            print(f"Attendance Events: {time.perf_counter() - start:.4f}s")
 
-        # load Employee attendance Events
-        await db.execute(delete(EmployeeAttendanceEvent))
-        await db.commit()
-        await ETL_EmpAttEvents(db)
+        # Employee Attendance Events
+        async with db.begin():
+            start = time.perf_counter()
+            await db.execute(delete(EmployeeAttendanceEvent))
+            await ETL_EmpAttEvents(db)
+            print(f"Employee Attendance Events: {time.perf_counter() - start:.4f}s")
+
+        print(f"Total: {time.perf_counter() - total_start:.4f}s")
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

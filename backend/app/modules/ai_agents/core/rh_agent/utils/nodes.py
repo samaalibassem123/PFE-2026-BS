@@ -1,7 +1,7 @@
-import asyncio
 import json
+import re
 
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -77,7 +77,7 @@ async def schema_inspector(state:AgentState, session:AsyncSession):
         "db_context":context
     }
 
-async def query_generator(state:AgentState, session:AsyncSession):
+async def query_generator(state:AgentState):
     try:
         last_message = get_last_user_message(state.get("messages", []))
         if not last_message:
@@ -115,13 +115,32 @@ async def query_generator(state:AgentState, session:AsyncSession):
         return {"error":str(e)}
 
 
+async def validate_query(state:AgentState):
+    sql = state['sql_query'].strip().upper()
+
+    forbidden = ["INSERT", "UPDATE", "DELETE", "DROP", "TRUNCATE", "ALTER", "CREATE", "GRANT"]
+
+    is_select = sql.startswith("SELECT") or sql.startswith("WITH")
+
+    has_forbidden = any(re.search(rf"\b{k}\b", sql) for k in forbidden)
+
+    is_safe = is_select and not has_forbidden
+
+    print("query is safe:", is_safe)
+
+    return {
+        "error": None if is_safe else f"Blocked unsafe SQL: {sql[:120]}",
+        "sql_is_safe":is_safe
+    }
+
+
+
 async def execute_query(state:AgentState, session:AsyncSession):
     try:
         query = state["sql_query"]
-        print(query)
+
         result = await session.execute(text(query))
         res = result.mappings().all()
-        print("result",result.mappings())
         print("res" , res)
         query_result = json.dumps(res, indent=2, default=str)
         print("query result : " , query_result)
@@ -135,6 +154,29 @@ async def execute_query(state:AgentState, session:AsyncSession):
             "query_result":"found nothing"
         }
 
+
+async def handle_error(state:AgentState):
+    error = state["error"]
+    query_is_safe = state["sql_is_safe"]
+    print("error",error)
+    prompt =  f'''
+        Write An Error message
+        context : {error}
+        Query safety : {query_is_safe}
+    '''
+    SystemPrompt = {
+        "messages": [
+            SystemMessage(content=prompt),
+            HumanMessage(state['user_input'])
+        ]
+    }
+    response = await rh_agent.ainvoke(SystemPrompt)
+
+    return {
+        "messages":state["messages"] + [response["messages"][-1]]
+    }
+
+
 async def generate_response(state:AgentState):
 
     prompt = f"""
@@ -144,6 +186,7 @@ async def generate_response(state:AgentState):
         1. Executive summary (2-3 sentences)
         2. Key findings (bullet points)
         3. Data table of the most important rows
+        4. Show SQL used
         4. Recommendations or next steps
         
         Original question: {state["user_input"]}

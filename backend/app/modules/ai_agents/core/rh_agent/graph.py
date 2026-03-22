@@ -6,14 +6,9 @@ from langgraph.constants import START, END
 from langgraph.graph import StateGraph
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.modules.ai_agents.core.rh_agent.utils.nodes import chat_node, schema_inspector, query_generator, \
-    intent_classification, execute_query, generate_response
+    intent_classification, execute_query, generate_response, handle_error, validate_query
+from app.modules.ai_agents.core.rh_agent.utils.routes import intent_route, valid_query_route, execution_route
 from app.modules.ai_agents.core.rh_agent.utils.states import  AgentState
-
-
-async def intent_route(state:AgentState):
-    if state["intent"] == "chat":
-        return "chat_node"
-    return "schema_inspector"
 
 
 
@@ -33,20 +28,31 @@ builder = StateGraph(AgentState)
 builder.add_node("intent_class", node_wrapper(intent_classification))
 builder.add_node("schema_inspector", node_wrapper(schema_inspector))
 builder.add_node("query_generator", node_wrapper(query_generator))
+builder.add_node("validate_query", node_wrapper(validate_query))
 builder.add_node("execute_query", node_wrapper(execute_query))
+builder.add_node("handle_error", node_wrapper(handle_error))
 builder.add_node("generate_response", node_wrapper(generate_response))
 builder.add_node("chat_node",node_wrapper(chat_node))
 
 # graph
 builder.set_entry_point("intent_class")
+
+# classify the user input if it's for normal chating or to make actions on the DB
 builder.add_conditional_edges("intent_class", intent_route)
 
 
 builder.add_edge("schema_inspector", "query_generator")
-builder.add_edge("query_generator", "execute_query")
-builder.add_edge("execute_query", "generate_response")
+builder.add_edge("query_generator", "validate_query")
+
+# Validate query
+builder.add_conditional_edges("validate_query", valid_query_route)
+
+# If there was Erros on the execution
+builder.add_conditional_edges("execute_query", execution_route)
 
 
+# THE END OF GRAPH
+builder.add_edge("handle_error", END)
 builder.add_edge("generate_response", END)
 builder.add_edge("chat_node",END)
 
@@ -58,6 +64,22 @@ graph = builder.compile(checkpointer=checkpointer)
 
 import json
 
+LAST_NODES = ['chat_node', 'generate_response', 'handle_error']
+NODE_LABELS = {
+    "intent_class": "Understanding user request...",
+
+    "chat_node": "Generating chat response...",
+
+    "schema_inspector": "Reading database schema...",
+
+    "query_generator": "Generating SQL query...",
+
+    "validate_query": "Validating query safety...",
+
+    "execute_query": "Executing database query...",
+
+    "generate_response": "Writing analytical report..."
+}
 async def generate_stream(message: str, thread_id: str,session:AsyncSession):
     config = RunnableConfig(
         configurable={
@@ -71,19 +93,25 @@ async def generate_stream(message: str, thread_id: str,session:AsyncSession):
     }
 
     try:
-        async for event in graph.astream_events(inputs, config,version="v2"):
+        is_last_node = False
+        async for event in graph.astream_events(inputs, config):
             event_type = event["event"]
             name = event.get("name", "")
-            run_id = event.get("run_id")
-            parent_ids = event.get("parent_ids", [])
-            #print(event_type, name, run_id, parent_ids)
 
 
+            # STREAM Agents STEPS
+            if event_type == "on_chain_start" and name in NODE_LABELS :
+                yield json.dumps({
+                    "type":"step",
+                    "content":NODE_LABELS[name]
+            }) + "\n"
 
 
-            print(event["metadata"].get("langgraph_node"))
-            # return only AI response
-            if event["event"] == "on_chat_model_stream" and event["metadata"].get("langgraph_node") == "chat_node":
+            # STREAM AI response
+            if name in LAST_NODES:
+                is_last_node = True
+
+            if event_type == "on_chat_model_stream" and is_last_node:
                 token = event["data"]["chunk"].content
 
                 if token:

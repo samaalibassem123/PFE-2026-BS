@@ -9,12 +9,11 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { GlobeIcon, MicIcon, PaperclipIcon } from "lucide-react";
-import {  useState } from "react";
+import { GlobeIcon, PaperclipIcon } from "lucide-react";
+import { useState } from "react";
 import { useAuth } from "@/modules/auth/hooks";
 import type { SendMessageRequest } from "@/modules/ai-agent/types";
-
-
+import { SpeechInput } from "@/components/ai-elements/speech-input";
 
 const suggestions: string[] = [
   "Generate a monthly attendance KPI report with rates, absences, delays, and overtime.",
@@ -23,14 +22,17 @@ const suggestions: string[] = [
   "List employees with the most delays and summarize their attendance behavior.",
 ];
 
-
 export interface Props {
   sendMessage: (data: SendMessageRequest) => void;
   isLoading: boolean;
-  stop:()=>void;
+  stop: () => void;
 }
 
-export default function PromptMesssage({ sendMessage, isLoading, stop }: Props) {
+export default function PromptMesssage({
+  sendMessage,
+  isLoading,
+  stop,
+}: Props) {
   const [text, setText] = useState<string>("");
 
   const { data } = useAuth();
@@ -39,7 +41,7 @@ export default function PromptMesssage({ sendMessage, isLoading, stop }: Props) 
       thread_id: data.id,
       message: text,
     });
-    setText("")
+    setText("");
   };
   const handleSuggestionClick = (suggestion: string) => {
     setText(suggestion);
@@ -47,19 +49,18 @@ export default function PromptMesssage({ sendMessage, isLoading, stop }: Props) 
 
   return (
     <div className="space-y-2">
-      {
-        !isLoading &&
-          <Suggestions>
-        {suggestions.map((suggestion) => (
-          <HoverBorderGradient className="p-0" key={suggestion}>
-            <Suggestion
-              onClick={handleSuggestionClick}
-              suggestion={suggestion}
-            />
-          </HoverBorderGradient>
-        ))}
-      </Suggestions>
-      }
+      {!isLoading && (
+        <Suggestions>
+          {suggestions.map((suggestion) => (
+            <HoverBorderGradient className="p-0" key={suggestion}>
+              <Suggestion
+                onClick={handleSuggestionClick}
+                suggestion={suggestion}
+              />
+            </HoverBorderGradient>
+          ))}
+        </Suggestions>
+      )}
 
       <PromptInput onSubmit={isLoading ? stop : handleSubmit}>
         <PromptInputBody>
@@ -70,8 +71,14 @@ export default function PromptMesssage({ sendMessage, isLoading, stop }: Props) 
             value={text}
           />
         </PromptInputBody>
-        <PromptInputFooter className=" justify-end">
-     {/*     <PromptInputTools>
+        <PromptInputFooter>
+          <PromptInputTools>
+            <PromptInputButton>
+              <SpeechInput
+                onTranscriptionChange={(e) => setText((prev) => prev + e)}
+                variant={"outline"}
+              />
+            </PromptInputButton>
             <PromptInputButton tooltip="Attach files">
               <PaperclipIcon size={16} />
             </PromptInputButton>
@@ -80,17 +87,11 @@ export default function PromptMesssage({ sendMessage, isLoading, stop }: Props) 
             >
               <GlobeIcon size={16} />
             </PromptInputButton>
-            <PromptInputButton
-              tooltip={{
-                content: "Voice input",
-                shortcut: "⌘M",
-                side: "bottom",
-              }}
-            >
-              <MicIcon size={16} />
-            </PromptInputButton>
-          </PromptInputTools>*/}
-          <PromptInputSubmit  status={isLoading ? "streaming" : "ready"}  className=" animate-pulse z-50  cursor-pointer"/>
+          </PromptInputTools>
+          <PromptInputSubmit
+            status={isLoading ? "streaming" : "ready"}
+            className=" animate-pulse z-50  cursor-pointer"
+          />
         </PromptInputFooter>
       </PromptInput>
     </div>

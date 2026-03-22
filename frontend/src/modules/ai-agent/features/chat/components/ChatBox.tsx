@@ -1,5 +1,3 @@
-
-
 import {
   Drawer,
 
@@ -15,16 +13,25 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { MessageCircle, Sparkles } from "lucide-react"
 import MessagesContainer from './MessagesContainer';
 import PromptMesssage from "./PromptMesssage";
-import { useSendMessage } from "../hooks/UseSendMessage";
+import { useAiChat } from "../hooks/useAiChat";
 import { Badge } from '@/components/ui/badge';
 
 
 export default function ChatBox() {
 
-  const {sendMessage, loading, newMessages, tokens, stop, errors} = useSendMessage()
+  const {
+    sendMessage,
+    loading,
+    newMessages,
+    tokens,
+    stop,
+    errors,
+    steps
+   } =
+    useAiChat();
 
   return (
-    <Drawer direction="bottom">
+    <Drawer >
       <div className=" fixed  bottom-10 right-10">
         <HoverBorderGradient>
           <DrawerTrigger className="relative  cursor-pointer text-sm flex items-center gap-2 rounded-lg">
@@ -47,7 +54,7 @@ export default function ChatBox() {
           <Badge variant={"pending"}>used tokens : {tokens}</Badge>
         </DrawerHeader>
 
-        <MessagesContainer Errors={errors} loading={loading} messages={newMessages} />
+        <MessagesContainer steps={steps} Errors={errors} loading={loading} messages={newMessages} />
 
         <DrawerFooter>
           <PromptMesssage
