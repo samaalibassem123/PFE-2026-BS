@@ -2,7 +2,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    MAINTAINANCE_MODE:bool=False
     # Main app confic
+    ALLOWED_ORIGINS:list[str]=["http://localhost:5173"]
     SECRET_KEY:str
     ALGORITHMS:str
     ACCESS_TOKEN_EXPIRE_MINUTES:int

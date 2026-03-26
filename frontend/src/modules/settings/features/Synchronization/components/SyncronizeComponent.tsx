@@ -8,18 +8,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RefreshCcw } from "lucide-react";
-import SyncLoaderSteps from "./SyncLoaderSteps";
+
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { cn } from "@/lib/utils";
+
 export default function SyncronizeComponent() {
-const [loadingSteps, setloadingSteps] = useState<boolean>(false)
+
 const [loading, setloading] = useState<boolean>(false)
 const [progress, setProgress] = useState(10);
 
 const handleSync =  ()=> {
-    setloadingSteps(true);
     setloading(true)
 }
 
@@ -62,20 +62,18 @@ return (
         </p>
       </CardContent>
 
-      <CardFooter className=" justify-between">
-        <div className="w-full space-y-2 ">
-          <Shimmer>Loading departments....</Shimmer>
-
-          <Progress value={progress} className="w-[60%]" />
+      <CardFooter className=" justify-between gap-3">
+        <div className=" flex-1 gap-2 flex-col">
+          <Shimmer >department....</Shimmer>
+          <Progress value={progress}/>
         </div>
-
-        <Button size="lg" variant={loading ? "secondary" : "confirme"} disabled={loading} onClick={() => handleSync()}>
+        <Button size="lg" variant={loading ? "secondary" : "default"} disabled={loading} onClick={() => handleSync()}>
           <RefreshCcw className={cn(loading && " animate-spin")} />
           Run Synchronization
         </Button>
       </CardFooter>
     </Card>
-    <SyncLoaderSteps loading={loadingSteps} setloading={setloadingSteps} />
+
   </>
 );
 }

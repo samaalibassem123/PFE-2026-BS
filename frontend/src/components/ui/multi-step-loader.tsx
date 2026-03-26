@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect } from "react";
+import { Shimmer } from "../ai-elements/shimmer";
 
 const CheckIcon = ({ className }: { className?: string }) => {
   return (
@@ -67,9 +68,9 @@ const LoaderCore = ({
               {index <= value && (
                 <CheckFilled
                   className={cn(
-                    "text-black dark:text-white",
+                    "   text-black dark:text-lime-500 opacity-100",
                     value === index &&
-                      "text-black dark:text-lime-500 opacity-100"
+                      "text-black dark:text-white opacity-100",
                   )}
                 />
               )}
@@ -77,10 +78,14 @@ const LoaderCore = ({
             <span
               className={cn(
                 "text-black dark:text-white",
-                value === index && "text-black dark:text-lime-500 opacity-100"
+                value === index && "text-black dark:text-lime-500 opacity-100",
               )}
             >
-              {loadingState.text}
+              {value === index ? (
+                <Shimmer  >{loadingState.text}</Shimmer>
+              ) : (
+                loadingState.text
+              )}
             </span>
           </motion.div>
         );
@@ -132,7 +137,7 @@ export const MultiStepLoader = ({
           exit={{
             opacity: 0,
           }}
-          className="w-full h-full fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-2xl"
+          className="w-full h-full fixed bg-tranparent inset-0 z-[100]  flex items-center justify-center backdrop-blur-xl"
         >
           <div className="h-96  relative">
             <LoaderCore value={currentState} loadingStates={loadingStates} />

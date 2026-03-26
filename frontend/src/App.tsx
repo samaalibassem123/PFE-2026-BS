@@ -14,11 +14,14 @@ import AdminRoutes from "./routes/AdminRoutes";
 import { UserIndexRedirect } from "./routes/UserIndexRedirect";
 import { AssingProjectPage, ProjectsPage } from "./modules/projects";
 import RoleRoutesGuard from "./guards/RoleRoutesGuard";
+import { MaintainancePage } from "./modules/settings";
 
 export function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Routes>
+        {/** Maintainance Route */}
+        <Route path="/maintenance" element={<MaintainancePage/>}  />
         {/*Public Routes */}
 
         {/* Redirect root to /login */}

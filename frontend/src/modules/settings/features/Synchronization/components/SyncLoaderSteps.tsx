@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { ConstellationBackground } from "@/components/ui/constellation";
 import { MultiStepLoader } from "@/components/ui/multi-step-loader";
-import { X } from "lucide-react";
 
 const loadingStates: { text: string }[] = [
   {
@@ -35,14 +34,14 @@ interface Props {
 }
 export default function SyncLoaderSteps({loading, setloading}:Props) {
   return (
-    <div className="w-full h-[60vh] flex relative items-center justify-center">
-      <MultiStepLoader  loadingStates={loadingStates} loop={false}  loading={loading} duration={2000} />
-      {
-        loading &&
-        <Button onClick={()=>setloading(false)} variant={"secondary"}   className="  fixed  right-0 top-0 float-end m-2 z-9000 w-fit">
-            <X/>
-        </Button>
-      }
+    <div className="w-full h-svh flex relative items-center justify-center">
+      <MultiStepLoader
+        loadingStates={loadingStates}
+        loop={false}
+        loading={loading}
+        duration={2000}
+      />
+      <ConstellationBackground />
     </div>
   );
 }

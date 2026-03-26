@@ -1,11 +1,15 @@
 import json
-from fastapi import FastAPI
+from threading import Lock
+
+from fastapi import FastAPI, Request,status
 from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
+
 
 from app.core import DB_dependecy
 from app.core.config import settings
+from app.core.middleware import MaintenanceMiddleware
 from app.modules.ai_agents.controllers.v1.RhAgentContoller import rh_agent_router
 #from app.core.ETL.Piplines.MainPipeline import MainPipeline
 from app.modules.auth.controllers.AuthController import auth_router
@@ -20,17 +24,22 @@ from app.modules.user.controllers.v1.UserController import user_router
 
 
 app = FastAPI()
+# midelware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=settings.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(MaintenanceMiddleware)
+
+
+
 
 '''
-@app.get("/etl")
+@app.post("/etl")
 async def etl_db(db: DB_dependecy):
     async def event_stream():
         async for step in MainPipeline(db):

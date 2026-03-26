@@ -25,7 +25,7 @@ class RhAgent:
         return rh_agent
 
 
-rh_agent = RhAgent.init(model=gemma3_1b_llm)
+rh_agent = RhAgent.init(model=gemini3_flash_cloud_llm)
 
 '''for chunk in rh_agent.stream(   {
         "messages": [HumanMessage(content="Tell me a joke")]

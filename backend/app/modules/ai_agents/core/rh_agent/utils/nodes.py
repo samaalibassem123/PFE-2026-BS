@@ -84,7 +84,7 @@ async def query_generator(state:AgentState):
             return {
                 "error":"Message doest not exist"
             }
-        prompt = f"""You are a PostgreSQL expert. Write ONE efficient SELECT query.
+        prompt = f"""You are a PostgreSQL expert. Write ONE efficient  query.
                 Rules:
                 - Use WHERE, LIMIT, GROUP BY, and date filters aggressively — the tables have 5000+ rows
                 - Never SELECT * on large tables — name only the columns you need
@@ -160,9 +160,10 @@ async def handle_error(state:AgentState):
     query_is_safe = state["sql_is_safe"]
     print("error",error)
     prompt =  f'''
-        Write An Error message
+        Always check the safety of the user input and the generate query, Write a professional Error message
         example : this action is forbidden
         context : {error}
+        user_input:{state['user_input']}
         Query safety : {query_is_safe}
     '''
     SystemPrompt = {
