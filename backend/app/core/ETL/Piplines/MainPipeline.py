@@ -29,7 +29,7 @@ async def MainPipeline(db: AsyncSession):
     try:
         # ---- TRUNCATE ----
         start = time.perf_counter()
-        async with db.begin():
+        '''async with db.begin():
             await db.execute(text("""
                 TRUNCATE TABLE 
                     employee_attendance_event,
@@ -40,7 +40,7 @@ async def MainPipeline(db: AsyncSession):
                     employees,
                     departments
                 RESTART IDENTITY CASCADE;
-            """))
+            """))'''
         yield {
             "step": "truncate",
             "time": time.perf_counter() - start

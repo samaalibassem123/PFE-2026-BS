@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.ETL.Extractors import EasyProject_extractor, Biotime_extractor
-from app.core.ETL.Loaders.v1.LoaderService import LoaderService
+from app.core.ETL.Loaders.v2.LoaderService import LoaderService
 from app.core.ETL.Transformers.TransformerService import TransformerService
 
 
