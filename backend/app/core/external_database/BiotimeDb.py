@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 
-BiotimeDb_engine = create_engine(settings.BIOTIME_DB_URL, echo=True)
+BiotimeDb_engine = create_engine(settings.BIOTIME_DB_URL, echo=False)
 BiotimeMetadata = MetaData()
 
 # Views

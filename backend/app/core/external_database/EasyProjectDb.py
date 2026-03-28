@@ -16,7 +16,7 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 
 
-EasyProjectdb_engine = create_engine(settings.EASY_PROJECT_URL, echo=True)
+EasyProjectdb_engine = create_engine(settings.EASY_PROJECT_URL, echo=False)
 EasyProjectMetadata = MetaData()
 
 # Views
