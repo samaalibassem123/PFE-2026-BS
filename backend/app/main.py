@@ -43,7 +43,7 @@ app.add_middleware(MaintenanceMiddleware)
 async def etl_db(db: DB_dependecy):
     async def event_stream():
         async for step in MainPipeline(db):
-            yield f"data: {json.dumps(step)}\n\n"
+            yield f"{json.dumps(step)}\n\n"
 
     return StreamingResponse(
         event_stream(),

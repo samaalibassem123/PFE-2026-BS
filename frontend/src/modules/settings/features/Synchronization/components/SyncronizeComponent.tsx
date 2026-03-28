@@ -69,7 +69,7 @@ export default function SyncronizeComponent() {
                 {steps &&
                   steps?.length > 0 &&
                   steps?.map((s, i) => (
-                    <Shimmer key={i}>{s.step + " : " + s.time + "s"}</Shimmer>
+                  <Shimmer key={i}>{s.step + " : " + s.status +" : " + s.time + "s"}</Shimmer>
                   ))}
               </div>
 
