@@ -103,20 +103,7 @@ class LoaderService:
         ]
         return await LoaderService._upsert(Employee, rows, db, conflict_columns=["emp_id"])
 
-    @staticmethod
-    async def load_attendance(attendances: list[Attendance], db: AsyncSession) -> bool:
-        rows = [
-            {
-                "id": a.id,
-                "emp_id": a.emp_id,
-                "check_in": a.check_in,
-                "check_out": a.check_out,
-                "att_date": a.att_date,
-                "week_day": a.week_day,
-            }
-            for a in attendances
-        ]
-        return await LoaderService._upsert(Attendance, rows, db, conflict_columns=["id"])
+
 
     @staticmethod
     async def load_projects(projects: list[Project], db: AsyncSession) -> bool:
@@ -156,8 +143,26 @@ class LoaderService:
         return await LoaderService._upsert(AttendanceEvent, rows, db, conflict_columns=["id"])
 
     @staticmethod
+    async def load_attendance(attendances: list[Attendance], db: AsyncSession) -> bool:
+        rows = [
+            {
+                "id": a.id,
+                "emp_id": a.emp_id,
+                "check_in": a.check_in,
+                "check_out": a.check_out,
+                "att_date": a.att_date,
+                "week_day": a.week_day,
+            }
+            for a in attendances
+        ]
+        return await LoaderService._upsert(
+            Attendance, rows, db,
+            conflict_columns=["emp_id", "check_in", "check_out", "att_date", "week_day"]
+        )
+
+    @staticmethod
     async def load_emp_att_events(
-        emp_events: list[EmployeeAttendanceEvent], db: AsyncSession
+            emp_events: list[EmployeeAttendanceEvent], db: AsyncSession
     ) -> bool:
         rows = [
             {
@@ -170,4 +175,7 @@ class LoaderService:
             }
             for e in emp_events
         ]
-        return await LoaderService._upsert(EmployeeAttendanceEvent, rows, db, conflict_columns=["id"])
+        return await LoaderService._upsert(
+            EmployeeAttendanceEvent, rows, db,
+            conflict_columns=["emp_id", "event_id", "apply_time", "start_date", "end_date"]
+        )

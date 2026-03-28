@@ -50,6 +50,7 @@ class TransformerService:
         employees = EasyProject_extractor.get_employees()
         for att in data:
             attendance = defaultdict()
+
             attendance['check_in'] = att['clock_in']
             attendance['check_out'] = att['clock_out']
             attendance['att_date'] = att['att_date']
