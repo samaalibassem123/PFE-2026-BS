@@ -157,7 +157,7 @@ class LoaderService:
         ]
         return await LoaderService._upsert(
             Attendance, rows, db,
-            conflict_columns=["emp_id", "att_date", "week_day"]
+            conflict_columns=["id"]
         )
 
     @staticmethod
@@ -177,5 +177,5 @@ class LoaderService:
         ]
         return await LoaderService._upsert(
             EmployeeAttendanceEvent, rows, db,
-            conflict_columns=["emp_id", "apply_time"]
+            conflict_columns=["id"]
         )

@@ -154,10 +154,8 @@ class AttendanceEvent(Base):
 class EmployeeAttendanceEvent(Base):
     """Link between employee + attendance event (leave, mission, training, etc.)"""
     __tablename__ = "employee_attendance_event"
-    __table_args__ = (
-        UniqueConstraint("emp_id", "apply_time", name="uq_emp_att_event_all"),
-    )
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True)
     emp_id: Mapped[int] = mapped_column(ForeignKey("employees.emp_id", ondelete="CASCADE"))
     event_id: Mapped[int] = mapped_column(ForeignKey("attendance_events.id", ondelete="RESTRICT"))
 
@@ -172,10 +170,8 @@ class EmployeeAttendanceEvent(Base):
 class Attendance(Base):
     """Daily attendance record (check-in / check-out)"""
     __tablename__ = "attendance"
-    __table_args__ = (
-        UniqueConstraint("emp_id", "att_date", "week_day", name="uq_attendance_all"),
-    )
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True)
     emp_id: Mapped[int] = mapped_column(ForeignKey("employees.emp_id", ondelete="CASCADE"))
     check_in: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     check_out: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
