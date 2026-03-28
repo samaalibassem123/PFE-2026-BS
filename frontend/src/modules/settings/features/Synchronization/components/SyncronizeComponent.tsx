@@ -16,14 +16,11 @@ import { cn } from "@/lib/utils";
 import { useSyncronization } from "../hooks/useSyncronization";
 
 export default function SyncronizeComponent() {
-const {steps, Syncronize} = useSyncronization()
+const {steps, loading,Syncronize} = useSyncronization()
 
-const [loading, setloading] = useState<boolean>(false)
 const [progress, setProgress] = useState(10);
 
-const handleSync =  ()=> {
-    setloading(true)
-}
+
 
 useEffect(()=>{
   console.log(steps)
@@ -74,11 +71,11 @@ return (
           <Progress value={progress} />
         </div>
         <Button
-          onAuxClick={() => Syncronize()}
+
           size="lg"
           variant={loading ? "secondary" : "default"}
           disabled={loading}
-          onClick={() => handleSync()}
+          onClick={() => Syncronize()}
         >
           <RefreshCcw className={cn(loading && " animate-spin")} />
           Run Synchronization

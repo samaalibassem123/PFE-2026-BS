@@ -7,12 +7,13 @@ export interface Step{
 
 
 export const useSyncronization = ()=>{
-
+    const [loading, setLoading] = useState<boolean>(false)
     const [steps, setSteps] = useState<Step[]>()
 
 
     const Syncronize = async ()=>{
 
+    setLoading(true)
     const response = await fetch(
         `${import.meta.env.VITE_BACKEND_API_API_URL}/etl`,
             {
@@ -45,8 +46,9 @@ export const useSyncronization = ()=>{
         }
 
     }
+    setLoading(false)
     }
     return {
-        steps,Syncronize
+        steps,Syncronize, loading
     }
 }
