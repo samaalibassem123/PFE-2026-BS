@@ -13,10 +13,10 @@ class LoaderService:
 
     @staticmethod
     async def _upsert(
-        model,
-        rows: list[dict],
-        db: AsyncSession,
-        conflict_columns: list[str],
+            model,
+            rows: list[dict],
+            db: AsyncSession,
+            conflict_columns: list[str],
     ) -> bool:
         """Generic upsert helper: insert rows and update on conflict."""
         if not rows:
@@ -24,9 +24,10 @@ class LoaderService:
 
         try:
             for i in range(0, len(rows), LoaderService.BATCH_SIZE):
-                batch = rows[i : i + LoaderService.BATCH_SIZE]
+                batch = rows[i: i + LoaderService.BATCH_SIZE]
 
-                stmt = pg_insert(model).values(batch)
+                #  Pass each row individually to avoid flat tuple binding
+                stmt = pg_insert(model).values([dict(row) for row in batch])
 
                 update_cols = {
                     col: stmt.excluded[col]
@@ -53,7 +54,6 @@ class LoaderService:
         except Exception as e:
             await db.rollback()
             raise HTTPException(status_code=400, detail=str(e))
-
     @staticmethod
     async def bulk_insert(table_name: str, rows: list[dict], db: AsyncSession) -> bool:
         """Raw SQL bulk insert (kept for backward compatibility)."""
@@ -157,7 +157,7 @@ class LoaderService:
         ]
         return await LoaderService._upsert(
             Attendance, rows, db,
-            conflict_columns=["emp_id", "check_in", "check_out", "att_date", "week_day"]
+            conflict_columns=["emp_id", "att_date", "week_day"]
         )
 
     @staticmethod
@@ -177,5 +177,5 @@ class LoaderService:
         ]
         return await LoaderService._upsert(
             EmployeeAttendanceEvent, rows, db,
-            conflict_columns=["emp_id", "event_id", "apply_time", "start_date", "end_date"]
+            conflict_columns=["emp_id", "apply_time"]
         )
