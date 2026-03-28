@@ -7,11 +7,11 @@ from app.core.ETL.Transformers.TransformerService import TransformerService
 
 async def ETL_Members(db: AsyncSession, batch_size: int = 1000):
 
-    # Extract → Transform → Load per batch
-    for batch in EasyProject_extractor.get_members(batch_size):
 
-        # Transform batch
-        transformed_members = TransformerService.transform_members(batch)
+    easy_members = EasyProject_extractor.get_members()
 
-        # Load batch
-        await LoaderService.load_members(transformed_members, db)
+    # Transform batch
+    transformed_members = TransformerService.transform_members(easy_members)
+
+    # Load batch
+    await LoaderService.load_members(transformed_members, db)
