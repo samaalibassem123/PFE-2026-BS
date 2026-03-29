@@ -7,17 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { RefreshCcw } from "lucide-react";
+import { CheckCircleIcon, RefreshCcw } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { cn } from "@/lib/utils";
 import { useSyncronization } from "../hooks/useSyncronization";
+import { Badge } from "@/components/ui/badge";
 
 export default function SyncronizeComponent() {
   const { steps, loading, Syncronize } = useSyncronization();
-
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -63,18 +63,27 @@ export default function SyncronizeComponent() {
         </CardContent>
 
         <CardFooter className=" justify-between gap-3">
-          {loading && (
+          {loading ? (
             <div className=" flex-1  gap-2 flex-col">
               <div className=" flex mb-2 flex-col">
                 {steps &&
                   steps?.length > 0 &&
                   steps?.map((s, i) => (
-                  <Shimmer key={i}>{s.step + " : " + s.status +" : " + s.time + "s"}</Shimmer>
+                    <Shimmer key={s.id}>
+                      {s.id == i
+                        ? s.step + " : " + s.status
+                        : s.step + " : " + s.status + " : " + s.time + "s"}
+                    </Shimmer>
                   ))}
               </div>
 
               <Progress value={progress} />
             </div>
+          ) : (
+            <Badge className=" italic" variant={"approved"}>
+              <CheckCircleIcon />
+              already syncronized
+            </Badge>
           )}
           <Button
             size="lg"

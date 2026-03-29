@@ -125,4 +125,5 @@ async def MainPipeline(db: AsyncSession):
         }
 
     except Exception as e:
+        yield {"step":str(e), "status":"Error"}
         raise HTTPException(status_code=400, detail=str(e))

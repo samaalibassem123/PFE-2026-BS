@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export interface Step {
+  id: number;
   step: string;
   time: string;
   status: string;
@@ -38,8 +39,15 @@ export const useSyncronization = () => {
         console.log(part);
         if (!part.trim()) continue;
         const chunkData: Step = JSON.parse(part);
-        if (chunkData.step ) {
-          setSteps((prev) => (prev ? [...prev, chunkData] : [chunkData]));
+
+        if (chunkData.step) {
+          setSteps((prev = []) => [
+            ...prev,
+            {
+              ...chunkData,
+              id: prev.length,
+            },
+          ]);
         }
         console.log(part);
       }
