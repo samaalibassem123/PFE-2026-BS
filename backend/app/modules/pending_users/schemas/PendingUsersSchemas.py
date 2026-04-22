@@ -12,6 +12,9 @@ class ApproveUserRequest(BaseModel):
     username:Optional[str]
     status:PendingUsersStatus
 
+class DeleteUserRequest(BaseModel):
+    email:str
+
 class PendingUserData(BaseModel):
     id: Optional[UUID] = None
     email: str

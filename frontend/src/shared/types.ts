@@ -5,6 +5,7 @@ export interface UserData {
   email: string;
   password: string;
   created_at?: string;
+  role?:AvailableRoles
   token?: string;
 }
 
@@ -15,3 +16,4 @@ export interface GetUserDataSchema {
   role: AvailableRoles;
   created_at: string;
 }
+

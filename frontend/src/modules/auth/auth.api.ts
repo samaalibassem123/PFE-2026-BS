@@ -1,5 +1,6 @@
 import api from "@/shared/api/backend";
 import type { UserData } from "@/shared/types";
+import type { OtpParams } from "./types";
 
 export async function LoginApifn(Data: UserData) {
   const { data } = await api.post<UserData | null>("/auth/login", Data);
@@ -12,6 +13,11 @@ export async function LoginApifn(Data: UserData) {
 
 export async function LogoutApifn() {
   const { data } = await api.post("/auth/logout");
+  return data;
+}
+
+export async function verify_otp_api_fn(Data:OtpParams) {
+  const { data } = await api.post("/auth/verify-otp", Data);
   return data;
 }
 

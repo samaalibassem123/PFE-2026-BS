@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AuthMeApifn, LoginApifn, LogoutApifn } from "./auth.api";
+import { AuthMeApifn, LoginApifn, LogoutApifn, verify_otp_api_fn } from "./auth.api";
 import { useNavigate } from "react-router-dom";
 import { pend_user_api } from "./pending-user.api";
 
@@ -9,11 +9,20 @@ import type { PendingUserData } from "../pending-users/types";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const queryClient =  useQueryClient();
 
   return useMutation({
     mutationFn: LoginApifn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      /*
+        if the use is an admin that trying to loggin he need a double authentication using email OTP
+        so redirect the user the otp page so he can enter the code from the mail he received
+       */
+      console.log(data)
+      if (data?.role === 'ADMIN' && data.email !== "test@gmail.com"){
+        navigate(`/otp?email=${data.email}`, {replace:true})
+        return
+      }
       queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/user/", { replace: true });
 
@@ -38,6 +47,26 @@ export const useLogoutMutation = () => {
     },
   });
 };
+
+
+
+export const useVerifyOtpMutation = ()=>{
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: verify_otp_api_fn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/user/", { replace: true });
+      console.log("user is logged in");
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error), { position: "top-center" });
+    },
+  });
+}
+
 
 export const useAuth = () => {
   return useQuery({

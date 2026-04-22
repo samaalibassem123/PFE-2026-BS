@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import type { PendingUserData } from "@/modules/pending-users/types";
 import ApproveDialog from "./ApproveDialog";
 import DeclineDialog from "./DeclineDialog";
+import DeleteDialog from "./DeleteDialog";
 
 
 export const PendingColumns: ColumnDef<PendingUserData>[] = [
@@ -105,10 +106,15 @@ export const PendingColumns: ColumnDef<PendingUserData>[] = [
     header: "Actions",
     cell: ({ row }) => (
       <div className="text-center">
-        {row.original.status === "PENDING" ?(<div className="w-full flex items-center justify-center  gap-2">
-            <ApproveDialog user_data={row.original.user}/>
-            <DeclineDialog user_data={row.original.user}/>
-        </div>):<Badge variant={"ghost"}>--</Badge>}
+        {row.original.status === "PENDING" ? (
+          <div className="w-full flex items-center justify-center  gap-2">
+            <ApproveDialog user_data={row.original.user} />
+            <DeclineDialog user_data={row.original.user} />
+          </div>
+        ) :  (
+          row.original.status === "DECLINED" ?
+          <DeleteDialog user_data={row.original.user} />: <Badge variant={"ghost"}>--</Badge>
+        )}
       </div>
     ),
   },

@@ -34,6 +34,12 @@ class Settings(BaseSettings):
 
     EASY_PROJECT_URL:str
 
+    # Redis DB
+    REDIS_HOST:str
+    REDIS_PORT:str
+    REDIS_PASSWORD:str
+
+
     # Resend / for mail sending
     RESEND_API_KEY:str
     # Ollama for cloud service

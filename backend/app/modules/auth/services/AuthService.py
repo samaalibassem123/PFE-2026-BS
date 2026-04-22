@@ -29,4 +29,3 @@ class AuthService:
 
         return user_db
 
-

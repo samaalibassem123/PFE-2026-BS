@@ -75,3 +75,15 @@ class PendingUsersService:
                 await db.commit()
             except Exception as e:
                 raise  HTTPException(status_code=404, detail="User is already on the waiting list")
+
+    @staticmethod
+    async def deleteUser(email:str, db:AsyncSession):
+        try:
+            result = await db.execute(select(PendingUser).where(PendingUser.email == email))
+            user = result.scalar_one_or_none()
+            if user:
+                await db.delete(user)
+                await db.commit()
+        except Exception as e:
+            raise HTTPException(status_code=404, detail=str(e))
+

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { approve_fn } from "../api/pendings";
-import type { ApproveRequest } from "@/modules/pending-users/types";
+import { approve_fn, delete_fn } from "../api/pendings";
+import type { ApproveRequest, DeleteRequest } from "@/modules/pending-users/types";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/api/backend";
 
@@ -37,3 +37,26 @@ export const useApproving = (data:ApproveRequest) => {
     },
   });
 };
+
+export const useDelete = (data:DeleteRequest)=>{
+    const client = useQueryClient();
+
+    return useMutation({
+      mutationFn: (params: DeleteRequest) => delete_fn(params),
+
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["pending-users"] });
+        toast.success(
+            `User with email ${data.email} was deleted successfully`,
+            {
+              description: "The account creation request has been deleted.",
+              position: "top-center",
+            },
+          );
+      },
+
+      onError: (error) => {
+        toast.error(getErrorMessage(error));
+      },
+    });
+}

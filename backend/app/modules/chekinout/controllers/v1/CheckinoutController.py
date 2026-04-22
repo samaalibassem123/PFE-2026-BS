@@ -1,11 +1,12 @@
 import datetime
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from app.core import DB_dependecy
+from app.core.auth.security import get_current_user, require_role
 from app.modules.chekinout.services.CheckinoutService import CheckinOutService
 
-checkinout_router = APIRouter(prefix='/v1/checkinout', tags=['Check in - Check out'])
+checkinout_router = APIRouter(prefix='/v1/checkinout', tags=['Check in - Check out'], dependencies=[Depends(get_current_user), Depends(require_role(["RH"]))])
 
 
 @checkinout_router.get('/')

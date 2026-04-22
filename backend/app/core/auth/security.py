@@ -3,6 +3,7 @@ from typing import List
 from fastapi import Depends, Request, HTTPException
 from pwdlib import PasswordHash
 from pwdlib.hashers.argon2 import Argon2Hasher
+import secrets
 
 
 from app.core.auth import verify_token
@@ -27,7 +28,7 @@ def get_current_user(request:Request):
     token = request.cookies.get('access_token')
     print(token)
     if not token:
-        raise HTTPException(status_code=404, detail='user unothorized')
+        raise HTTPException(status_code=404, detail='User is not connected')
 
 
     payload = verify_token(token)
@@ -39,10 +40,14 @@ def get_current_user(request:Request):
 def require_role(roles:List[str]):
     def role_checker(user=Depends(get_current_user)):
         if user['role'] not in roles:
-            raise HTTPException(status_code=400, detail='route unothorized')
+            raise HTTPException(status_code=400, detail='Route unauthorized')
         return user
     return role_checker
 
+
+
+def generate_otp(length=6):
+    return ''.join(str(secrets.randbelow(10)) for _ in range(length))
 
 
 

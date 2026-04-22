@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login, Register } from "./modules/auth";
+import { Login, OtpPage, Register } from "./modules/auth";
 import { ThemeProvider } from "@/components/theme-provider";
 import MainAppLayout from "./layouts/MainAppLayout";
 import ProtectedRoutes from "./guards/ProtectedRoutes";
@@ -21,7 +21,7 @@ export function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Routes>
         {/** Maintainance Route */}
-        <Route path="/maintenance" element={<MaintainancePage/>}  />
+        <Route path="/maintenance" element={<MaintainancePage />} />
         {/*Public Routes */}
 
         {/* Redirect root to /login */}
@@ -29,6 +29,7 @@ export function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/otp" element={<OtpPage />} />
         </Route>
 
         <Route path="*" element={<PageNotfound />} />

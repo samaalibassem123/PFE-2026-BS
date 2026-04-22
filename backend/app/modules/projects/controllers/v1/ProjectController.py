@@ -6,9 +6,9 @@ from app.modules.projects.schemas.ProjectSchemas import GetProjectsResponse, Get
     GetNoneAssignedUsersResponse, AssignProjectData
 from app.modules.projects.services.ProjectsService import ProjectsService
 
-projects_router = APIRouter(prefix='/v1/projects', tags=['Projects'])
+projects_router = APIRouter(prefix='/v1/projects', tags=['Projects'] ,  dependencies=[Depends(get_current_user)])
 
-@projects_router.get('/', response_model=GetProjectsResponse)
+@projects_router.get('/', response_model=GetProjectsResponse,dependencies=[Depends(require_role(["ADMIN", "PROJECT_MANAGER"]))])
 async def get_projects(db:DB_dependecy,
                        limit: int = 50,
                        offset: int = 0,

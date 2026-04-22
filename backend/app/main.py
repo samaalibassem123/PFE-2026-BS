@@ -1,4 +1,5 @@
 import json
+from contextlib import asynccontextmanager
 from threading import Lock
 
 from fastapi import FastAPI, Request,status
@@ -10,6 +11,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from app.core import DB_dependecy
 from app.core.config import settings
 from app.core.middleware import MaintenanceMiddleware
+from app.core.redis.redis_client import redis_client
 from app.modules.ai_agents.controllers.v1.RhAgentContoller import rh_agent_router
 #from app.core.ETL.Piplines.MainPipeline import MainPipeline
 from app.modules.auth.controllers.AuthController import auth_router
@@ -22,8 +24,24 @@ from app.modules.pending_users.controllers.v1.PendingUsersController import pend
 from app.modules.projects.controllers.v1.ProjectController import projects_router
 from app.modules.user.controllers.v1.UserController import user_router
 
+@asynccontextmanager
+async def startup(app:FastAPI):
+    try:
+        await redis_client.ping()
+        print("Redis connected")
+    except Exception as e:
+        print("Redis connection failed:", e)
+        raise e
+
+    yield
+
+    await redis_client.close()
+    print("Redis connection closed")
 
 app = FastAPI()
+
+
+
 # midelware
 
 app.add_middleware(

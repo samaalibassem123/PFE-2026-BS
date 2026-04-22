@@ -66,11 +66,15 @@ export default function SyncronizeComponent() {
           {loading ? (
             <div className=" flex-1  gap-2 flex-col">
               <div className=" flex mb-2 flex-col">
-                {steps && steps?.length > 0 && (
-                  <Shimmer>
-                    {"ETL " + steps[steps.length - 1].step + "  in progress..."}
-                  </Shimmer>
-                )}
+                {steps &&
+                  steps?.length > 0 &&
+                  steps?.map((s, i) => (
+                    <Shimmer key={s.id}>
+                      {s.id == i
+                        ? s.step + " : " + s.status
+                        : s.step + " : " + s.status + " : " + s.time + "s"}
+                    </Shimmer>
+                  ))}
               </div>
 
               <Progress value={progress} />

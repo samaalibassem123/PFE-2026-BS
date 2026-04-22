@@ -13,3 +13,8 @@ class UserLoginRespone(BaseModel):
     email:str
     role:str
     created_at:datetime.datetime
+
+
+class VerifyOtpRequest(BaseModel):
+    otp:str
+    email:str

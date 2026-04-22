@@ -38,3 +38,7 @@ export interface ApproveRequest {
   username?: string;
   status: PendingUsersStatus;
 }
+
+export interface DeleteRequest {
+  email:string
+}

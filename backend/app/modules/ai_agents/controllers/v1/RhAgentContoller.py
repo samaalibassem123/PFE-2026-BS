@@ -1,11 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
 from app.core import DB_dependecy
+from app.core.auth.security import get_current_user
 from app.modules.ai_agents.core.rh_agent.graph import generate_stream
 from app.modules.ai_agents.schemas.RhAgentShemas import ChatRequest
 
-rh_agent_router = APIRouter(prefix="/v1/rh-agent", tags=["Rh Agent"])
+rh_agent_router = APIRouter(prefix="/v1/rh-agent", tags=["Rh Agent"], dependencies=[Depends(get_current_user)])
 
 
 @rh_agent_router.post("/chat")

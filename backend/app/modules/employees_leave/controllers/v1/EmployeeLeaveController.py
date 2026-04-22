@@ -1,15 +1,16 @@
 import datetime
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import select
 
 from app.core import DB_dependecy
+from app.core.auth.security import require_role, get_current_user
 from app.core.database.models import AttendanceEvent
 from app.modules.employees_leave.services.EmployeesLeaveService import EmployeesLeaveService
 
-employees_leave_router = APIRouter(prefix='/v1/emp_leave', tags=['Employees Leave'])
+employees_leave_router = APIRouter(prefix='/v1/emp_leave', tags=['Employees Leave'], dependencies=[Depends(get_current_user)])
 
-@employees_leave_router.get('/')
+@employees_leave_router.get('/', dependencies=[Depends(require_role(["RH"]))])
 async def get_employees_leave(db:DB_dependecy,
                               limit: int = 50,
                               offset: int = 0,
