@@ -8,7 +8,7 @@ export default function PublicRoutesGuard() {
     return <LoadingPage />;
   }
   if (data) {
-    return <Navigate to={"/user/dashboard"} replace />;
+    return <Navigate to={"/user/"} replace />;
   }
   return <Outlet />;
 }
