@@ -32,7 +32,7 @@ export default function CheckinoutTable() {
     email: email,
     start_date: start_date,
     end_date: end_date,
-    department: department,
+    department: department === "all" ? "" : department,
   });
   const departments = useDepartments();
 

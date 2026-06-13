@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     RESEND_API_KEY:str
     # Ollama for cloud service
     OLLAMA_API_KEY:str
+    OLLAMA_BASE_URL:str
 
     # GOOGLE Ai key
     GOOGLE_AI_KEY:str

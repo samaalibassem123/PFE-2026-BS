@@ -20,8 +20,9 @@ qwen2_5_3b_llm = ChatOllama(
 
 # CLOUD MODELS
 
-gemini3_flash_cloud_llm = ChatOllama(
-    model="gemini-3-flash-preview:cloud",
+gemma_cloud = ChatOllama(
+    model="gemma4:31b:cloud",
+  
     client_kwargs={
         "headers": {
             "Authorization": f"Bearer {settings.OLLAMA_API_KEY}"
@@ -32,8 +33,8 @@ gemini3_flash_cloud_llm = ChatOllama(
 
 
 # google
-google_llm = ChatGoogleGenerativeAI(
+"""google_llm = ChatGoogleGenerativeAI(
     model="gemini-3-flash-preview",
     api_key=settings.GOOGLE_AI_KEY,
     temperature=0
-)
+)"""

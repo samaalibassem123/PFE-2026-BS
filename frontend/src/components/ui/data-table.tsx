@@ -95,79 +95,88 @@ export function DataTable<TData, TValue>({
       {/** FILTERS COMPONENT */}
       {children}
       <ScrollArea className="w-full">
-          <Table className=" rounded-md">
-        <TableHeader className="bg-border">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    key={header.id}
-                    style={{ width: header.getSize() }}
-                    className="border relative"
-                  >
-                    {header.isPlaceholder ? null : (
-                      <>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                        {header.column.getCanResize() && (
-                          <div
-                            onMouseDown={header.getResizeHandler()}
-                            onTouchStart={header.getResizeHandler()}
-                            className="absolute right-0 top-0 h-full w-1 cursor-col-resize bg-border hover:bg-primary"
-                          />
-                        )}
-                      </>
-                    )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {loading ? (
-            <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className="h-24 text-center animate-pulse"
-              >
-                loading data...
-              </TableCell>
-            </TableRow>
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="border"
-                    style={{ width: cell.column.getSize() }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+        <Table className=" rounded-md">
+          <TableHeader className="bg-border">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: header.getSize() }}
+                      className="border relative"
+                    >
+                      {header.isPlaceholder ? null : (
+                        <>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                          {header.column.getCanResize() && (
+                            <div
+                              onMouseDown={header.getResizeHandler()}
+                              onTouchStart={header.getResizeHandler()}
+                              className="absolute right-0 top-0 h-full w-1 cursor-col-resize bg-border hover:bg-primary"
+                            />
+                          )}
+                        </>
+                      )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <Separator />
+            ))}
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center animate-pulse"
+                >
+                  loading data...
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className="border"
+                      style={{ width: cell.column.getSize() }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <Separator />
 
-      <ScrollBar orientation="horizontal" className=" absolute -top-2 h-[30px] "/>
+        <ScrollBar
+          orientation="horizontal"
+          className=" absolute -top-2 h-[30px] "
+        />
       </ScrollArea>
-    <div className="  justify-end flex gap-2 items-center w-full p-4">
+      <div className="  justify-start flex gap-2 items-center w-full p-4">
         <Select onValueChange={(value) => onLimitChange(Number(value))}>
           <SelectTrigger className="w-fit">
             <SelectValue placeholder="rows" />

@@ -1,5 +1,5 @@
 from langchain.agents import create_agent
-from app.modules.ai_agents.core.llms.models import gemma3_1b_llm, qwen2_5_3b_llm, gemini3_flash_cloud_llm, google_llm
+from app.modules.ai_agents.core.llms.models import gemma3_1b_llm, qwen2_5_3b_llm, gemma_cloud
 
 SYSTEM_PROMPT = '''
             You are an HR (RH) data analyst assistant.
@@ -25,7 +25,7 @@ class RhAgent:
         return rh_agent
 
 
-rh_agent = RhAgent.init(model=gemini3_flash_cloud_llm)
+rh_agent = RhAgent.init(model=gemma_cloud)
 
 '''for chunk in rh_agent.stream(   {
         "messages": [HumanMessage(content="Tell me a joke")]

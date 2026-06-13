@@ -5,7 +5,7 @@ from sqlalchemy import select, func, extract, Date, cast
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
 
-from app.core.database.models import Attendance, Employee
+from app.core.database.models import Attendance, Employee, Department
 
 
 class CheckinOutService:
@@ -18,12 +18,16 @@ class CheckinOutService:
                               start_date:datetime.date|None=None,
                               end_date:datetime.date|None=None,
                               month:int|None=None,
-                              day:int|None=None):
+                              day:int|None=None,
+                              department:str | None = None
+                              ):
 
         try:
             query = select(Attendance, Employee).join(Employee, Attendance.emp_id == Employee.id )
 
             # filters
+            if department:
+                query = query.join(Department, Employee.department_id == Department.id).where(Department.name == department)
             if fullname :
                 query = query.where(Employee.full_name.ilike(f"%{fullname}%"))
             if email:
