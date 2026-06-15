@@ -19,6 +19,9 @@ async def get_projects(db:DB_dependecy,
     projects = await ProjectsService.get_projects(user,db,limit,offset,name, year, month)
     return projects
 
+
+
+
 @projects_router.post('/assign', dependencies=[Depends(require_role(["ADMIN"]))])
 async def assign_project(db:DB_dependecy, data:AssignProjectData):
     res = await ProjectsService.assign_project(db, data.project_id, data.users_id)
